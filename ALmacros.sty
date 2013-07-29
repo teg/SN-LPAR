@@ -1,0 +1,199 @@
+
+\ProvidesPackage{ALmacros}
+
+
+% recent additions
+
+\newcommand{\sn}{{\mathsf{sn}}}
+\newcommand{\sh}{{\mathsf{sh}}}
+\newcommand{\SN}{\mathcal{N}}
+\newcommand{\VAR}{\mathcal{V}}
+\newcommand{\PDA}{\vdash_{D_a}}
+
+
+
+
+% A theorem-style environment with arbitrary label
+\newenvironment{theorem_other}[1]{%
+	\let\innerthmenv\undefined%
+	\let\endinnerthmenv\undefined%
+	\theoremstyle{plain}%
+	\newtheorem*{innerthmenv}{#1}%
+	\begin{innerthmenv}%
+}{
+	\end{innerthmenv}%
+}
+
+
+% generic macros
+
+\renewcommand\iff{\Leftrightarrow}
+\newcommand\coloneq{\mathrel{{:}{=}}}
+\newcommand\mmid{\quad\mid\quad}
+\newcommand\occurscount[2]{|#2|_{#1}}
+
+	% zero-width \subscript*
+
+\makeatletter
+\newcommand\subscript{\@ifstar\zerowidthsubscript_}
+\newcommand\zerowidthsubscript[1]{_{\makebox[0pt][l]{$\scriptstyle{#1}$}}}
+\makeatother
+
+	% grammar commands with variable width
+	%	\setMidspace [dimen] {dimen}
+
+\newcommand\Mid{\mid}
+\newcommand\Coloneq{\coloneq}
+
+\newcommand\setMidspace[2][-]{%
+	\renewcommand\Mid{\kern#2\mid\kern#2}%
+	\ifx#1-\renewcommand\Coloneq{\kern#2\coloneq\kern#2}\else\renewcommand\Coloneq{\kern#1\coloneq\kern#1}\fi%
+}
+
+	% vertical centering with adjustable space above/below
+	%	\vc [dimen] [dimen] {box}
+
+\newcommandx\vc[3][1=0pt,2=-]{
+ \begin{array}{l}
+ \\[#1]\\[-24pt]
+  #3 
+ \\[\ifx#2-#1\else#2\fi]
+ \end{array}
+}
+
+
+% special sets
+
+\newcommand{\BV}{{\mathop{\mathsf{BV}}}}
+\newcommand{\FV}{{\mathop{\mathsf{FV}}}}
+\newcommand{\Var}{{\mathop{\mathsf{Var}}}}
+
+\newcommand\ALcalc{\Lambda_A}
+
+
+%\newcommand{\CV}{{\mathop{\mathsf{CV}}}}
+%
+%\makeatletter
+%\renewcommand\Var{\@ifstar{\mathop{\mathsf{Var}\ensuremath{^+}}}{\mathop{\mathsf{Var}}}}
+%\makeatother
+
+
+% atomic terms (and contexts)
+
+\makeatletter
+\newcommand\vv{\@ifstar\vec\vvnostar}
+\newcommand\tup{\@ifstar\tupstar\tupnostar}
+\newcommand\share{\@ifstar\sharestar\sharenostar}
+\newcommand\distr{\@ifstar\distrstar\distrnostar}
+\newcommand\coshare{\@ifstar\cosharestar\cosharenostar}
+\newcommand\g{\@ifstar\gstar\gnostar}
+\newcommand\G{\@ifstar\Gstar\Gnostar}
+\newcommand\cxt{\@ifstar\cxtstar\cxtnostar}
+\makeatother
+
+\newcommand\vvnostar[2][n]{#2_1,\ldots,#2_{#1}}
+\newcommand\tupstar[1]{\langle #1\rangle}
+\newcommand\tupnostar[2][n]{\langle\vvnostar[#1]{#2}\rangle}
+\newcommand\sharestar[2]{[#1\leftarrow#2]}
+\newcommand\sharenostar[3][n]{[\vv[#1]{#2}\leftarrow #3]}
+\newcommand\distrstar[3]{[#1\twoheadleftarrow\lambda #2.#3]}
+\newcommand\distrnostar[4][n]{[\vv[#1]{#2}\twoheadleftarrow\lambda #3.#4]}
+\newcommand\cosharestar[2]{[#1\mathrel\blacktriangleleft #2]}
+\newcommand\cosharenostar[2][n]{[#2\mathrel\blacktriangleleft #2_1\dotso#2_{#1}]}
+\newcommand\gstar[1][{}]{[\delta_{#1}]}
+\newcommand\Gstar[1][{}]{[\Delta_{#1}]}
+\newcommand\gnostar[1][{}]{[\gamma_{#1}]}
+\newcommand\Gnostar[1][{}]{[\Gamma_{#1}]}
+\newcommand\cxtstar[1]{\{#1\}}
+\newcommand\cxtnostar[1][{}]{\{\cdot\}_{#1}}
+
+\newcommand\conjs[2][n]{#2_1\wedge\dotso\wedge #2_{#1}}
+
+\newcommand\skel{{\mathsf{skel}}}
+
+% substitutions
+
+\newcommand\sub[2]{\{#2/#1\}}
+\newcommand\subs[3][n]{\sub{#2_1}{#3}\dotso\sub{#2_{#1}}{#3}}
+\newcommand\subapps[4][n]{\sub{#2_1}{(#3_1)#4_1}\dotso\sub{#2_{#1}}{(#3_{#1})#4_{#1}}}
+
+
+% w-calculus terms
+
+\newcommand\Rub{\share*{}}
+\newcommand\Rnil{\bullet}
+
+
+% rewriting arrows  ~>>  and  ~>>|
+
+\newcommand\squigarrowtrans{\mathbin{
+ \makebox[0pt][l]{\hspace{1.1pt}$\rightsquigarrow$}
+ \makebox[0pt][l]{\color{white}\rule{8pt}{5pt}}
+ {\rightsquigarrow\hspace{1.1pt}}
+}}
+\newcommand\squigarrowtransend{\mathbin{
+ \makebox[0pt][l]{\hspace{1.1pt}$\rightsquigarrow\mapsfromchar$}
+ \makebox[0pt][l]{\color{white}\rule{8pt}{5pt}}
+ {\rightsquigarrow\hspace{1.1pt}}
+}}
+
+
+% rewrite relations
+
+
+\newcommand\rewrite[1][{}]{
+ \SWITCH{#1}
+ {}  {\rightsquigarrow}
+ {+} {\rightsquigarrow^+}
+ {*} {\rightsquigarrow^\star}
+ \DEFAULT{\rightsquigarrow^{#1}}
+}
+
+\newcommand\ALbeta[1][{}]{\rewrite[#1]_\beta}
+\newcommand\ALnotbeta[1][{}]{\rewrite[#1]_S}
+\newcommand\Rbeta[1][{}]{\rewrite[#1]_\beta}
+\newcommand\Rnotbeta[1][{}]{\rewrite[#1]_w}
+
+\newcommand\ALnotbetadown{\indirection{d}{\rightsquigarrow}_S}
+
+
+% translation functions
+
+\newcommand\ALden[1]{\llbracket{#1}\rrbracket}
+\newcommand\ALcoden[2][{}]{\llparenthesis{#2}\rrparenthesis_{#1}}
+\newcommand\Rden[1]{\llbracket{#1}\rrbracket_w}
+\newcommand\Rfloor[1]{\lfloor #1 \rfloor}
+
+\newcommand\terden[1]{{\llbracket{#1}\rrbracket}}
+%\newcommand\terconden[1]{{\llbracket{#1}\rrbracket}}
+\newcommand\tercoden[2][{}]{{\llparenthesis{#2}\rrparenthesis_{#1}}}
+
+% names of typing rules
+
+\newcommand{\typeabs}{{\lambda}}
+\newcommand{\typeapp}{{@}}
+\newcommand{\typevar}{{\mathsf{ax}}}
+\newcommand{\typeshare}{{\leftarrow}}
+\newcommand{\typedist}{{\twoheadleftarrow}}
+\newcommand{\typetuple}{{\langle\kern2pt\rangle}}
+
+
+% displayed rewrite rules
+
+\newcommand\downsquigarrow{\indirection d\rightsquigarrow}
+
+
+	% \displayrewrite * [relation] {left} {right}
+	
+\makeatletter
+\newcommand\displayrewrite{\@ifstar\displayrewritestar\displayrewritenostar}
+\makeatother
+
+\newcommand\displayrewritestar[3][{}]{#2\rightsquigarrow_{#1}#3}
+\newcommand\displayrewritenostar[3][{}]{
+  \begin{array}{c}
+    #2 \\ \vc[5pt]{\downsquigarrow_{#1}} \\ #3
+  \end{array}
+}
+
+
