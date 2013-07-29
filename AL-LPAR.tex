@@ -107,6 +107,7 @@ In this paper we prove strong normalization of the typed atomic lambda-calculus 
 
 
 
+% =================================================================================================
 \section{Introduction}
 
 
@@ -148,6 +149,7 @@ The result opens up the perspective of using this or similar formalisations of s
 
 
 
+% =================================================================================================
 \section{The atomic lambda-calculus}
 \label{sec:introduction}
 
@@ -244,9 +246,12 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 
 
 
+The function $\tercoden-\,:\,\Lambda\to\Lambda_A$ interprets standard lambda-terms as atomic lambda terms.
+%
+And the function $\terden-\,:\,\Lambda_A\to\Lambda$ gives a denotation to atomic lambda-terms in terms of standard lambda-terms \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
 
 
-
+% =================================================================================================
 \subsection{Reduction rules}
 
 
@@ -343,81 +348,7 @@ if $u \rewrite^1 u'$, then $u\sub xv \rewrite^1 u'\sub xv$; and
 if $v\rewrite^1 v'$, then $u\sub xv \rewrite^1 u\sub x{v'}$.
 \end{lemma}
 
-
-
-\subsection{Interpreting the lambda-calculus}
-
-
-
-The standard lambda-calculus $\Lambda$ is defined below.
-%
-For clarity, it will use a distinct alphabet from the atomic lambda-calculus.
-%
-\setMidspace{10pt}
-\[
-	M,N  \Coloneq  x \Mid  \lambda x.N  \Mid  (N)M
-\]
-%
-The function $\tercoden-$ will interpret lambda-terms as atomic lambda terms.
-%
-To translate a term $N$ (with all binding variables distinct), first let $N'$ be obtained by replacing each variable occurrence in $N$ by a distinct, fresh variable $x^i$.
-%
-Then
-\[
-	\tercoden N = \tercoden{N'}{}'\share*{x^1_1,\dots,x^n_1}{x_1}\dots\share*{x_k^1,\dots,x_k^m}{x_k}
-\]
-where: $\tercoden{-}{}'$ is defined inductively below; $x^1,\dotsc,x^n$ are the $x^i$ replacing occurrences of $x$ in $N$; $|x|$ is the number of occurrences of $x$ in $N$; and $\vv[k]x$ are the free variables in $N$ with $|x_i|> 1$.
-%%
-\[
-		\tercoden{x^i}' = x^i
-\qquad	\tercoden{(M)N}' = (\tercoden M')\tercoden N'
-\qquad	\tercoden{\lambda x.N}' =
-			\begin{cases}
-				\lambda x^1.\tercoden{N}' & \mbox{if $|x|=1$} \\ \\[-8pt]
-				\lambda x.\tercoden{N}'\share*{x^1,\dots,x^n}x & \mbox{if $|x|=n\neq 1$}
-			\end{cases}
-\]
-%\[
-%\begin{aligned}
-%	\tercoden{x^i}' &= x^i \\ \\[-8pt]
-%	\tercoden{(M)N}' &= (\tercoden M')\tercoden N' \\ \\[-8pt]
-%	\tercoden{\lambda x.N}' &=
-%		\begin{cases}
-%			\lambda x^1.\tercoden{N}' & \mbox{if $|x|=1$} \\ \\[-8pt]
-%			\lambda x.\tercoden{N}'\share*{x^1,\dots,x^n}x & \mbox{if $|x|=n\neq 1$}
-%		\end{cases}
-%\end{aligned}
-%\]
-
-
-
-\noindent
-The \emph{denotation} function $\terden-\,:\,\Lambda_A\to\Lambda$ takes atomic lambda-terms to lambda-terms.
-%%
-%\[
-%\begin{array}{@{}r@{~}c@{~}l@{}}
-%		\terden{x} &=& x
-%\\[8pt]	\terden{\lambda x.u} &=& \lambda x.\terden u
-%\\[8pt] \terden{(u)t} &=& (\terden u)\terden t
-%\\[8pt]	\terden{u\share xt}  &=& \terden u\subs x{\terden{t}}
-%%\\[8pt] \terden{u\distr xy{\tup t\G}} &=& \terden u\sub{x_1}{\lambda y.\terden{t_1\G}}\ldots\sub{x_n}{\lambda y.\terden{t_n\G}}
-%\\[8pt]	\terden{u\distr xy{t^n}} &=& \terden u\sub{x_1}{\lambda y.\terden{\pi_1(t^n)}}\dots\sub{x_n}{\lambda y.\terden{\pi_n(t^n)}}
-%\end{array}
-%\]
-
-
-\[
-\begin{aligned}
-		\terden{x} = x
-\quads5	\terden{\lambda x.u} &= \lambda x.\terden u
-\quads5 \terden{(u)t} = (\terden u)\terden t
-\\[5pt]
-		\terden{u\share xt}  &= \terden u\subs x{\terden{t}}
-\\[5pt]	\terden{u\distr xy{t^n}} &= \terden u\sub{x_1}{\lambda y.\terden{\pi_1(t^n)}}\dots\sub{x_n}{\lambda y.\terden{\pi_n(t^n)}}
-\end{aligned}
-\]
-
-
+% =================================================================================================
 \subsection{Basic properties of the atomic lambda-calculus}
 \label{ssec:basic properties}
 
@@ -477,19 +408,6 @@ The two following lemmas then show key decomposition properties of the computati
 A term $u\share xt$ reduces to $u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh (t):1,\dots,n]$.
 \end{lemma}
 
-\begin{proof}
-The case $u\share x{\sn(t)}$ follows by structural induction on $\sn(t)$.
-%
-This gives the third step for the general case, in which
-$u\share xt$ reduces as follows: $u\share xt$
-\\ $ \rewrite u\share x{\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}}$
-\\ $ \rewrite u\share x{\sn(t)}\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
-\\ $ \rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(\sn(t))]\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
-\\ $\rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(t)]$
-\end{proof}
-
-
-
 \begin{lemma}
 \label{lem:undist}
 A term $u\distr xyt$ reduces to
@@ -497,53 +415,9 @@ A term $u\distr xyt$ reduces to
 \end{lemma}
 
 
-\begin{proof}
-Analogous to the proof of lemma~\ref{lem:unsharing}.
-\end{proof}
 
 
-\begin{lemma}
-\label{lem:lift-sn}
-For any terms $u$ and $u'$ if $u\rewrite u'$, then $\sn(u)
-~\rewrite^\star~ \sn(u')$. Moreover, for any terms of multiplicity
-$n$, $t$ and $t'$, and any $i\leq n$, if $t\rewrite t'$, then
-$\sn(\pi_i(t))\rewrite^\star\sn(\pi_i(t'))$.
-\end{lemma}
-
-\begin{proof}
-The following three cases are proven simultaneously.
-\\ 1) If $u ~\ALnotbeta~ u'$, then $\sn(u) ~=~ \sn(u')$.
-\\ 2) If $u ~\ALbeta~ u'$, then the statement follows by structural induction on $u$.
-\\ 3) If $t=\tup t\G ~\rewrite~ t'=\tup{t'}\G*$, by case 2 (and Proposition~\ref{prop:sn_pi}) the result follows from the reduction
-%
-	$t_i\share*{}{x_1}\dots\share*{}{x_m}\G\rewrite
-	 t'_i\share*{}{x_1}\dots\share*{}{x_m}\G*$,
-which will be shown next.
-
-If the reduction happens inside $\vv t$, or inside $\G$ without substituting into
-$\vv t$, the result is immediate.
-%
-Otherwise, write $t'=\tup t\sub{y_{1,1}}{u_{1,1}}\sub{y_{m,k_m}}{u_{m,k_m}}\G*$, where $\FV(t_i)=\{y_{i,1},...,y_{i,k_i}\}$.
-%
-Without loss of generality, consider $i=1$. Then
-%
-\[
-\begin{aligned}
-\pi_1(t)
-	&= t_1\share*{}{y_{1,1}}\dots\share*{}{y_{m,k_m}}\G
-\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{u_{2,1}}\dots\share*{}{u_{m,k_m}}\G*
-\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{z_1}\dots\share*{}{z_l}\G*
-\\ &= \pi_1(t')\;,
-\end{aligned}
-\]
-%
-where $\{z_1, \dots, z_l\}$ are the free variables of $u_{2,1}$,
-$\dots$, $u_{m,k_m}$.
-
-\end{proof}
-
-
-
+% =================================================================================================
 \section{Typed atomic lambda-calculus}\label{sec:introduction}
 
 
@@ -735,10 +609,8 @@ A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\G
 %\]
 %\end{proof}
 
-%============================================================================================================================================================================
 
-
-
+% =================================================================================================
 \section{Strong normalisation proof}\label{sec:SNproof}
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
@@ -943,21 +815,7 @@ Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}
 
 \end{proof}
 
-\noindent
-As a consequence of this theorem we get the preservation of the strong normalisation with respect to lambda-calculus (often called PSN property), using the well know fact that the strongly normalisable lambda-terms are typable in %S$
-
-% TODO: alternative references? (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}).
-
-\begin{theorem}[PSN]
-If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
-\end{theorem}
-
-\begin{proof}
-If $N$ is strongly normalisable, then it is typeable in $S$; then by Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $S_a$, and by Theorem~\ref{thm:SN}, $\tercoden N$ is strongly normalisable.
-\end{proof}
-
-
-% ==============================================================================================================================================================================
+% =================================================================================================
 
 
 
@@ -1180,6 +1038,26 @@ Because $Mes(U,U') < Mes(T,T')$, we have by induction hypothesis, $U\in\SN$.
 
 
 
+
+% =================================================================================================
+
+\section{Intersection Types}
+
+\begin{theorem}\label{thm:SND}
+If $x_1:A_1,\dots, x_n:A_n \vdash_D u:B$ then $u \in \SN$.
+\end{theorem}
+
+\noindent
+As a consequence of this theorem we get the preservation of the strong normalisation with respect to lambda-calculus (often called PSN property), using the well know fact that the strongly normalisable lambda-terms are typable in $D$ (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}).
+
+\begin{theorem}[PSN]
+If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
+\end{theorem}
+
+\begin{proof}
+If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and by Theorem~\ref{thm:SND}, $\tercoden N$ is strongly normalisable.
+\end{proof}
+
 \section{Conclusions and further work}
 
 
@@ -1212,6 +1090,70 @@ Another direction would be the inclusion of general recursion in the calculus, a
 \newpage
 
 \section*{Appendix}
+
+
+
+Proof of Lemma~\ref{lem:unsharing}:
+
+\begin{proof}
+The case $u\share x{\sn(t)}$ follows by structural induction on $\sn(t)$.
+%
+This gives the third step for the general case, in which
+$u\share xt$ reduces as follows: $u\share xt$
+\\ $ \rewrite u\share x{\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}}$
+\\ $ \rewrite u\share x{\sn(t)}\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
+\\ $ \rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(\sn(t))]\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
+\\ $\rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(t)]$
+\end{proof}
+
+Proof of Lemma~\ref{lem:undist}:
+
+\begin{proof}
+Analogous to the proof of lemma~\ref{lem:unsharing}.
+\end{proof}
+
+Proof of Lemma~\ref{lem:lift-sn}:
+
+\begin{proof}
+The following three cases are proven simultaneously.
+\\ 1) If $u ~\ALnotbeta~ u'$, then $\sn(u) ~=~ \sn(u')$.
+\\ 2) If $u ~\ALbeta~ u'$, then the statement follows by structural induction on $u$.
+\\ 3) If $t=\tup t\G ~\rewrite~ t'=\tup{t'}\G*$, by case 2 (and Proposition~\ref{prop:sn_pi}) the result follows from the reduction
+%
+	$t_i\share*{}{x_1}\dots\share*{}{x_m}\G\rewrite
+	 t'_i\share*{}{x_1}\dots\share*{}{x_m}\G*$,
+which will be shown next.
+
+If the reduction happens inside $\vv t$, or inside $\G$ without substituting into
+$\vv t$, the result is immediate.
+%
+Otherwise, write $t'=\tup t\sub{y_{1,1}}{u_{1,1}}\sub{y_{m,k_m}}{u_{m,k_m}}\G*$, where $\FV(t_i)=\{y_{i,1},...,y_{i,k_i}\}$.
+%
+Without loss of generality, consider $i=1$. Then
+%
+\[
+\begin{aligned}
+\pi_1(t)
+	&= t_1\share*{}{y_{1,1}}\dots\share*{}{y_{m,k_m}}\G
+\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{u_{2,1}}\dots\share*{}{u_{m,k_m}}\G*
+\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{z_1}\dots\share*{}{z_l}\G*
+\\ &= \pi_1(t')\;,
+\end{aligned}
+\]
+%
+where $\{z_1, \dots, z_l\}$ are the free variables of $u_{2,1}$,
+$\dots$, $u_{m,k_m}$.
+
+\end{proof}
+
+\begin{lemma}
+\label{lem:lift-sn}
+For any terms $u$ and $u'$ if $u\rewrite u'$, then $\sn(u)
+~\rewrite^\star~ \sn(u')$. Moreover, for any terms of multiplicity
+$n$, $t$ and $t'$, and any $i\leq n$, if $t\rewrite t'$, then
+$\sn(\pi_i(t))\rewrite^\star\sn(\pi_i(t'))$.
+\end{lemma}
+
 
 Proof of Lemma~\ref{lem:HeadVar}:
 
