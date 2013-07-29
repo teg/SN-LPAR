@@ -21,8 +21,6 @@
 % A taste of french
 %\usepackage[french]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc} 
-
 
 % Allow inclusion of graphics
 %\usepackage[pdftex]{graphicx}
@@ -101,7 +99,7 @@ In this paper we prove strong normalization of the typed atomic lambda-calculus 
 \end{abstract}
 
 
-% citations to preserve: 
+% citations to preserve:
 %	\cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011} - intersection types for explicit substitution
 %	\cite{Mellies-1995}
 %
@@ -168,13 +166,13 @@ The \emph{basic calculus} $\Lambda_A^-$ is given by the grammar
 %
 \[
 s,t,u,v,w  \quad\coloneq\quad x
-	\mmid	\lambda x.t 
+	\mmid	\lambda x.t
 	\mmid	(t)u
 	\mmid	t\share xu
 \]
 %
-where 
-(i) each variable may occur at most once, 
+where
+(i) each variable may occur at most once,
 (ii) in $\lambda x.t$ the variable $x$ must occur in $t$ and becomes bound, and
 (iii) in $u\share xt$ each $x_i$ must occur in $u$ and becomes bound.
 %
@@ -192,7 +190,7 @@ A nullary sharing $u\share*{}t$ is called a \emph{weakening}.
 \begin{definition}
 The \emph{atomic lambda calculus} $\Lambda_A$ extends the basic calculus with the \emph{distributor} constructor.
 %
-The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, written $t^n$, for every $n>0$. 
+The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, written $t^n$, for every $n>0$.
 %
 \[
 	s,t,u,v,w  \quad\coloneq\quad \ldots \mmid s\distr xy{t^n}
@@ -202,9 +200,9 @@ The following mutually recursive grammars simultaneously define the \emph{atomic
 	t^n\share[m]xu \mmid t^n\distr[m]xy{t^m}
 \end{multline*}
 %
-where 
-(i) each variable may occur at most once, 
-(ii) in $s\distr xy{t^n}$, each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and 
+where
+(i) each variable may occur at most once,
+(ii) in $s\distr xy{t^n}$, each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and
 (iii) in $t^n\share xu$ and $t^n\distr[m]xy{t^m}$, each variable $x_i$ must occur in $t^n$ and becomes bound, and $y$ must occur in $t^m$ and becomes bound.
 
 \end{definition}
@@ -222,7 +220,7 @@ A term of multiplicity $n$ is of the form $\tup t\G$: an $n$-tuple of atomic lam
 For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G*}$.
 %
 %\EMPTY{
-%Alternative definition: 
+%Alternative definition:
 %For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\share*{}{x_1}\dots\share*{}{x_m}\G$ where $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
 %}
 %
@@ -357,18 +355,18 @@ For clarity, it will use a distinct alphabet from the atomic lambda-calculus.
 %
 \setMidspace{10pt}
 \[
-	M,N  \Coloneq  x \Mid  \lambda x.N  \Mid  (N)M  
+	M,N  \Coloneq  x \Mid  \lambda x.N  \Mid  (N)M
 \]
 %
 The function $\tercoden-$ will interpret lambda-terms as atomic lambda terms.
 %
 To translate a term $N$ (with all binding variables distinct), first let $N'$ be obtained by replacing each variable occurrence in $N$ by a distinct, fresh variable $x^i$.
 %
-Then 
+Then
 \[
 	\tercoden N = \tercoden{N'}{}'\share*{x^1_1,\dots,x^n_1}{x_1}\dots\share*{x_k^1,\dots,x_k^m}{x_k}
 \]
-where: $\tercoden{-}{}'$ is defined inductively below; $x^1,\dotsc,x^n$ are the $x^i$ replacing occurrences of $x$ in $N$; $|x|$ is the number of occurrences of $x$ in $N$; and $\vv[k]x$ are the free variables in $N$ with $|x_i|> 1$. 
+where: $\tercoden{-}{}'$ is defined inductively below; $x^1,\dotsc,x^n$ are the $x^i$ replacing occurrences of $x$ in $N$; $|x|$ is the number of occurrences of $x$ in $N$; and $\vv[k]x$ are the free variables in $N$ with $|x_i|> 1$.
 %%
 \[
 		\tercoden{x^i}' = x^i
@@ -398,8 +396,8 @@ The \emph{denotation} function $\terden-\,:\,\Lambda_A\to\Lambda$ takes atomic l
 %%
 %\[
 %\begin{array}{@{}r@{~}c@{~}l@{}}
-%		\terden{x} &=& x  
-%\\[8pt]	\terden{\lambda x.u} &=& \lambda x.\terden u  
+%		\terden{x} &=& x
+%\\[8pt]	\terden{\lambda x.u} &=& \lambda x.\terden u
 %\\[8pt] \terden{(u)t} &=& (\terden u)\terden t
 %\\[8pt]	\terden{u\share xt}  &=& \terden u\subs x{\terden{t}}
 %%\\[8pt] \terden{u\distr xy{\tup t\G}} &=& \terden u\sub{x_1}{\lambda y.\terden{t_1\G}}\ldots\sub{x_n}{\lambda y.\terden{t_n\G}}
@@ -410,10 +408,10 @@ The \emph{denotation} function $\terden-\,:\,\Lambda_A\to\Lambda$ takes atomic l
 
 \[
 \begin{aligned}
-		\terden{x} = x  
-\quads5	\terden{\lambda x.u} &= \lambda x.\terden u  
+		\terden{x} = x
+\quads5	\terden{\lambda x.u} &= \lambda x.\terden u
 \quads5 \terden{(u)t} = (\terden u)\terden t
-\\[5pt]	
+\\[5pt]
 		\terden{u\share xt}  &= \terden u\subs x{\terden{t}}
 \\[5pt]	\terden{u\distr xy{t^n}} &= \terden u\sub{x_1}{\lambda y.\terden{\pi_1(t^n)}}\dots\sub{x_n}{\lambda y.\terden{\pi_n(t^n)}}
 \end{aligned}
@@ -431,7 +429,7 @@ The reduction $\ALnotbeta$ is strongly normalising and confluent.
 
 \noindent
 The \emph{sharing normal form} of an atomic lambda-term $t$ is its normal form under $\ALnotbeta$.
-% 
+%
 For $t$ with sharing normal form $s$, let $\sn(t)$ denote the largest subterm of $s$ not on the form $u\g$; then $s$ is of the form $\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}$ (with the $x_{i,j}$ and $x_k$ distinct).
 
 
@@ -453,14 +451,14 @@ The following basic facts about $\sn$ are immediate.
 \\[5pt]
    \sn(u\share xt) & =\sn(u)\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}
 \\[5pt]
-	\sn(u\distr xyt) &=\sn(u)\sub{x_1}{\sn(\lambda y.\pi_1(t))^1}\dots\sub{x_n}{\sn(\lambda y.\pi_n(t))^n} 
+	\sn(u\distr xyt) &=\sn(u)\sub{x_1}{\sn(\lambda y.\pi_1(t))^1}\dots\sub{x_n}{\sn(\lambda y.\pi_n(t))^n}
 \end{aligned}
 \]
 \end{proposition}
 
 \begin{proposition}\label{prop:sn_pi}
 For $t=\tup t\G$, $\sn(\pi_i(t))=\sn(t_i\share*{}{x_1}\dots\share*{}{x_m}\G)$ where
-$\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$). 
+$\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
 \end{proposition}
 
 
@@ -473,14 +471,14 @@ When there is no ambiguity, we will use the notation $[\sh (t)]$ in place of $[\
 %
 The two following lemmas then show key decomposition properties of the computational content of sharings and distributors.
 
- 
+
 \begin{lemma}
 \label{lem:unsharing}
 A term $u\share xt$ reduces to $u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh (t):1,\dots,n]$.
 \end{lemma}
 
 \begin{proof}
-The case $u\share x{\sn(t)}$ follows by structural induction on $\sn(t)$. 
+The case $u\share x{\sn(t)}$ follows by structural induction on $\sn(t)$.
 %
 This gives the third step for the general case, in which
 $u\share xt$ reduces as follows: $u\share xt$
@@ -494,7 +492,7 @@ $u\share xt$ reduces as follows: $u\share xt$
 
 \begin{lemma}
 \label{lem:undist}
-A term $u\distr xyt$ reduces to 
+A term $u\distr xyt$ reduces to
 \\ $u\sub{x_1}{\sn(\lambda y.\pi_1(t))^1}\dots\sub{x_n}{\sn(\lambda y.\pi_n(t))^n}[\sh (\lambda y.t):1,\dots,n]$.
 \end{lemma}
 
@@ -647,7 +645,7 @@ Antecedents $x_1: A_1,\dots, x_n : A_n$ of judgements are treated as sets and wi
 The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rule $\typevar$, $\typeabs$ and $\typeapp$ are the rules of $S$ restricted by the linearity condition. Two rules for sharing and distributor are added, which are some kind of cuts, the one for sharing being natural and the one for distributor a bit more involved.
 
 
-The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$ and  ${S_a}$. 
+The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$ and  ${S_a}$.
 
 
 \begin{theorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
@@ -675,7 +673,7 @@ If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 % %
 % A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$, with the following notes:
 % %
-% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and 
+% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and
 % %
 % 2) a $(\lambda)$-inference in the derivation for $N$ translates to a consecutive $(\lambda)$-inference and $(\typeshare)$-inference, as illustrated below right.
 % %
@@ -751,7 +749,7 @@ For simplifying the presentation, we consider in the following that terms of mul
 restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
 
-We denote by $\VAR$ the set of variables. 
+We denote by $\VAR$ the set of variables.
 For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the lenght of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
 We denote by $\overline{w[\Gamma]}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w[\Gamma]}$ has at least one term $w_1$).
 By $(u)\overline{w[\Gamma]}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
@@ -767,7 +765,7 @@ The value of a formula $A$, denoted $|A|$ is defined inductively as follows:
 %\\
 |A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
 \end{array}
-\] 
+\]
 Values of formulas are called {\em reducibility sets}. \\
 The value is extended to conjunction of formulas by the following clauses:
 
@@ -778,7 +776,7 @@ The value is extended to conjunction of formulas by the following clauses:
 \end{definition}
 
 
-\begin{remark} 
+\begin{remark}
 If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
 \end{remark}
 
@@ -796,12 +794,12 @@ For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \end{proposition}
 
 \begin{proof}
-The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and proposition~\ref{prop:IntBase}. 
+The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and proposition~\ref{prop:IntBase}.
 \end{proof}
 
 \begin{lemma}\label{lem:RedStab}
 For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$ .
-\end{lemma} 
+\end{lemma}
 
 \begin{proof}
  Immediate by induction on $A$.
@@ -809,7 +807,7 @@ For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$
 
 \begin{lemma}\label{lem:Red-AddSharings}
 For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share xx)\overline{w} \in |B|$ .
-\end{lemma} 
+\end{lemma}
 
 \begin{lemma}\label{lem:IntCaseLambda}
 If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
@@ -843,7 +841,7 @@ If $x_1:A_1,\ldots, x_n:A_n \vdash_S u:B$ and $v_1 \in |A_1|, \dots, v_n \in |A_
 \end{proposition}
 
 \begin{proof}
- 
+
 We proceed by induction on the derivation of $x_1:A_1,\ldots, x_n:A_n \vdash_S u:B$.
 %
 We consider the last rule of the derivation.
@@ -853,7 +851,7 @@ We omit the rules for terms of multiplicity $k$, which can be treated similarly 
 1) The last rule is  $$\vlinf{}{\typevar}{x:A\vdash x:A}{}$$
 Let $v\in |A|$. In this case we have $x\{v/x\} = v\in |A|$
 \medskip\\
-2) The last rule is 
+2) The last rule is
 \[
  \vliiinf{}{\typeapp}
 	   {x_1:C_1,\dots,x_n:C_n,y_1:D_1,\dots,y_m:D_m\vdash (u)v : B}
@@ -861,7 +859,7 @@ Let $v\in |A|$. In this case we have $x\{v/x\} = v\in |A|$
 	   {}
 	   {y_1:D_1,\dots,y_m:D_m\ \vdash v : A}
 \]
-Let $v_1 \in |C_1|,\dots,v_n \in |C_n|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have 
+Let $v_1 \in |C_1|,\dots,v_n \in |C_n|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have
 \begin{multline*}
 ((u)v)\{v_1/x_1,\dots,v_n/x_n,w_1/y_1,\dots,w_m/y_m\} =\\
 (u\{v_1/x_1,\dots,v_n/x_n\})v\{w_1/y_1,\dots,w_m/y_m\}\;.
@@ -872,7 +870,7 @@ u\{v_1/x_1,\dots,v_n/x_n\}\in |A\vlim B|\;\mbox{and}\;v\{w_1/y_1,\dots,w_m/y_m\}
 \mbox{and therefore}\;(u\{v_1/x_1,\dots,v_n/x_n\})v\{w_1/y_1,\dots,w_m/y_m\}\in |B|\;.
 \end{multline*}
 \medskip\\
-3) The last rule is 
+3) The last rule is
 \[
  \vlinf{}{\typeabs}
 	   {x_1:C_1,\dots,x_n:C_n \vdash \lambda x.t : A \vlim B}
@@ -882,7 +880,7 @@ Let $v_1 \in |C_1|,\dots,v_n \in |C_n|$. We have
 \[(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\} = \lambda x.t\{v_1/x_1,\dots,v_n/x_n\}\;.\]
 Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}\in |B|$ and therefore $t\{v_1/x_1,\dots,v_n/x_n\}\{ w/x\}\in |B|$. By lemma~\ref{lem:IntCaseLambda}, it follows  $(\lambda x.t\{v_1/x_1,\dots,v_n/x_n\})w \in |B|$. Hence  $(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\}\in | A\vlim B|$.
 \medskip\\
-4) The last rule is 
+4) The last rule is
 \[
  	  \vliiinf{}{\typeshare}
 	   {y_1:C_1,\dots,y_k:C_k, z_1:D_1,\dots,z_m:D_m \vdash u\share xt : A}
@@ -891,20 +889,20 @@ Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}
 	   {z_1:D_1,\dots,z_m:D_m \vdash t : B}
 \]
 \\
-Let $v_1 \in |C_1|,\dots,v_k \in |C_k|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have to prove 
+Let $v_1 \in |C_1|,\dots,v_k \in |C_k|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have to prove
 \\
-$ (u[x_1,\dots, x_n \leftarrow t])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\} \in |A|$, i.e. 
+$ (u[x_1,\dots, x_n \leftarrow t])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\} \in |A|$, i.e.
 \\
 $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_m\} ] \in |A|$.
 \\
 By induction hypothesis, we have $t' = t\{w_1/z_1,\dots,w_m/z_m\} \in|B|$. Let $\sn (t')^1, \dots, \sn (t')^n$ variants of $\sn (t')$ with fresh variables. Because $t'\in |B|$, the sharing normal form of $t'$ belongs also to $|B|$. It follows that $\sn (t') \in |B|$ and also $\sn (t')^1 \in |B|, \dots, \sn (t')^n \in |B|$. Therefore by induction hypothesis
-$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseSharing} that 
+$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseSharing} that
 \\
-$ u\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t'] \in |A|$, i.e. 
+$ u\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t'] \in |A|$, i.e.
 \\
 $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_m\} ] \in |A|$.
 \medskip\\
-5) The last rule is 
+5) The last rule is
 \[
    \vliiinf{}{\typedist}
    {y_1:C_1,\dots,y_k:C_k, z_1:D_1,\dots,z_m:D_m \vdash s\distr xy{u} : C}
@@ -913,14 +911,14 @@ $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_
    {z_1:D_1,\dots,z_m:D_m, y : A \vdash u : B\vlan\cdots\vlan B}
 \]
 \\
-Let $v_1 \in |C_1|,\dots,v_k \in |C_k|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have to prove 
-$ (s[x_1,\dots, x_n \twoheadleftarrow \lambda y.u])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\} \in |C|$, i.e. 
+Let $v_1 \in |C_1|,\dots,v_k \in |C_k|,w_1 \in |D_1|,\dots,w_m \in |D_m|$.  We have to prove
+$ (s[x_1,\dots, x_n \twoheadleftarrow \lambda y.u])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\} \in |C|$, i.e.
 \\
 $ s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|$.
 \\
-The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in sharing normal form. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$. 
+The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in sharing normal form. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$.
 By lemma~\ref{lem:IntCaseLambda}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
-Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore 
+Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
 $ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by lemma~\ref{lem:Red-AddSharings},
 \[
 s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\}[\sh (\lambda y.t')] \in |C|\;.
@@ -940,7 +938,7 @@ If $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$ then $u \in \SN$.
 
 
 \begin{proof}
- 
+
 Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}, we have $x_1\in |A_1|,\dots, x_n \in|A_n|$. Therefore by proposition~\ref{prop:IntSubst},  $u\{x_1/x_1, \dots, x_n/x_n\} \in |B|$, i.e. $u \in |B|$. Therefore by proposition~\ref{prop:IntBase}, we have $u \in \SN$.
 
 \end{proof}
@@ -948,7 +946,7 @@ Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}
 \noindent
 As a consequence of this theorem we get the preservation of the strong normalisation with respect to lambda-calculus (often called PSN property), using the well know fact that the strongly normalisable lambda-terms are typable in %S$
 
-% TODO: alternative references? (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}). 
+% TODO: alternative references? (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}).
 
 \begin{theorem}[PSN]
 If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
@@ -1006,7 +1004,7 @@ For $[\Gamma] = [\gamma_1] \dots[\gamma_p]$, we denote by $[\Gamma]^*$ the seque
 \end{lemma}
 
 \begin{proof}
- 
+
   Let $T = (u[\Gamma_0])\overline{w[\Gamma]}$ and $T' = (u[\Gamma_0]^*)\overline{w[\Gamma]^*}$.
 \\
 We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
@@ -1017,12 +1015,12 @@ We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
  \\
 If,  for each closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$,  $[\gamma]^* = [\gamma]$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $[\gamma]^* = [\gamma]$). We suppose in the following that $[\gamma]^* \neq [\gamma]$ for at least one$[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ . We can also suppose that $u$ doesn't end with a losure, because it can be integrated in the sequence $[\Gamma_0]$.
 \\
-In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ using rule (2) we conclude also as in lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $[\gamma_1]$. 
+In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ using rule (2) we conclude also as in lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $[\gamma_1]$.
 %
 %
 \medskip
 \\
-1) Suppose that $U$ is obtained by the reduction a closure $[\gamma]$ such that  $[\gamma]^* = [\gamma]$. Suppose for instance that is closure $[\gamma_i]$ of $[\Gamma_0] = [\gamma_1] \dots[\gamma_p]$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S[\gamma_1]^S \dots [\gamma'_i]\dots [\gamma_p])\overline{w[\Gamma]}$. 
+1) Suppose that $U$ is obtained by the reduction a closure $[\gamma]$ such that  $[\gamma]^* = [\gamma]$. Suppose for instance that is closure $[\gamma_i]$ of $[\Gamma_0] = [\gamma_1] \dots[\gamma_p]$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S[\gamma_1]^S \dots [\gamma'_i]\dots [\gamma_p])\overline{w[\Gamma]}$.
 \\
 Consider $U' = (u^S[\gamma_1]^{S*} \dots [\gamma'_i]\dots [\gamma_p]^*)\overline{w[\Gamma]^*}$ (note that that by $[\gamma_1]^{S*}$ we mean that we apply first the substitution and then computation, and by $[\gamma_1]^{*S}$, the converse).  We have
 
@@ -1051,7 +1049,7 @@ Consider $U' = (u\{\sn(t')^1/x_1,\dots,\sn(t')^n/x_n\}[\sh (t')][\Gamma'_0]^*)\o
 %
 \smallskip
 \\
-2.2)  
+2.2)
 $T =  (u\distr xyt[\Gamma_0'])\overline{w\G}$ and
 $U =  (u\distr xy{t'}[\Gamma_0'])\overline{w\G}$, with $t ~\rewrite^1~ t'$.
 In this case
@@ -1067,15 +1065,15 @@ Therefore $T'\rewrite U'$ and $U'\in\SN$. We have also that
 $S(U')\leq S(T')$ and $S(t') < S(t)$. It follows that $m_1(U)<m_1(T)$
 and $Mes(U,U') < Mes(T,T')$ and we have by induction hypothesis,
 $U\in\SN$.
-% 
-% 2.2)  $T = (u[x_1,\dots,x_n \leftarrow (t)v][\Gamma'_0])\overline{w[\Gamma]}$ and 
+%
+% 2.2)  $T = (u[x_1,\dots,x_n \leftarrow (t)v][\Gamma'_0])\overline{w[\Gamma]}$ and
 % \\
-% $U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v][\Gamma'_0])\overline{w[\Gamma]}$. 
+% $U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v][\Gamma'_0])\overline{w[\Gamma]}$.
 % \\
 % In this case $T' = (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 % \\
 % Consider $U' = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}
-% \{\sn(t)^1/\alpha_1,\dots,\sn(t)^n/\alpha_n\}[\sh(t)]\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. 
+% \{\sn(t)^1/\alpha_1,\dots,\sn(t)^n/\alpha_n\}[\sh(t)]\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 % \\
 % We have
 % \begin{eqnarray*}
@@ -1083,19 +1081,19 @@ $U\in\SN$.
 %     & = & (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)][\Gamma'_0]^*)\overline{w[\Gamma]^*} \\
 %     & = & T'
 % \end{eqnarray*}
-% Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$. 
+% Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$.
 %
 \smallskip
 \\
-2.3)  $T = (u[x_1,\dots,x_n \leftarrow (t)v][\Gamma'_0])\overline{w[\Gamma]}$ and 
+2.3)  $T = (u[x_1,\dots,x_n \leftarrow (t)v][\Gamma'_0])\overline{w[\Gamma]}$ and
 \\
-$U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v][\Gamma'_0])\overline{w[\Gamma]}$. 
+$U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v][\Gamma'_0])\overline{w[\Gamma]}$.
 \\
 In this case $T' = (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
 Consider $U' = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}
 \{\sn(t)^1/\alpha_1,\dots,\sn(t)^n/\alpha_n\}[\sh(t)] \\
-\hspace*{62pt}\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. 
+\hspace*{62pt}\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
 We have
 \begin{eqnarray*}
@@ -1103,35 +1101,35 @@ We have
     & = & (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)][\Gamma'_0]^*)\overline{w[\Gamma]^*} \\
     & = & T'
 \end{eqnarray*}
-Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$. 
+Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$.
 %
 \smallskip
 \\
-2.4)  $T = (u[x_1,\dots,x_n \leftarrow \lambda y.t][\Gamma'_0])\overline{w[\Gamma]}$ and 
+2.4)  $T = (u[x_1,\dots,x_n \leftarrow \lambda y.t][\Gamma'_0])\overline{w[\Gamma]}$ and
 \\
-$U = (u[x_1,\dots,x_n \twoheadleftarrow \lambda y. \langle \alpha_1,\dots,\alpha_n \rangle [\alpha_1,\dots,\alpha_n \leftarrow  t]][\Gamma'_0])\overline{w[\Gamma]}$. 
+$U = (u[x_1,\dots,x_n \twoheadleftarrow \lambda y. \langle \alpha_1,\dots,\alpha_n \rangle [\alpha_1,\dots,\alpha_n \leftarrow  t]][\Gamma'_0])\overline{w[\Gamma]}$.
 \\
 In this case $T' = (u\{\sn(\lambda y.t)^1/x_1,\dots,\sn(\lambda y.t)^n/x_n\}[\sh (\lambda y.t)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
-Consider $U' = (u\{\sn (\lambda y.\alpha[\alpha \leftarrow t])/x_1,\dots, \sn (\lambda y.\alpha[\alpha \leftarrow t])/x_n\}[\sh (\lambda y.\alpha[\alpha \leftarrow t])][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. 
+Consider $U' = (u\{\sn (\lambda y.\alpha[\alpha \leftarrow t])/x_1,\dots, \sn (\lambda y.\alpha[\alpha \leftarrow t])/x_n\}[\sh (\lambda y.\alpha[\alpha \leftarrow t])][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
-We have  $U' = (u\{\sn(\lambda y.t)^1/x_1,\dots,\sn(\lambda y.t)^n/x_n\}[\sh (\lambda y.t)][\Gamma'_0]^*)\overline{w[\Gamma]^*} = T'$ 
+We have  $U' = (u\{\sn(\lambda y.t)^1/x_1,\dots,\sn(\lambda y.t)^n/x_n\}[\sh (\lambda y.t)][\Gamma'_0]^*)\overline{w[\Gamma]^*} = T'$
 %\EMPTY{(check this equality)}
 \\
 Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because \\
-$lh(\lambda y. \langle \alpha_1,\dots,\alpha_n \rangle [\alpha_1,\dots,\alpha_n \leftarrow  t]) = lh(t) < lh(\lambda y.t)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$. 
+$lh(\lambda y. \langle \alpha_1,\dots,\alpha_n \rangle [\alpha_1,\dots,\alpha_n \leftarrow  t]) = lh(t) < lh(\lambda y.t)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by induction hypothesis, $U\in\SN$.
 %
 \smallskip
 \\
-2.5)  $T = (u[x_1,\dots,x_n \twoheadleftarrow \lambda y. \langle t^1,\dots,t^n \rangle [\overline{z^1},\dots,\overline{z^n}\leftarrow  y]][\Gamma'_0])\overline{w[\Gamma]}$ and 
+2.5)  $T = (u[x_1,\dots,x_n \twoheadleftarrow \lambda y. \langle t^1,\dots,t^n \rangle [\overline{z^1},\dots,\overline{z^n}\leftarrow  y]][\Gamma'_0])\overline{w[\Gamma]}$ and
 \\
-$U = (u\{  \lambda y^1.t^1[\overline{z^1}\leftarrow y^1]/x_1, \dots, \lambda y^n.t^n[\overline{z^n}\leftarrow y^n]/x_n \}[\sh (\lambda y.t[\overline{z}\leftarrow y])][\Gamma'_0])\overline{w[\Gamma]}$. 
+$U = (u\{  \lambda y^1.t^1[\overline{z^1}\leftarrow y^1]/x_1, \dots, \lambda y^n.t^n[\overline{z^n}\leftarrow y^n]/x_n \}[\sh (\lambda y.t[\overline{z}\leftarrow y])][\Gamma'_0])\overline{w[\Gamma]}$.
 \\
 In this case $T' = ( u\{\sn(\lambda y.t[\overline{z}\leftarrow  y])^1/x_1,\dots,\sn(\lambda y.t[\overline{z}\leftarrow  y])^n/x_n\}[\sh (\lambda y.t[\overline{z}\leftarrow  y])][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
-Consider $U' = (u\{  \lambda y^1.t^1[\overline{z^1}\leftarrow y^1]/x_1, \dots, \lambda y^n.t^n[\overline{z^n}\leftarrow y^n]/x_n \}[\sh (\lambda y.t[\overline{z}\leftarrow y])][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. 
+Consider $U' = (u\{  \lambda y^1.t^1[\overline{z^1}\leftarrow y^1]/x_1, \dots, \lambda y^n.t^n[\overline{z^n}\leftarrow y^n]/x_n \}[\sh (\lambda y.t[\overline{z}\leftarrow y])][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 %
-Because $t^i$ is already in sharing normal form, we have  $\sn(\lambda y.t)^i = \sn(\lambda y.t[\overline{z}\leftarrow  y])^i$.  
+Because $t^i$ is already in sharing normal form, we have  $\sn(\lambda y.t)^i = \sn(\lambda y.t[\overline{z}\leftarrow  y])^i$.
 %(\EMPTY{Here we use not only the fact that the $t^i$ are variants with the convention on variables, but also that they are in sharing normal form, i.e. produced by reduction)}
 It follows $T' = U'$, $U'\in\SN$ and $S(U') = S(T')$.
 \\
@@ -1143,13 +1141,13 @@ Therefore $U'\in\SN$ and $S(U') = S(T')$. We  have  $m_1(U) < m_1(T)$ and theref
 \medskip
 \\
 3)  Suppose that U is obtained by the interaction of the two first closures of $[\Gamma_0]$ using rule (9). It is enough to consider only the non trivial case where the term of the second closure is not a variable. We have \\
-$T = (u[y_1,\dots,y_m  \leftarrow x_1][x_1,x_2\dots,x_n \leftarrow t][\Gamma'_0])\overline{w[\Gamma]}$   and 
+$T = (u[y_1,\dots,y_m  \leftarrow x_1][x_1,x_2\dots,x_n \leftarrow t][\Gamma'_0])\overline{w[\Gamma]}$   and
 \\
 $U = (u[y_1,\dots,y_m,x_2\dots,x_n \leftarrow t][\Gamma'_0])\overline{w[\Gamma]}$.
 \\
 Let $z_1,\dots,z_p$ the free variables of $t$. By our convention, theses variables are renamed $z_1^i,\dots,z_p^i$ in $\sn(t)^i$ and these are exactly the free variables of  $\sn(t)^i$. In the following we will have to consider $\sn (\sn (t)^1)^j$. Because $\sn(t)$ is in sharing normal formal form, $\sn(\sn(t)) = \sn(t)$ and $\sn (\sn (t)^1)^j$ is obtained from $\sn(t)$ by replacing any variable $x$ by $(x^1)^j$: we will  adopt the notation $x^{1,j}$ for $(x^1)^j$ and $\sn(t)^{1,j}$ for $\sn (\sn (t)^1)^j$.
 %
-We have 
+We have
 %
 \begin{eqnarray*}
  T' & = & (u[y_1,\dots,y_m \leftarrow x_1]\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t:1,\dots,n)][\Gamma]^*)\overline{w[\Gamma]^*} \\
@@ -1159,7 +1157,7 @@ We have
     & = & (u\{\sn(t)^{1,1}/y_1,\dots,\sn(t)^{1,m}/y_m\}\{\sn(t)^2/x_2,\dots,\sn(t)^n/x_n\} \\
     &   & [\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)][\Gamma]^*)\overline{w[\Gamma]^*}   \\
     & = & (u\{\sn(t)^{1,1}/y_1,\dots,\sn(t)^{1,m}/y_m, \sn(t)^2/x_2,\dots,\sn(t)^n/x_n\} \\
-    &   & [\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)][\Gamma]^*)\overline{w[\Gamma]^*} 
+    &   & [\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)][\Gamma]^*)\overline{w[\Gamma]^*}
 \end{eqnarray*}
 %
 Let $u_1 = u\{t^{1,1}/y_1,\dots,t^{1,m}/y_m\}\{t^2/x_2,\dots,t^n/x_n\}$ and $z_1,\dots,z_p$ the fre variables of $t$. We have
@@ -1173,8 +1171,8 @@ Let $u_1 = u\{t^{1,1}/y_1,\dots,t^{1,m}/y_m\}\{t^2/x_2,\dots,t^n/x_n\}$ and $z_1
 Consider $U' = (u\{\sn(t)^{1,1}/y_1,\dots,\sn(t)^{1,m}/y_m, \sn(t)^2/x_2,\dots,\sn(t)^n/x_n\} \\
 \hspace*{62pt}[\sh (t:(1,1),\dots,(1,m),2,\dots,n)][\Gamma]^*)\overline{w[\Gamma]^*}$.
 \\
-We have $T'\rightsquigarrow U'$ and therefore $U'\in\SN$; because $t$ is not a variable, $S(U')<S(T')$. 
-%\TODO{check in the limit cases (eg nullary sharings) that there is always one step of reduction} 
+We have $T'\rightsquigarrow U'$ and therefore $U'\in\SN$; because $t$ is not a variable, $S(U')<S(T')$.
+%\TODO{check in the limit cases (eg nullary sharings) that there is always one step of reduction}
 Because $Mes(U,U') < Mes(T,T')$, we have by induction hypothesis, $U\in\SN$.
 
 
@@ -1192,7 +1190,7 @@ Future investigations will expand in three directions: strengthening the current
 
 
 
-The present work suggests two immediate angles for future research. 
+The present work suggests two immediate angles for future research.
 %
 Firstly, to show that intersection types characterise exactly the strongly normalisable terms of the atomic lambda-calculus, it must be shown that any strongly normalisable term is typeable in $D_a$.
 %
@@ -1209,7 +1207,7 @@ Another direction would be the inclusion of general recursion in the calculus, a
 
 
 \bibliographystyle{plain}
-\bibliography{AL-LPAR}
+\bibliography{SN-ALC}
 
 \newpage
 
@@ -1236,7 +1234,7 @@ We prove by induction on $A$ that (i) $ |A| \subseteq  \SN$ and (ii) for each $x
 \\
 1) If $A=X$, then $|A| =\SN$ and the result follows from lemma~\ref{lem:HeadVar}.
 \\
-2) Suppose $A=C\vlim D$. 
+2) Suppose $A=C\vlim D$.
 \\
 (i) Let $u \in |A|$. For $x \in \VAR$, we have $x\in |C|$ by induction hypothesis; therefore $(u)x \in |D|$ and by induction hypothesis $(u)x \in \SN$. It follows  $u \in \SN$.
 \\
@@ -1247,7 +1245,7 @@ We prove by induction on $A$ that (i) $ |A| \subseteq  \SN$ and (ii) for each $x
 
 \begin{lemma}\label{lem:SN-AddSharings}
 If $(u)\overline{w} \in \SN$, then $(u\share xx)\overline{w} \in \SN$.
-\end{lemma} 
+\end{lemma}
 
 
 \begin{proof}
@@ -1259,8 +1257,8 @@ Each $w_i$ can be written as $w'_i\G[i]$, where $\G[i]$ the largest possible seq
 %
 A rewrite $w_i\rewrite^1 w_{i+1}$ is of one of the following three forms: \textit{a)} it is inside $w'_i$, \textit{b)} it is inside $\G[i]$, or \textit{c)} it rewrites $w'_i$ to $w'_{i+1}\G*$, so that $\G[i+1]=\G*\G[i]$.
 \[
-		a)\quad	w'_i\G[i] \rewrite^1 w'_{i+1}\G[i] 
-\qquad	b)\quad	w'_i\G[i] \rewrite^1 w'_i\G[i+1] 
+		a)\quad	w'_i\G[i] \rewrite^1 w'_{i+1}\G[i]
+\qquad	b)\quad	w'_i\G[i] \rewrite^1 w'_i\G[i+1]
 \qquad	c)\quad	w'_i\G[i] \rewrite^1 w'_{i+1}\G*\G[i]
 \]
 The reduction path from $w_0$ is modified as follows: steps of type \textit{a)} and \textit{c)} are retained (up to renaming of variables), but those of type \textit{b)} are omitted.
@@ -1331,8 +1329,8 @@ Consider $U' = ((u^*\{v/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]}$. We have $T'
 \\
 3)  $U = ((((\lambda x.u_1)[\gamma][\Gamma]) v)[\Gamma'])\overline{w[\Gamma]}$ with $u = u_1[\gamma]$ and $x \notin FV(\gamma)$.
 \\
-Consider $U' = ((u_1\{v/x\})[\gamma][\Gamma][\Gamma'])\overline{w[\Gamma]}$. 
-We have 
+Consider $U' = ((u_1\{v/x\})[\gamma][\Gamma][\Gamma'])\overline{w[\Gamma]}$.
+We have
 \\
 $T' = (((u_1[\gamma])\{v/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]} = (((u_1\{v/x\})[\gamma])[\Gamma][\Gamma'])\overline{w[\Gamma]} = U'$ and $U'\in\SN$.
 Because $S(U') = S(T')$ and $lh(u_1) < lh(u)$, we have $Mes(U) < Mes(T)$ and by induction hypothesis, $U\in\SN$.
@@ -1354,13 +1352,13 @@ The same argument holds if $U$ is obtained from $T$ by any one-step reduction in
 \\
 6)  $U = ((((\lambda x.u)[\Sigma]) v)[\gamma][\Gamma'])\overline{w[\Gamma]}$ with $[\Gamma] = [\Sigma][\gamma]$ (application of rule \eqref{eqn:sharing above application function})
 \\
-Consider $U' = ((u\{v/x\})[\Sigma][\gamma][\Gamma'])\overline{w[\Gamma]}$. 
+Consider $U' = ((u\{v/x\})[\Sigma][\gamma][\Gamma'])\overline{w[\Gamma]}$.
 We have $T' = U'$ and therefore $U'\in\SN$ and $S(U') = S(T')$. Because $lh([\Sigma]) < lh([\Gamma])$, we have $Mes(U) < Mes(T)$ and by induction hypothesis, $U\in\SN$.
 \smallskip
 \\
 7)  $U = ((((\lambda x.u)[\Gamma]) v_1)[\gamma][\Gamma'])\overline{w[\Gamma]}$ with $v = v_1[\gamma]$.
 \\
-Consider $U' = ((u\{v_1/x\})[\Gamma][\gamma][\Gamma'])\overline{w[\Gamma]}$. 
+Consider $U' = ((u\{v_1/x\})[\Gamma][\gamma][\Gamma'])\overline{w[\Gamma]}$.
 We have $T' = (((u)\{v_1[\gamma]/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]}$. $T'$ reduce to $U'$ in $n\ge 0$ steps (it can be $0$ in the case where $u = x$). Therefore $U'\in\SN$ and $S(U') \leq S(T')$. Because $lh(v_1) < lh(v)$, we have $Mes(U) < Mes(T)$ and by induction hypothesis, $U\in\SN$.
 \smallskip
 \\
@@ -1385,31 +1383,31 @@ Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We
 The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
 
 \end{proof}
-% 
+%
 % \Comment{For proving proposition~\ref{prop:IntSubst} (case 3), we need the statement of lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
 %   Then for proving case 1 ($|B| = \SN$), we need the more complicated statement of lemma~\ref{lem:IntCaseLambda0}: the proof by induction of lemma~\ref{lem:IntCaseLambda0} introduces the case of sharing (case xx of the proof of lemma~\ref{lem:IntCaseLambda0})  }
 % %=================================
-% 
+%
 % \subsection{Preservation of strong normalisation}
-% 
-% 
+%
+%
 % Figure~\ref{fig:lambda intersection types} presents a calculus of intersection types for the standard lambda-calculus.
 % %
 % The treatment of contexts $\Gamma$ is chosen to allow a close correspondence with derivations in $D_a$.
-% 
-% 
+%
+%
 % \begin{definition}
 % The type system $D$ of intersection types for the standard lambda-calculus $\Lambda$ is given by the rules in Figure~\ref{fig:lambda intersection types}.
 % \end{definition}
-% 
-% 
+%
+%
 % The type system characterises precisely the strongly normalisable terms.
-% 
-% 
+%
+%
 % \begin{theorem}[\cite{??}]\label{thm:lambda intersection SN}
 % A lambda term $N\in\Lambda$ is SN if and only if $N$ is typeable in $D$.
 % \end{theorem}
-% 
+%
 % \begin{figure}[!tp]
 % \[
 %   \begin{array}{c@{\quads3}c@{\quads3}c}
@@ -1443,12 +1441,12 @@ The result directly follows from the induction hypothesis using the fact that $|
 % \caption{Type system $D$ for the lambda-calculus}
 % \label{fig:lambda intersection types}
 % \end{figure}
-% 
-% 
+%
+%
 % \begin{proposition}\label{prop:intersection types preserved}
 % If $N:A$ in $D$ then $\tercoden N:A$ in $D_a$.
 % \end{proposition}
-% 
+%
 % \begin{proof}
 % %By induction on the typing derivation for $\Gamma\vdash N:A$.
 % %
@@ -1456,7 +1454,7 @@ The result directly follows from the induction hypothesis using the fact that $|
 % %
 % A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$, with the following notes:
 % %
-% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and 
+% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and
 % %
 % 2) a $(\lambda)$-inference in the derivation for $N$ translates to a consecutive $(\lambda)$-inference and $(\typeshare)$-inference, as illustrated below right.
 % %
@@ -1481,27 +1479,14 @@ The result directly follows from the induction hypothesis using the fact that $|
 % \quad
 % \]
 % \end{proof}
-% 
-% 
+%
+%
 % \begin{theorem}[PSN]
 % If $N$ is SN then $\tercoden N$ is SN.
 % \end{theorem}
-% 
+%
 % \begin{proof}
 % If $N$ is SN then by Theorem~\ref{thm:lambda intersection SN} it is typeable in $D$; then by Proposition~\ref{prop:intersection types preserved} $\tercoden N$ is typeable in $D_a$, and by Theorem~?? $\tercoden N$ is SN.
 % \end{proof}
 
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
