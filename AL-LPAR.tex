@@ -92,87 +92,60 @@ Michel Parigot\inst{1}}
 
 \maketitle
 
-\abstract{
-The atomic lambda-calculus is a recently introduced typed lambda-calculus with explicit sharing,  which originates in a Curry-Howard interpretation  of a deep inference system for intuitionistic logic. It has been shown that it allows fully lazy sharing to be reproduced in a typed setting.
-In this paper we prove strong normalization of the typed atomic lambda-calculus using Tait's reducibility method. We deduce from this result the preservation of strong normalization with respect to lambda-calculus.
-}
+\begin{abstract}
+The atomic lambda-calculus is a typed lambda-calculus with explicit sharing, which originates in a Curry-Howard interpretation of a deep-inference system for intuitionistic logic.
+%
+It has been shown that it allows fully lazy sharing to be reproduced in a typed setting.
+%
+In this paper we prove strong normalization of the typed atomic lambda-calculus using Tait's reducibility method.
+\end{abstract}
 
 
-% further possible citations
+% citations to preserve: 
+%	\cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011} - intersection types for explicit substitution
+%	\cite{Mellies-1995}
+%
 
-%\cite{David-Guillaume-2001} - explicit substitutions
+
 
 
 \section{Introduction}
 
-The \emph{atomic lambda-calculus} is a typed lambda-calculus with explicit sharing, recently introduced in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}, arising from a Curry--Howard interpretation of a deep-inference proof system for intuitionistic logic.
+
+
+The \emph{atomic lambda-calculus} is a typeable lambda-calculus with explicit sharing, recently introduced in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}, developed as the Curry--Howard interpretation of a deep-inference proof system for intuitionistic logic.
 %
-The atomic lambda-calculus is a natural formalisation of sharing in the lambda-calculus.
+The present paper constitutes an important step in the development of its meta-theory, by extending intersection types and the Tait--Girard reducibility method to show strong normalisation of the typed atomic lambda-calculus.
 %
-Its sharing mechanism and reduction dynamics are a direct interpretation of those of the proof system, which in turn is obtained by embedding the traditional natural deduction system in the deep-inference formalism \emph{open deduction} \cite{Guglielmi-Gundersen-Parigot-2010}.
+The primary motivation for establishing this result is to demonstrate that the atomic lambda-calculus is a natural and well-behaved calculus, to which the main standard techniques and results apply.
 
 
 
-In \cite{Gundersen-Heijltjes-Parigot-2013-JFLA} a system of simple types is given, formulated in the sequent calculus, for which the atomic lambda-calculus enjoys subject reduction (preservation of type assignment under reduction).
+\emph{Sharing} is an approach to efficient computation in lambda-calculi whereby duplication of subterms is deferred in favor of reference to a common, shared representation.
 %
-Furthermore, it is established that the calculus satisfies the PSN property (preservation of strong normalisation with respect to the lambda-calculus).
+It is a leading principle behind, among others, explicit substitution calculi \cite{Abadi-Cardelli-Curien-Levy-1991,Lescanne-1994,David-Guillaume-2001,DiCosmo-Kesner-Polonovski-2003,Kesner-Lengrand-2007,Accattoli-Kesner-2010}, term calculi with strategies or higher-order transformations \cite{Hughes-1982,Ariola-Felleisen-Maraist-Odersky-Wadler-1995}, and sharing graphs in the style of Lamping \cite{Lamping-1990,Asperti-Guerrini-1998,VanOostrom-VanDeLooij-Zwitserlood-2004}.
 %
-This paper will prove strong normalisation for the typed atomic lambda-calculus extended with intersection types, using the Tait-reducibility method.
+The atomic lambda-calculus represents a novel category in this range, with a unique combination of features and properties.
 %
-While PSN follows as a corollary, the present result is much stronger, as it shows that all terms of the atomic lambda-calculus are well-behaved with respect to typing and strong normalisation, and not just those in the image of the lambda-calculus.
-
-
-
-A main feature of the atomic lambda-calculus is a fine-grained control over the evaluation of sharing by duplication and deletion.
+It is a lambda-calculus, like explicit substitution calculi, with the distinguishing feature that sharing is evaluated \emph{atomically}, by duplicating individual constructors, like in sharing graphs.
 %
-The reduction steps implementing these operations proceed \emph{atomically}, i.e.\ on individual constructors.
+Its most salient property is that the atomic lambda-calculus implements \emph{fully lazy sharing} \cite{Wadsworth-1971,Hughes-1982,Balabonski-2012}, a standard level of sharing that previously, however, could be achieved in term calculi only by external means.
+
+
+
+The atomic lambda-calculus is a computational interpretation of an embedding of traditional natural deduction into the deep-inference formalism \emph{open deduction} \cite{Guglielmi-Gundersen-Parigot-2010}.
 %
-A consequence of these rewriting dynamics is the existence of a natural strategy, described in \cite{Gundersen-Heijltjes-Parigot-2013-LICS}, that achieves fully lazy sharing \cite{Wadsworth-1971,Hughes-1982}.
+The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} introduces the calculus, details how its sharing mechanisms, including atomic duplication, are inherited from deep inference, and establishes the technical properties of full laziness and \emph{PSN}, preservation of strong normalisation with respect to the lambda-calculus.
 
 
 
-The atomic lambda-calculus is a proper extension of the lambda-calculus: it is typed, it implements beta-reduction, and it does not enforce a strategy, while offering an explicit account of sharing. 
+The present paper will prove strong normalisation for the atomic lambda-calculus under an intersection-typing discipline \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}, using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
 %
-The treatment of sharing is general: one strategy implements fully lazy sharing, but others exist, and may address sharing in other ways.
-
-
-This paper presents a strong normalisation theorem for the atomic lambda-calculus with simple types and intersection types \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}, using reducibility sets in the style of Tait \cite{Tait-1967,ProofsAndTypes}.
-%
-While the proof follows the usual scheme, the reduction and commutation rules for sharing constructs present a challenge, as such rule schemes for explicit substitution or duplication may induce infinite commutation sequences \cite{Mellies-1995}.
-%
-The resulting proof is technically complex, but conceptually clean, providing a broader view of reduction, such as in the decomposition of the computational content of a sharing in Section~\ref{ssec:basic properties}.
+The proof is technically complex, but conceptually clean, providing a broader view of reduction.
 %
 The fact that reducibility, an abstract method compatible with higher-order logic, can be applied to the atomic lambda-calculus reinforces the idea that it is a well-designed calculus and a natural formalisation of sharing.
 %
 The result opens up the perspective of using this or similar formalisations of sharing in a second-order typed setting.
-
-
-
-
-\subsubsection*{Related work}
-%
-Approaches to sharing in the lambda-calculus include Wadsworth's graphical calculus \cite{Wadsworth-1971}, term calculi with strategies or higher-order transformations \cite{Hughes-1982,Ariola-Felleisen-Maraist-Odersky-Wadler-1995}, \emph{sharing graphs} in the style of Lamping \cite{Lamping-1990,Asperti-Guerrini-1998,VanOostrom-VanDeLooij-Zwitserlood-2004}, and various others (see e.g.\ \cite{Balabonski-2012} for an overview of approaches to full laziness).
-%
-A closely related area is the study of explicit-substitution calculi \cite{Abadi-Cardelli-Curien-Levy-1991} (see \cite{Lescanne-1994} for an early overview), which shares the objective of efficient computation by lambda-calculi, but takes the perspective of making the substitution process explicit (see \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011} for a use of intersection types in this context).
-
-
-Like explicit-substitution calculi, the atomic lambda-calculus is a term calculus, employing similar constructs and many similar-looking reduction steps.
-%
-In its close connection to open deduction for intuitionistic logic, the atomic lambda-calculus resembles explicit-substitution calculi, which often correspond to natural deduction with cut, or proof nets \cite{DiCosmo-Kesner-Polonovski-2003,Kesner-Lengrand-2007,Accattoli-Kesner-2010}; however, for explicit-sharing formalisms such a correspondence is rare.
-%
-However, the reduction dynamics of the atomic lambda-calculus are typical of a treatment of explicit sharing, in particular in the following two respects.
-%
-Firstly, explicit substitutions are permuted `inward', towards the variables they apply to; in contrast, explicit sharing constructs are permuted `outward' to avoid being duplicated.
-%
-This generates different higher-level dynamics, to the extent that the notion of fully lazy sharing does not apply to explicit-substitution calculi.
-%
-Secondly, the atomic duplication and deletion of the atomic lambda-calculus most closely resembles the rewriting in sharing graphs.
-%
-Compared to the latter, the atomic lambda-calculus restricts reduction strategies, while also the duplication of an application proceeds differently.
-%
-As a consequence, where sharing graphs require an expensive \cite{Asperti-Coppola-Martini-2000} \emph{oracle} to untangle intertwined sharing constructions, in the atomic lambda-calculus the natural notion of scope fulfills this r\^ole.
-
-
 
 
 
