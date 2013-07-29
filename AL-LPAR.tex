@@ -681,22 +681,18 @@ For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$
 For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share xx)\overline{w} \in |B|$ .
 \end{lemma}
 
-\begin{lemma}\label{lem:IntCaseLambda}
-If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
-\end{lemma}
-
-\begin{proof}
-Follows from Lemma~\ref{lem:IntCaseLambda0}, which has been delayed to the next section. The full proof is in the Appendix.
-\end{proof}
-
-\begin{lemma}\label{lem:IntCaseSharing} $\;$ \\
-(i) If $(u\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, \\ then  $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
+\begin{lemma}\label{lem:IntCaseLambdaSharing} $\;$ \\
+(i) If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
 \\
-(ii) If $(u\{\sn(\lambda y.t[\Gamma])^1/x_1,\dots,\sn(\lambda y.t[\Gamma])^n/x_n\}[\sh (\lambda y.t[\Gamma])])\overline{w} \in |B|$ and $t[\Gamma]\in\SN$, \\ then  $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]])\overline{w} \in |B|$.
+(ii) If $(u\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, \\ then  $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
+\\
+(iii) If $(u\{\sn(\lambda y.t[\Gamma])^1/x_1,\dots,\sn(\lambda y.t[\Gamma])^n/x_n\}[\sh (\lambda y.t[\Gamma])])\overline{w} \in |B|$ and $t[\Gamma]\in\SN$, \\ then  $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]])\overline{w} \in |B|$.
 \end{lemma}
 
 \begin{proof}
- We prove only the first statement, the proof of the second being similar. We proceed by induction on $B$.
+The first statement follows from Lemma~\ref{lem:IntCaseLambda0}, and the full proof can be found in the Appendix.
+We prove only the second statement here, the proof of the third being similar.
+We proceed by induction on $B$.
 \\
 1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseSharing0}, which has been delayed to the next section.
 \\
@@ -750,7 +746,7 @@ u\{v_1/x_1,\dots,v_n/x_n\}\in |A\vlim B|\;\mbox{and}\;v\{w_1/y_1,\dots,w_m/y_m\}
 \]
 Let $v_1 \in |C_1|,\dots,v_n \in |C_n|$. We have
 \[(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\} = \lambda x.t\{v_1/x_1,\dots,v_n/x_n\}\;.\]
-Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}\in |B|$ and therefore $t\{v_1/x_1,\dots,v_n/x_n\}\{ w/x\}\in |B|$. By lemma~\ref{lem:IntCaseLambda}, it follows  $(\lambda x.t\{v_1/x_1,\dots,v_n/x_n\})w \in |B|$. Hence  $(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\}\in | A\vlim B|$.
+Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}\in |B|$ and therefore $t\{v_1/x_1,\dots,v_n/x_n\}\{ w/x\}\in |B|$. By lemma~\ref{lem:IntCaseLambdaSharing}, it follows  $(\lambda x.t\{v_1/x_1,\dots,v_n/x_n\})w \in |B|$. Hence  $(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\}\in | A\vlim B|$.
 \medskip\\
 4) The last rule is
 \[
@@ -768,7 +764,7 @@ $ (u[x_1,\dots, x_n \leftarrow t])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\
 $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_m\} ] \in |A|$.
 \\
 By induction hypothesis, we have $t' = t\{w_1/z_1,\dots,w_m/z_m\} \in|B|$. Let $\sn (t')^1, \dots, \sn (t')^n$ variants of $\sn (t')$ with fresh variables. Because $t'\in |B|$, the sharing normal form of $t'$ belongs also to $|B|$. It follows that $\sn (t') \in |B|$ and also $\sn (t')^1 \in |B|, \dots, \sn (t')^n \in |B|$. Therefore by induction hypothesis
-$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseSharing} that
+$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseLambdaSharing} that
 \\
 $ u\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t'] \in |A|$, i.e.
 \\
@@ -789,13 +785,13 @@ $ (s[x_1,\dots, x_n \twoheadleftarrow \lambda y.u])\{v_1/y_1,\dots,v_k/y_k,w_1/z
 $ s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|$.
 \\
 The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in sharing normal form. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$.
-By lemma~\ref{lem:IntCaseLambda}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
+By lemma~\ref{lem:IntCaseLambdaSharing}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
 Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
 $ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by lemma~\ref{lem:Red-AddSharings},
 \[
 s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\}[\sh (\lambda y.t')] \in |C|\;.
 \]
-It follows by lemma~\ref{lem:IntCaseSharing} that
+It follows by lemma~\ref{lem:IntCaseLambdaSharing} that
 \[s \{v_1/y_1,\dots,v_k/y_k\}[x_1,\dots, x_n \twoheadleftarrow \lambda y.t'] \in |C|\;,\;\mbox{i.e.}\]
 \[
 s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|\;.
@@ -819,13 +815,11 @@ Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}
 
 
 
-\section{Closure properties of reducibility sets}\label{sec:ClosPropRedSets}
+\section{Closure properties of Strongly Normalising Atomic Lambda Terms}\label{sec:ClosPropSN}
 
 
-In this section we prove closure properties for the reducibility sets
-which are used in Section 4. In each case  a
-generalised form of the property is shown first for the set $\SN$,
-before the needed form is shown for any reducibility set.
+In this section we prove closure properties for the set of strongly normalising atomic lambda terms
+which are used in Section 4.
 
 \begin{lemma}\label{lem:IntCaseLambda0}
 If $((u\{v/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]} \in \SN$, then $((((\lambda x.u)[\Gamma]) v)[\Gamma'])\overline{w[\Gamma]} \in \SN$.
@@ -1311,7 +1305,7 @@ Consider $U' = ((u\{v^*/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]}$. We have $T'
 \end{proof}
 
 
-Proof of Lemma~\ref{lem:IntCaseLambda}:
+Proof of Lemma~\ref{lem:IntCaseLambdaSharing}:
 
 \begin{proof}
  We proceed by induction on $B$.
@@ -1320,10 +1314,9 @@ Proof of Lemma~\ref{lem:IntCaseLambda}:
 \\
 2) $B= C\vlim D$.
 Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We prove that  $(((\lambda x.u) v)\overline{w})t \in |D|$. Because $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u\{v/x\})\overline{w})t \in |D|$ and by induction hypothesis, $(((\lambda x.u) v)\overline{w})t \in |D|$. It follows that $((\lambda x.u) v)\overline{w} \in |C\vlim D|$.
-\\
-3) $B= C\cap B$.
-The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
-
+%\\
+%3) $B= C\cap B$.
+%The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
 \end{proof}
 %
 % \Comment{For proving proposition~\ref{prop:IntSubst} (case 3), we need the statement of lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
