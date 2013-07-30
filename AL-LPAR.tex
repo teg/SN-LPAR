@@ -157,7 +157,7 @@ In the present paper strong normalisation for the typed atomic lambda-calculus w
 %
 Reducibility is an abstract method compatible with higher-order logic, whose application provides a deeper understanding of reduction and its dynamics.
 %
-\emph{Intersection types} \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993} further allow the characterisation of exactly the strongly normalising terms.
+\emph{Intersection types} \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993} further allow the characterisation of exactly the strongly normalisable terms.
 %
 Together, the two form an important part of the meta-theory of a calculus (for example for explicit substitution calculi, in \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011}).
 
@@ -211,7 +211,7 @@ A nullary sharing $u\share*{}t$ is called a \emph{weakening}.
 \begin{ALdefinition}
 The \emph{atomic lambda-calculus} $\Lambda_a$ extends the basic calculus with the \emph{distributor} constructor.
 %
-The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n>0$, written $t^n$. 
+The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n\geq0$, written $t^n$. 
 %
 \setMidspace{10pt}
 \[
@@ -241,7 +241,7 @@ Where possible, terms and $n$-terms will not be distinguished, and both denoted 
 %
 A sequence of variables $\vv x$ may be abbreviated $\vv*x$; a sharing is then denoted $\share*{\vv*x}t$.
 %
-Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub xt$ denotes the higher-order substitution of $t$ for $x$ in $u$.
+Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub xt$ denotes the substitution of $t$ for $x$ in $u$.
 %
 A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\subn{x_i}{t_i}$.
 
@@ -278,7 +278,7 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 
 
 \noindent
-{\bf Linear  $\beta$-reduction rule :}
+{\bf Linear  $\beta$-reduction:}
 %
 \begin{equation}\tag{$\beta$}\label{eqn:beta-reduction}
 	(\lambda x.u)t ~\ALbeta~ u\sub xt
@@ -341,10 +341,10 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 \begin{remark}
 Rule~\eqref{eqn:execute unary substitution}, which evaluates unary sharings by actual substitutions, is redundant and may be considered an optimisation: its functionality is subsumed by the rules for $n$-ary sharings.
 \end{remark}
-
-\begin{remark}
-Compared to the presentation in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS} the rewrite rule to lift closures out of a tuple has been dropped (rule 5 in op.cit.), for the combined reason that it was redundant and it complicated the strong normalisation proof---see also the start of Section~\ref{sec:SNproof}.
-\end{remark}
+%
+%\begin{remark}
+%Compared to the presentation in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS} the rewrite rule to lift closures out of a tuple has been dropped (rule 5 in op.cit.), for the combined reason that it was redundant and it complicated the strong normalisation proof---see also the start of Section~\ref{sec:SNproof}.
+%\end{remark}
 
 
 The fact that a term $u$ reduces to $v$ in exactly $n$ steps will be denoted $u \rewrite^n v$, while an arbitrary number of steps is indicated simply by $\rewrite$.
@@ -374,19 +374,30 @@ The reduction $\ALnotbeta$ is strongly normalising and confluent.
 \end{ALtheorem}
 
 \noindent
-The \emph{unfolding} of an atomic lambda-term $t$ is its normal form under $\ALnotbeta$.
+The \emph{unfolding} $\unfold(t)$ of an atomic lambda-term $t$ is its normal form under $\ALnotbeta$.
 %
-For $t$ with unfolding $s$, let $\sn(t)$ denote the largest subterm of $s$ not of the form $u\g$; then $s$ is of the form $\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}$ (with the $x_{i,j}$ and $x_k$ distinct).
-
-
-A \emph{variant of a term $t$} is any term obtained form $t$ by
-renaming certain (bound or free) variables.
+It is of the form $u\G$ where $\G$ are sharings $\share*{\vv*x}y$ of the free variables $y$ in $t$ that occur in shared subterms.
+%
+Sharing in $u$ occurs only as $\lambda y.v\share*{\vv*x}y$, of bound variables immediately within the scope of their binder, and no distributors occur.
+%
+%
+\begin{ALdefinition}
+The \emph{unfolded body} $\sn(t)$ of $t$ is the largest subterm of $\unfold(t)$ not of the form $u\g$.
+\end{ALdefinition}
+%
+%
+%For $t$ with unfolding $s$, let $\sn(t)$ denote the largest subterm of $s$ not of the form $u\g$; then $s$ is of the form $\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}$ (with the $x_{i,j}$ and $x_k$ distinct).
+%
+%
+The unfolded body of a term is what is duplicated during reduction.
+%
+To identify the various copies, let a \emph{variant} of a term $t$ be any term obtained form $t$ by renaming certain (bound or free) variables.
 %
 A variant is \emph{fresh} if all its variables are fresh, and $t^i$ is the fresh variant of $t$ obtained by replacing each
 variable $x$ by a fresh variable $x^i$.
+%
+The following basic facts then characterise $\sn$.
 
-
-The following basic facts about $\sn$ are immediate.
 
 \begin{ALproposition}
 \[
@@ -402,20 +413,29 @@ The following basic facts about $\sn$ are immediate.
 \]
 \end{ALproposition}
 
+
 \begin{ALproposition}\label{prop:sn_pi}
 For $t=\tup t\G$, $\sn(\pi_i(t))=\sn(t_i\share*{}{x_1}\dots\share*{}{x_m}\G)$ where
 $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
 \end{ALproposition}
 
 
-Next, for any term $t$, with $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{y_{1,1},\dots,y_{k,m_k}\}$, we define
-$[\sh (t):1,\dots,n] =
-\share*{y_{1,1}^1,\dots,y_{1,m_1}^n}{y_1}\dots
-\share*{y_{k,1}^1,\dots,y_{k,m_k}^n}{y_k}$.
+%For $\unfold(t)=\sn(t)\share*{\vv*x_j}{y_j}_{j\leq m}$, to characterise the effects of duplication on the free variables $y_j$ of a term, let $[\sh(t):1,\dotsc,n]$ denote the sharings $\share*{\vv*x_j^{\;i}}{y_j}_{j\leq m,i\leq n}$, abbreviated $[\sh (t)]$ where possible.
 %
-When there is no ambiguity, we will use the notation $[\sh (t)]$ in place of $[\sh (t):1,\dots,n]$.
+To characterise the effects of duplication on the free variables of a term $t$, let $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{\vv*y_1,\dotsc,\vv*y_k\}$, and define the \emph{renamings} of an $n$-fold duplication of $t$ by $[\sh (t):1,\dots,n] = \share*{\vv*y_i^{\;1},\dots,\vv*y_i^{\;n}}{y_i}_{i\leq k}$ (abbreviated $[\sh(t)]$ where possible).
 %
-The two following lemmas then show key decomposition properties of the computational content of sharings and distributors.
+The unfolded body and the renamings give the following key decomposition properties of the computational content of closures.
+%
+%
+%
+%Next, for any term $t$, with $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{y_{1,1},\dots,y_{k,m_k}\}$, we define
+%$[\sh (t):1,\dots,n] =
+%\share*{y_{1,1}^1,\dots,y_{1,m_1}^n}{y_1}\dots
+%\share*{y_{k,1}^1,\dots,y_{k,m_k}^n}{y_k}$.
+%%
+%When there is no ambiguity, we will use the notation $[\sh (t)]$ in place of $[\sh (t):1,\dots,n]$.
+%
+%The two following lemmas then show key decomposition properties of the computational content of sharings and distributors.
 
 
 \begin{ALlemma}
@@ -631,7 +651,7 @@ A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\G
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
 % and $D_a$
-using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalising atomic lambda trems proved in the next section (Section~\ref{sec:ClosPropSN}).
+using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in the next section (Section~\ref{sec:ClosPropSN}).
 
 For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ in unfolding. This means in particular that we do not compute inside $\langle ... \rangle$. This
 restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
@@ -831,10 +851,10 @@ Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By Proposition~\ref{prop:IntBase}
 
 
 
-\section{Closure properties of Strongly Normalising Atomic Lambda Terms}\label{sec:ClosPropSN}
+\section{Closure properties of Strongly Normalisable Atomic Lambda Terms}\label{sec:ClosPropSN}
 
 
-In this section we prove closure properties for the set of strongly normalising atomic lambda terms
+In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
 which are used in Section 4.
 
 \begin{ALlemma}\label{lem:IntCaseLambda0}
