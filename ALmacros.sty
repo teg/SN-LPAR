@@ -101,9 +101,9 @@
 \newcommand\cosharestar[2]{[#1\mathrel\blacktriangleleft #2]}
 \newcommand\cosharenostar[2][n]{[#2\mathrel\blacktriangleleft #2_1\dotso#2_{#1}]}
 \newcommand\gstar[1][{}]{[\delta_{#1}]}
-\newcommand\Gstar[1][{}]{[\Delta_{#1}]}
+\newcommand\Gstar[1][{}]{[\oldDelta_{#1}]}
 \newcommand\gnostar[1][{}]{[\gamma_{#1}]}
-\newcommand\Gnostar[1][{}]{[\Gamma_{#1}]}
+\newcommand\Gnostar[1][{}]{[\oldGamma_{#1}]}
 \newcommand\cxtstar[1]{\{#1\}}
 \newcommand\cxtnostar[1][{}]{\{\cdot\}_{#1}}
 
@@ -117,6 +117,7 @@
 \newcommand\subs[3][n]{\sub{#2_1}{#3}\dotso\sub{#2_{#1}}{#3}}
 \newcommand\subapps[4][n]{\sub{#2_1}{(#3_1)#4_1}\dotso\sub{#2_{#1}}{(#3_{#1})#4_{#1}}}
 
+\newcommandx\subn[4][1=n,2=i]{\sub{#3}{#4}_{#2\leq #1}}
 
 % w-calculus terms
 

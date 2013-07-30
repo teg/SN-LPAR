@@ -1,4 +1,7 @@
-\documentclass{llncs} % Required by actes
+\RequirePackage{fixllncs}
+
+
+\documentclass[orivec]{llncs}
 
 
 % To get cases in equations
@@ -54,6 +57,12 @@
 %\usepackage{includeFigure}
 %\input{ALpictures}
 \usepackage{willemtools}
+
+
+\spnewtheorem{ALtheorem}{Theorem}{\bfseries}{\itshape}
+\spnewtheorem{ALdefinition}[ALtheorem]{Definition}{\bfseries}{\upshape}
+\spnewtheorem{ALproposition}[ALtheorem]{Proposition}{\bfseries}{\itshape}
+\spnewtheorem{ALlemma}[ALtheorem]{Lemma}{\bfseries}{\itshape}
 
 
 \newif\ifnonotes\nonotesfalse
@@ -128,14 +137,24 @@ The atomic lambda-calculus represents a novel category in this range, with a uni
 %
 It is a lambda-calculus, like explicit substitution calculi, with the distinguishing feature that sharing is evaluated \emph{atomically}, by duplicating individual constructors, like in sharing graphs.
 %
-Its most salient property is that the atomic lambda-calculus implements \emph{fully lazy sharing} \cite{Wadsworth-1971,Hughes-1982,Balabonski-2012}, a standard level of sharing that previously, however, could be achieved in term calculi only by external means.
+Its most salient property is that the atomic lambda-calculus implements \emph{fully lazy sharing} \cite{Wadsworth-1971,Hughes-1982,Balabonski-2012}, a degree of sharing that, while standard, had previously been achieved in lambda-calculi only by means of external transformations.
 
 
 
-The atomic lambda-calculus is a computational interpretation of an embedding of traditional natural deduction into the deep-inference formalism \emph{open deduction} \cite{Guglielmi-Gundersen-Parigot-2010}.
+The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} details how the atomic lambda-calculus and its sharing mechanisms are derived from \emph{deep inference} \cite{}, a proof methodology where inferences apply \emph{in context}, reminiscent of term rewriting.
 %
-The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} introduces the calculus, details how its sharing mechanisms, including atomic duplication, are inherited from deep inference, and establishes the technical properties of full laziness and \emph{PSN}, preservation of strong normalisation with respect to the lambda-calculus.
+Sharing in deep inference is by explicit \emph{contraction} rules, which implement atomic duplication by interacting with individual inferences.
+%
+By embedding natural deduction within the deep-inference formalism \emph{open deduction} \cite{Guglielmi-Gundersen-Parigot-2010}, duplication in traditional normalisation is broken up into atomic steps.
+%
+The atomic lambda-calculus is a direct computational interpretation of the resulting proof system.
+%
+The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} further establishes the technical properties of full laziness and \emph{PSN}, preservation of strong normalisation with respect to the lambda-calculus.
 
+
+
+The present paper will prove strong normalisation for the typed atomic lambda-calculus using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
+%
 
 
 The present paper will prove strong normalisation for the atomic lambda-calculus under an intersection-typing discipline \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}, using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
@@ -163,7 +182,8 @@ The calculus consists of a \emph{basic calculus}, a standard linear lambda-calcu
 The basic calculus is introduced first.
 
 
-\begin{definition}
+
+\begin{ALdefinition}
 The \emph{basic calculus} $\Lambda_A^-$ is given by the grammar
 %
 \[
@@ -179,7 +199,7 @@ where
 (iii) in $u\share xt$ each $x_i$ must occur in $u$ and becomes bound.
 %
 Terms of the basic calculus are called \emph{basic terms}.
-\end{definition}
+\end{ALdefinition}
 %
 %
 %
@@ -189,52 +209,47 @@ A nullary sharing $u\share*{}t$ is called a \emph{weakening}.
 
 
 
-\begin{definition}
-The \emph{atomic lambda calculus} $\Lambda_A$ extends the basic calculus with the \emph{distributor} constructor.
+\begin{ALdefinition}
+The \emph{atomic lambda-calculus} $\Lambda_a$ extends the basic calculus with the \emph{distributor} constructor.
 %
-The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, written $t^n$, for every $n>0$.
+The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n>0$, written $t^n$. 
 %
+\setMidspace{10pt}
 \[
-	s,t,u,v,w  \quad\coloneq\quad \ldots \mmid s\distr xy{t^n}
+\begin{array}{@{}r@{}c@{}l@{~}l@{}}
+		s,t,u,v,w \Coloneq & \ldots & \Mid u\distr xy{t^n}		& ^*
+\\[5pt]		t^n   \Coloneq & \tup t & \Mid t^n\share[m]xu 		& ^{**}
+\\[5pt]							   && \Mid t^n\distr[m]xy{t^m}	& ^{***}
+\end{array}
 \]
-\begin{multline*}
-	t^n \quad\coloneq\quad \tup t\mmid \\
-	t^n\share[m]xu \mmid t^n\distr[m]xy{t^m}
-\end{multline*}
 %
-where
-(i) each variable may occur at most once,
-(ii) in $s\distr xy{t^n}$, each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and
-(iii) in $t^n\share xu$ and $t^n\distr[m]xy{t^m}$, each variable $x_i$ must occur in $t^n$ and becomes bound, and $y$ must occur in $t^m$ and becomes bound.
-
-\end{definition}
+where 
+(i) each variable may occur at most once, 
+(ii) in $(^*)$ each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and 
+(iii) in $(^{**})$ and $(^{***})$ each variable $x_i$ must occur in $t^n$ and becomes bound.
+%
+\end{ALdefinition}
 
 
 
 The sharing and distributor constructors together will be referred to as \emph{closures} and abbreviated $\g$,$\g*$;
 %
-a sequence of closures will be denoted $\G$.
+a sequence of closures will be denoted $\G$, and a sequence $\g[1]\ldots\g[n]$ will be abbreviated $\g[i]_{i\leq n}$.
 %
-A term of multiplicity $n$ is of the form $\tup t\G$: an $n$-tuple of atomic lambda terms to which closures apply as though it were an atomic lambda term.
+An $n$-term is of the form $\tup t\G$: an $n$-tuple of atomic lambda terms to which closures apply as though it were an atomic lambda term.
 %
-%For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained from  $\G$ by (iteratively) removing the binders of the free variables of all $t_j$ ($i\neq j$).
-%
-For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G*}$.
-%
-%\EMPTY{
-%Alternative definition:
-%For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\share*{}{x_1}\dots\share*{}{x_m}\G$ where $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
-%}
-%
-% the smallest atomic lambda term $t_i\share*{}{x_1}\dots\share*{}{x_m}\G$, i.e.\ $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$) bound by $\G$. \\
-%
-Where possible, terms and terms of multiplicity $n$ will not be distinguished, and both denoted $t,u,v$.
+Where possible, terms and $n$-terms will not be distinguished, and both denoted $t,u,v$.
 %
 A sequence of variables $\vv x$ may be abbreviated $\vv*x$; a sharing is then denoted $\share*{\vv*x}t$.
 %
-Standard notions are: $\FV(u)$ denotes the set of free variables of $u$; and the higher-order substitution of $t$ for $x$ in $u$ is denoted $u\sub xt$, and must respect the linearity constraints on variables.
+Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub xt$ denotes the higher-order substitution of $t$ for $x$ in $u$.
 %
-%The usual notions used in lambda-calculus extend naturally to atomic lambda-calculus and we will use it freely, only specifying when there is a difference. For instance the (actual) substitution of a term $t$ for a variable $x$ in a term $u$, denoted $u\sub xt$, is defined as usual, except it must respect the linearity constraints on variables.
+A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\subn{x_i}{t_i}$.
+
+
+
+For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G*}$.
+
 
 
 Atomic lambda terms will be considered up to the congruence $(\sim)$ induced by~\eqref{eqn:explicit permutation} below;
@@ -243,6 +258,7 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 \begin{equation}\label{eqn:explicit permutation}
 	t\g\g* ~\sim~ t\g*\g
 \end{equation}
+
 
 
 
@@ -299,20 +315,20 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 	u\share*xt~\ALnotbeta~u\sub xt
 \\[5pt]
 \label{eqn:compound sharings}
-	u\share x{y_i}\share[m]yt ~\ALnotbeta~	%u\share x{y_i}\share*{y_1,\dots,y_i,\dots,y_m}{t} ~\ALnotbeta~
-	u\share*{y_1,\dots,y_{i-1},x_1,\dots,x_n,y_{i+1},\dots,y_m}{t}
+	u\share*{\vv*x}{y_i}\share yt ~\ALnotbeta~
+	u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}
 \\[5pt]
 \label{eqn:share application}
-	u\share x{(v)t}~\ALnotbeta~
-		u\sub{x_1}{(y_1)z_1}\ldots\sub{x_n}{(y_n)z_n}\share yv\share zt
+	u\share x{(v)t} ~\ALnotbeta~
+	u\subn{x_i}{(y_i)z_i}\share yv\share zt
 \\[5pt]
 \label{eqn:share abstraction}
 	u\share x{\lambda x.t}~\ALnotbeta~ u\distr xx{\tup y\share yt}
 \\[5pt]\notag
 	u\distr xy{\tup t\share*{\vv*z}{y}}~\ALnotbeta~
-	u\sub{x_1}{\lambda y_1.t_1\share*{\vv*z_1}{y_1}}\dotso\sub{x_n}{\lambda y_n.t_n\share*{\vv*z_n}{y_n}}
+	u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}
 \\[5pt]
-	\rule{6cm}{0pt}\mbox{where } \{\vv*z_i\} = \{\vv*z\}\cap\FV(t_i) \mbox{ for every }i\leq n
+	\rule{4cm}{0pt}\mbox{where } \{\vv*z_i\} = \{\vv*z\}\cap\FV(t_i) \mbox{ for every }i\leq n
 \label{eqn:distributor elimination}
 \end{gather}
 
@@ -341,12 +357,12 @@ The set of strongly normalisable terms is denoted $\SN$.
 Reduction in the atomic lambda-calculus commutes 1--1 with substitution, due to the linearity condition on free variables.
 
 
-\begin{lemma}
+\begin{ALlemma}
 For atomic lambda-terms $u$, $u'$, $v$ and $v'$ and variable $x \in \FV(u)$,
 %
 if $u \rewrite^1 u'$, then $u\sub xv \rewrite^1 u'\sub xv$; and
 if $v\rewrite^1 v'$, then $u\sub xv \rewrite^1 u\sub x{v'}$.
-\end{lemma}
+\end{ALlemma}
 
 % =================================================================================================
 \subsection{Basic properties of the atomic lambda-calculus}
@@ -354,9 +370,9 @@ if $v\rewrite^1 v'$, then $u\sub xv \rewrite^1 u\sub x{v'}$.
 
 We collect in this section the main basic properties we are using in the strong normalisation proof. The two main properties are (i) the strong normalisation property of the sharing reduction, and (ii) the  decomposition of the computational content of sharings and distributors.
 
-\begin{theorem}[{\cite[Theorem 11]{Gundersen-Heijltjes-Parigot-2013-LICS}}]
+\begin{ALtheorem}[{\cite[Theorem 11]{Gundersen-Heijltjes-Parigot-2013-LICS}}]
 The reduction $\ALnotbeta$ is strongly normalising and confluent.
-\end{theorem}
+\end{ALtheorem}
 
 \noindent
 The \emph{sharing normal form} of an atomic lambda-term $t$ is its normal form under $\ALnotbeta$.
@@ -373,24 +389,24 @@ variable $x$ by a fresh variable $x^i$.
 
 The following basic facts about $\sn$ are immediate.
 
-\begin{proposition}
+\begin{ALproposition}
 \[
 \begin{aligned}
 	\sn(x) = x \quads4
 	\sn(\lambda x.t) & =\lambda x.\sn(t) \quads4
 	\sn((u)v) = (\sn(u))\sn(v)
 \\[5pt]
-   \sn(u\share xt) & =\sn(u)\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}
+   \sn(u\share xt) & =\sn(u)\subn{x_i}{\sn(t)^i}
 \\[5pt]
-	\sn(u\distr xyt) &=\sn(u)\sub{x_1}{\sn(\lambda y.\pi_1(t))^1}\dots\sub{x_n}{\sn(\lambda y.\pi_n(t))^n}
+	\sn(u\distr xyt) &=\sn(u)\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}
 \end{aligned}
 \]
-\end{proposition}
+\end{ALproposition}
 
-\begin{proposition}\label{prop:sn_pi}
+\begin{ALproposition}\label{prop:sn_pi}
 For $t=\tup t\G$, $\sn(\pi_i(t))=\sn(t_i\share*{}{x_1}\dots\share*{}{x_m}\G)$ where
 $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
-\end{proposition}
+\end{ALproposition}
 
 
 Next, for any term $t$, with $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{y_{1,1},\dots,y_{k,m_k}\}$, we define
@@ -403,16 +419,17 @@ When there is no ambiguity, we will use the notation $[\sh (t)]$ in place of $[\
 The two following lemmas then show key decomposition properties of the computational content of sharings and distributors.
 
 
-\begin{lemma}
+\begin{ALlemma}
 \label{lem:unsharing}
-A term $u\share xt$ reduces to $u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh (t):1,\dots,n]$.
-\end{lemma}
+%A term $u\share xt$ reduces to $u\subn{x_i}{\sn(t)^i}[\sh (t):1,\dots,n]$.
+$u\share xt \rewrite u\subn{x_i}{\sn(t)^i}[\sh (t):1,\dots,n]$
+\end{ALlemma}
 
-\begin{lemma}
+\begin{ALlemma}
 \label{lem:undist}
-A term $u\distr xyt$ reduces to
-\\ $u\sub{x_1}{\sn(\lambda y.\pi_1(t))^1}\dots\sub{x_n}{\sn(\lambda y.\pi_n(t))^n}[\sh (\lambda y.t):1,\dots,n]$.
-\end{lemma}
+%A term $u\distr xyt$ reduces to $u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1,\dots,n]$.
+$u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1,\dots,n]$
+\end{ALlemma}
 
 
 
@@ -522,23 +539,23 @@ The type system $S_a$ of the atomic lambda-calculus is a refinement of the simpl
 The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$ and  ${S_a}$.
 
 
-\begin{theorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
+\begin{ALtheorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
 If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
-\end{theorem}
+\end{ALtheorem}
 
 \noindent
 Morever,
 %both simple types and intersection types
 types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
 
-\begin{proposition}\label{prop:types preserved}
+\begin{ALproposition}\label{prop:types preserved}
 If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
-\end{proposition}
+\end{ALproposition}
 
-%\begin{proposition}\label{prop:intersection types preserved} $\;$\\
+%\begin{ALproposition}\label{prop:intersection types preserved} $\;$\\
 %(i) If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$ \\
 %(ii) If $\Gamma\vdash_D N:A$, then $\Gamma\vdash_{D_a} \tercoden N:A$
-%\end{proposition}
+%\end{ALproposition}
 
 % \begin{proof}
 % %By induction on the typing derivation for $\Gamma\vdash N:A$.
@@ -627,7 +644,7 @@ We denote by $\overline{w[\Gamma]}$ a (possibly empty) sequence $w_1[\Gamma_1]\d
 By $(u)\overline{w[\Gamma]}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 
 
-\begin{definition}
+\begin{ALdefinition}
 The value of a formula $A$, denoted $|A|$ is defined inductively as follows:
 \[
 \begin{array}{lll}
@@ -645,49 +662,49 @@ The value is extended to conjunction of formulas by the following clauses:
 
  For $n=0$, $|\top|$ is the set of $0$-terms $\tup*{}\G$, such that for any $x$, $x\G\in\SN$.
 
-\end{definition}
+\end{ALdefinition}
 
 
 \begin{remark}
 If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
 \end{remark}
 
-\begin{lemma}\label{lem:HeadVar}
+\begin{ALlemma}\label{lem:HeadVar}
 If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
 $(x)\overline{t} \in \SN$.
-\end{lemma}
+\end{ALlemma}
 
-\begin{proposition}\label{prop:IntBase}
+\begin{ALproposition}\label{prop:IntBase}
 For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
-\end{proposition}
+\end{ALproposition}
 
-\begin{proposition}
+\begin{ALproposition}
  For any formulas $A_1,\dots,A_n$, if $t^n \in |A_1\vlan\dots\vlan A_n|$, then $t^n$ is strongly normalisable.
-\end{proposition}
+\end{ALproposition}
 
 \begin{proof}
 The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and proposition~\ref{prop:IntBase}.
 \end{proof}
 
-\begin{lemma}\label{lem:RedStab}
+\begin{ALlemma}\label{lem:RedStab}
 For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$ .
-\end{lemma}
+\end{ALlemma}
 
 \begin{proof}
  Immediate by induction on $A$.
 \end{proof}
 
-\begin{lemma}\label{lem:Red-AddSharings}
+\begin{ALlemma}\label{lem:Red-AddSharings}
 For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share xx)\overline{w} \in |B|$ .
-\end{lemma}
+\end{ALlemma}
 
-\begin{lemma}\label{lem:IntCaseLambdaSharing} $\;$ \\
+\begin{ALlemma}\label{lem:IntCaseLambdaSharing} $\;$ \\
 (i) If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
 \\
 (ii) If $(u\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, \\ then  $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
 \\
 (iii) If $(u\{\sn(\lambda y.t[\Gamma])^1/x_1,\dots,\sn(\lambda y.t[\Gamma])^n/x_n\}[\sh (\lambda y.t[\Gamma])])\overline{w} \in |B|$ and $t[\Gamma]\in\SN$, \\ then  $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]])\overline{w} \in |B|$.
-\end{lemma}
+\end{ALlemma}
 
 \begin{proof}
 The first statement follows from Lemma~\ref{lem:IntCaseLambda0}, and the full proof can be found in the Appendix.
@@ -704,9 +721,9 @@ Suppose $(u\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)])\overline{w} \in |C\vlim
 
 \end{proof}
 
-\begin{proposition}\label{prop:IntSubst}
+\begin{ALproposition}\label{prop:IntSubst}
 If $x_1:A_1,\ldots, x_n:A_n \vdash_S u:B$ and $v_1 \in |A_1|, \dots, v_n \in |A_n|$, then $u\{v_1/x_1, \dots, v_n/x_n\} \in |B|$.
-\end{proposition}
+\end{ALproposition}
 
 \begin{proof}
 
@@ -799,9 +816,9 @@ s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_
 \end{proof}
 
 
-\begin{theorem}\label{thm:SN}
+\begin{ALtheorem}\label{thm:SN}
 If $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$ then $u \in \SN$.
-\end{theorem}
+\end{ALtheorem}
 
 
 
@@ -821,9 +838,9 @@ Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}
 In this section we prove closure properties for the set of strongly normalising atomic lambda terms
 which are used in Section 4.
 
-\begin{lemma}\label{lem:IntCaseLambda0}
+\begin{ALlemma}\label{lem:IntCaseLambda0}
 If $((u\{v/x\})[\Gamma][\Gamma'])\overline{w[\Gamma]} \in \SN$, then $((((\lambda x.u)[\Gamma]) v)[\Gamma'])\overline{w[\Gamma]} \in \SN$.
-\end{lemma}
+\end{ALlemma}
 
 \begin{proof}
  Let $T = ((((\lambda x.u)[\Gamma]) v)[\Gamma'])\overline{w[\Gamma]}$ and $T' = ((u[v/x])[\Gamma][\Gamma'])\overline{w[\Gamma]}$.
@@ -842,18 +859,18 @@ To each closure $[\gamma]$, we associate its term $t(\gamma)$ and its computatio
  \item If $[\gamma] = [x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]]$ with $t^1,\dots,t^n$  fresh variants of $t$, then  $t(\gamma) = \lambda y.t[\Gamma]$  and $[\gamma]^v = u\{\sn(\lambda y.t[\Gamma])^1/x_1,\dots,\sn(\lambda y.t[\Gamma])^n/x_n\}[\sh (\lambda y.t[\Gamma])]$.
 \end{itemize}
 
-\begin{lemma}\label{lem:CompSubst}
+\begin{ALlemma}\label{lem:CompSubst}
  $[\gamma]^v \{w/x\} \rightsquigarrow [\gamma\{w/x\} ]^v$
-\end{lemma}
+\end{ALlemma}
 
 \begin{proof}
 Immediate by definition.
 \end{proof}
 
-\begin{lemma}\label{lem:IntCaseSharing0}
+\begin{ALlemma}\label{lem:IntCaseSharing0}
 For $[\Gamma] = [\gamma_1] \dots[\gamma_p]$, we denote by $[\Gamma]^*$ the sequence $[\gamma_1]^* \dots[\gamma_p]^*$, where $[\gamma_i]^*$ is either $[\gamma_i]$ or $[\gamma_i]^v$.
  If $(u[\Gamma_0]^*)\overline{w[\Gamma]^*} \in \SN$ and for each closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$,  $\term (\gamma)\in\SN$, then $(u[\Gamma])\overline{w[\Gamma]} \in \SN$.
-\end{lemma}
+\end{ALlemma}
 
 \begin{proof}
 
@@ -1037,16 +1054,16 @@ Because $Mes(U,U') < Mes(T,T')$, we have by induction hypothesis, $U\in\SN$.
 
 \section{Intersection Types}
 
-\begin{theorem}\label{thm:SND}
+\begin{ALtheorem}\label{thm:SND}
 If $x_1:A_1,\dots, x_n:A_n \vdash_D u:B$ then $u \in \SN$.
-\end{theorem}
+\end{ALtheorem}
 
 \noindent
 As a consequence of this theorem we get the preservation of the strong normalisation with respect to lambda-calculus (often called PSN property), using the well know fact that the strongly normalisable lambda-terms are typable in $D$ (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}).
 
-\begin{theorem}[PSN]
+\begin{ALtheorem}[PSN]
 If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
-\end{theorem}
+\end{ALtheorem}
 
 \begin{proof}
 If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and by Theorem~\ref{thm:SND}, $\tercoden N$ is strongly normalisable.
@@ -1140,13 +1157,13 @@ $\dots$, $u_{m,k_m}$.
 
 \end{proof}
 
-\begin{lemma}
+\begin{ALlemma}
 \label{lem:lift-sn}
 For any terms $u$ and $u'$ if $u\rewrite u'$, then $\sn(u)
 ~\rewrite^\star~ \sn(u')$. Moreover, for any terms of multiplicity
 $n$, $t$ and $t'$, and any $i\leq n$, if $t\rewrite t'$, then
 $\sn(\pi_i(t))\rewrite^\star\sn(\pi_i(t'))$.
-\end{lemma}
+\end{ALlemma}
 
 
 Proof of Lemma~\ref{lem:HeadVar}:
@@ -1179,9 +1196,9 @@ We prove by induction on $A$ that (i) $ |A| \subseteq  \SN$ and (ii) for each $x
 3) Suppose $A=C \cap D$. By definition of $|-|$, we have $u\in |A|$ iff $u\in |C|$ and $u\in |D|$, and the result follows directly by induction hypothesis.
 \end{proof}
 
-\begin{lemma}\label{lem:SN-AddSharings}
+\begin{ALlemma}\label{lem:SN-AddSharings}
 If $(u)\overline{w} \in \SN$, then $(u\share xx)\overline{w} \in \SN$.
-\end{lemma}
+\end{ALlemma}
 
 
 \begin{proof}
@@ -1331,17 +1348,17 @@ Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We
 % The treatment of contexts $\Gamma$ is chosen to allow a close correspondence with derivations in $D_a$.
 %
 %
-% \begin{definition}
+% \begin{ALdefinition}
 % The type system $D$ of intersection types for the standard lambda-calculus $\Lambda$ is given by the rules in Figure~\ref{fig:lambda intersection types}.
-% \end{definition}
+% \end{ALdefinition}
 %
 %
 % The type system characterises precisely the strongly normalisable terms.
 %
 %
-% \begin{theorem}[\cite{??}]\label{thm:lambda intersection SN}
+% \begin{ALtheorem}[\cite{??}]\label{thm:lambda intersection SN}
 % A lambda term $N\in\Lambda$ is SN if and only if $N$ is typeable in $D$.
-% \end{theorem}
+% \end{ALtheorem}
 %
 % \begin{figure}[!tp]
 % \[
@@ -1378,9 +1395,9 @@ Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We
 % \end{figure}
 %
 %
-% \begin{proposition}\label{prop:intersection types preserved}
+% \begin{ALproposition}\label{prop:intersection types preserved}
 % If $N:A$ in $D$ then $\tercoden N:A$ in $D_a$.
-% \end{proposition}
+% \end{ALproposition}
 %
 % \begin{proof}
 % %By induction on the typing derivation for $\Gamma\vdash N:A$.
@@ -1416,9 +1433,9 @@ Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We
 % \end{proof}
 %
 %
-% \begin{theorem}[PSN]
+% \begin{ALtheorem}[PSN]
 % If $N$ is SN then $\tercoden N$ is SN.
-% \end{theorem}
+% \end{ALtheorem}
 %
 % \begin{proof}
 % If $N$ is SN then by Theorem~\ref{thm:lambda intersection SN} it is typeable in $D$; then by Proposition~\ref{prop:intersection types preserved} $\tercoden N$ is typeable in $D_a$, and by Theorem~?? $\tercoden N$ is SN.
