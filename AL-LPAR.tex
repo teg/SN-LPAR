@@ -779,13 +779,8 @@ $ (u[x_1,\dots, x_n \leftarrow t])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\
 \\
 $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_m\} ] \in |A|$.
 \\
-<<<<<<< HEAD
 By induction hypothesis, we have $t' = t\{w_1/z_1,\dots,w_m/z_m\} \in|B|$. Let $\sn (t')^1, \dots, \sn (t')^n$ variants of $\sn (t')$ with fresh variables. Because $t'\in |B|$, the unfolding of $t'$ belongs also to $|B|$. It follows that $\sn (t') \in |B|$ and also $\sn (t')^1 \in |B|, \dots, \sn (t')^n \in |B|$. Therefore by induction hypothesis
-$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseLambdaSharing} that
-=======
-By induction hypothesis, we have $t' = t\{w_1/z_1,\dots,w_m/z_m\} \in|B|$. Let $\sn (t')^1, \dots, \sn (t')^n$ variants of $\sn (t')$ with fresh variables. Because $t'\in |B|$, the sharing normal form of $t'$ belongs also to $|B|$. It follows that $\sn (t') \in |B|$ and also $\sn (t')^1 \in |B|, \dots, \sn (t')^n \in |B|$. Therefore by induction hypothesis
 $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by Lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that
->>>>>>> 340c71d8ee5a3d3a46368721e6f117796eb330cd
 \\
 $ u\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t'] \in |A|$, i.e.
 \\
@@ -805,17 +800,10 @@ $ (s[x_1,\dots, x_n \twoheadleftarrow \lambda y.u])\{v_1/y_1,\dots,v_k/y_k,w_1/z
 \\
 $ s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|$.
 \\
-<<<<<<< HEAD
 The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in unfolding. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$.
-By lemma~\ref{lem:IntCaseLambdaSharing}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
-Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the unfolding of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
-$ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by lemma~\ref{lem:Red-AddSharings},
-=======
-The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in sharing normal form. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$.
 By Lemma~\ref{lem:IntCaseLambdaSharing}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
-Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by Lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
+Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the unfolding of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
 $ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by Lemma~\ref{lem:Red-AddSharings},
->>>>>>> 340c71d8ee5a3d3a46368721e6f117796eb330cd
 \[
 s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\}[\sh (\lambda y.t')] \in |C|\;.
 \]
