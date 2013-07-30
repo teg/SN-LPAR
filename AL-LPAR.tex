@@ -632,7 +632,7 @@ A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\G
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
 % and $D_a$
-using Tait's reducibility method. The proof of the main proposition (proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalising atomic lambda trems proved in the next section (section~\ref{sec:ClosPropSN}).
+using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalising atomic lambda trems proved in the next section (Section~\ref{sec:ClosPropSN}).
 
 For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ in sharing normal form. This means in particular that we do not compute inside $\langle ... \rangle$. This
 restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
@@ -683,7 +683,7 @@ For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \end{ALproposition}
 
 \begin{proof}
-The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and proposition~\ref{prop:IntBase}.
+The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and Proposition~\ref{prop:IntBase}.
 \end{proof}
 
 \begin{ALlemma}\label{lem:RedStab}
@@ -763,7 +763,7 @@ u\{v_1/x_1,\dots,v_n/x_n\}\in |A\vlim B|\;\mbox{and}\;v\{w_1/y_1,\dots,w_m/y_m\}
 \]
 Let $v_1 \in |C_1|,\dots,v_n \in |C_n|$. We have
 \[(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\} = \lambda x.t\{v_1/x_1,\dots,v_n/x_n\}\;.\]
-Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}\in |B|$ and therefore $t\{v_1/x_1,\dots,v_n/x_n\}\{ w/x\}\in |B|$. By lemma~\ref{lem:IntCaseLambdaSharing}, it follows  $(\lambda x.t\{v_1/x_1,\dots,v_n/x_n\})w \in |B|$. Hence  $(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\}\in | A\vlim B|$.
+Let $w\in |A|$. By induction hypothesis we have $t\{v_1/x_1,\dots,v_n/x_n, w/x\}\in |B|$ and therefore $t\{v_1/x_1,\dots,v_n/x_n\}\{ w/x\}\in |B|$. By Lemma~\ref{lem:IntCaseLambdaSharing}, it follows  $(\lambda x.t\{v_1/x_1,\dots,v_n/x_n\})w \in |B|$. Hence  $(\lambda x.t)\{v_1/x_1,\dots,v_n/x_n\}\in | A\vlim B|$.
 \medskip\\
 4) The last rule is
 \[
@@ -781,7 +781,7 @@ $ (u[x_1,\dots, x_n \leftarrow t])\{v_1/y_1,\dots,v_k/y_k,w_1/z_1,\dots,w_m/z_m\
 $ u \{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t\{w_1/z_1,\dots,w_m/z_m\} ] \in |A|$.
 \\
 By induction hypothesis, we have $t' = t\{w_1/z_1,\dots,w_m/z_m\} \in|B|$. Let $\sn (t')^1, \dots, \sn (t')^n$ variants of $\sn (t')$ with fresh variables. Because $t'\in |B|$, the sharing normal form of $t'$ belongs also to $|B|$. It follows that $\sn (t') \in |B|$ and also $\sn (t')^1 \in |B|, \dots, \sn (t')^n \in |B|$. Therefore by induction hypothesis
-$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by lemma~\ref{lem:IntCaseLambdaSharing} that
+$ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\} \in |A|$ and by Lemma~\ref{lem:Red-AddSharings}, $ u\{v_1/y_1,\dots,v_k/y_k\} \{\sn (t')^1/x_1,\dots, \sn (t')^n/x_n\}[\sh (t)] \in |A|$ . It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that
 \\
 $ u\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \leftarrow t'] \in |A|$, i.e.
 \\
@@ -802,13 +802,13 @@ $ (s[x_1,\dots, x_n \twoheadleftarrow \lambda y.u])\{v_1/y_1,\dots,v_k/y_k,w_1/z
 $ s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|$.
 \\
 The term  $u$ is of the form $\langle t^1,\dots, t^n \rangle [\Gamma]$, with $t^1,\dots, t^n$ fresh variant of $t$ in sharing normal form. By induction hypothesis, we have, for each $r\in |A|$, $\langle t^1,\dots, t^n \rangle [\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y\} \in|B\vlan\cdots\vlan B|$ and therefore $t[\Gamma]\{w_1/z_1,\dots,w_m/z_m, r/y \} \in|B|$.
-By lemma~\ref{lem:IntCaseLambdaSharing}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
-Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
-$ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by lemma~\ref{lem:Red-AddSharings},
+By Lemma~\ref{lem:IntCaseLambdaSharing}, it follows that, for each $r\in |A|$, $(\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \})r \in|B|$ and therefore by definition of $|-|$, $\lambda y.t[\Gamma]\{w_1/z_1,\dots,w_m/z_m \} \in|A \vlim B|$. \\
+Let  $t' = t[\Gamma]\{w_1/z_1,\dots,w_m/z_m\}$. Because $\lambda y.t'\in |A \vlim B|$, the sharing normal form of $\lambda y.t'$ belongs also to $|A \vlim B|$, by Lemma~\ref{lem:RedStab}. It follows that $\sn (\lambda y.t') \in |A \vlim B|$ and also $\sn (\lambda y.t')^1 \in |A \vlim B|, \dots, \sn (\lambda y.t')^n \in |A \vlim B|$. Therefore
+$ s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\} \in |C|$ and by Lemma~\ref{lem:Red-AddSharings},
 \[
 s  \{v_1/y_1,\dots,v_k/y_k\}  \{\sn (\lambda y.t')^1/x_1,\dots, \sn (\lambda y.t')^n/x_n\}[\sh (\lambda y.t')] \in |C|\;.
 \]
-It follows by lemma~\ref{lem:IntCaseLambdaSharing} that
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that
 \[s \{v_1/y_1,\dots,v_k/y_k\}[x_1,\dots, x_n \twoheadleftarrow \lambda y.t'] \in |C|\;,\;\mbox{i.e.}\]
 \[
 s\{v_1/y_1,\dots,v_k/y_k\} [x_1,\dots, x_n \twoheadleftarrow \lambda y.u\{w_1/z_1,\dots,w_m/z_m\} ] \in |C|\;.
@@ -824,7 +824,7 @@ If $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$ then $u \in \SN$.
 
 \begin{proof}
 
-Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By proposition~\ref{prop:IntBase}, we have $x_1\in |A_1|,\dots, x_n \in|A_n|$. Therefore by proposition~\ref{prop:IntSubst},  $u\{x_1/x_1, \dots, x_n/x_n\} \in |B|$, i.e. $u \in |B|$. Therefore by proposition~\ref{prop:IntBase}, we have $u \in \SN$.
+Suppose $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$. By Proposition~\ref{prop:IntBase}, we have $x_1\in |A_1|,\dots, x_n \in|A_n|$. Therefore by Proposition~\ref{prop:IntSubst},  $u\{x_1/x_1, \dots, x_n/x_n\} \in |B|$, i.e. $u \in |B|$. Therefore by Proposition~\ref{prop:IntBase}, we have $u \in \SN$.
 
 \end{proof}
 
@@ -884,7 +884,7 @@ We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
  \\
 If,  for each closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$,  $[\gamma]^* = [\gamma]$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $[\gamma]^* = [\gamma]$). We suppose in the following that $[\gamma]^* \neq [\gamma]$ for at least one$[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ . We can also suppose that $u$ doesn't end with a losure, because it can be integrated in the sequence $[\Gamma_0]$.
 \\
-In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ using rule (2) we conclude also as in lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $[\gamma_1]$.
+In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in Lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ using rule (2) we conclude also as in Lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $[\gamma_1]$.
 %
 %
 \medskip
@@ -897,7 +897,7 @@ $
 \begin{array}{llll}
  T' & = & (u[\gamma_1]^* \dots[\gamma_p]^*)\overline{w[\Gamma]^*} & \\
     & \rightsquigarrow^1 & (u^S[\gamma_1]^{*S} \dots [\gamma'_i]\dots [\gamma_p]^*)\overline{w[\Gamma]^*} & \\
-    & \rightsquigarrow & (u^S[\gamma_1]^{S*} \dots [\gamma'_i]\dots [\gamma_p]^*)\overline{w[\Gamma]^*} & \hspace{0.5cm} \mbox{by lemma~\ref{lem:CompSubst}  }\\
+    & \rightsquigarrow & (u^S[\gamma_1]^{S*} \dots [\gamma'_i]\dots [\gamma_p]^*)\overline{w[\Gamma]^*} & \hspace{0.5cm} \mbox{by Lemma~\ref{lem:CompSubst}  }\\
     & = & U' &
 \end{array}
 $
@@ -914,7 +914,7 @@ Therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U,U') < Mes(T,T')$, we have
 \\
 In this case $T' = (u\{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)][\Gamma'_0]^*)\overline{w[\Gamma]^*}$.
 \\
-Consider $U' = (u\{\sn(t')^1/x_1,\dots,\sn(t')^n/x_n\}[\sh (t')][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. We have $\sh (t') = \sh (t)$ and by lemma~\ref{lem:lift-sn}, $\sn (t) \rightsquigarrow \sn (t')$. Therefore $T'\rightsquigarrow U'$ and $U'\in\SN$. We have also $S(U')\leq S(T')$ and $S(t')<S(t)$. It follows that  $m_1(U) < m_1(T)$ and  $Mes(U,U') < Mes(T,T')$ and we have by induction hypothesis, $U\in\SN$.
+Consider $U' = (u\{\sn(t')^1/x_1,\dots,\sn(t')^n/x_n\}[\sh (t')][\Gamma'_0]^*)\overline{w[\Gamma]^*}$. We have $\sh (t') = \sh (t)$ and by Lemma~\ref{lem:lift-sn}, $\sn (t) \rightsquigarrow \sn (t')$. Therefore $T'\rightsquigarrow U'$ and $U'\in\SN$. We have also $S(U')\leq S(T')$ and $S(t')<S(t)$. It follows that  $m_1(U) < m_1(T)$ and  $Mes(U,U') < Mes(T,T')$ and we have by induction hypothesis, $U\in\SN$.
 %
 \smallskip
 \\
@@ -1120,7 +1120,7 @@ $u\share xt$ reduces as follows: $u\share xt$
 Proof of Lemma~\ref{lem:undist}:
 
 \begin{proof}
-Analogous to the proof of lemma~\ref{lem:unsharing}.
+Analogous to the proof of Lemma~\ref{lem:unsharing}.
 \end{proof}
 
 Proof of Lemma~\ref{lem:lift-sn}:
@@ -1185,7 +1185,7 @@ Proof of Lemma~\ref{prop:IntSubst}
 \begin{proof}
 We prove by induction on $A$ that (i) $ |A| \subseteq  \SN$ and (ii) for each $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, $(x)\overline{t} \in |A|$.
 \\
-1) If $A=X$, then $|A| =\SN$ and the result follows from lemma~\ref{lem:HeadVar}.
+1) If $A=X$, then $|A| =\SN$ and the result follows from Lemma~\ref{lem:HeadVar}.
 \\
 2) Suppose $A=C\vlim D$.
 \\
@@ -1246,7 +1246,7 @@ Proof of Lemma~\ref{lem:Red-AddSharings}
 \begin{proof}
  We proceed by induction on $B$.
 \\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by lemma~\ref{lem:SN-AddSharings}.
+1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:SN-AddSharings}.
 \\
 2) $B= C\vlim D$.
 Suppose $(u)\overline{w} \in |C\vlim D|$. Let $t\in|C|$. We prove that  $((u\share xx)\overline{w})t \in |D|$. Because $(u)\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u)\overline{w})t \in |D|$ and by induction hypothesis, $((u\share xx)\overline{w})t \in |D|$. It follows that $(u\share xx)\overline{w} \in |C\vlim D|$.
@@ -1327,7 +1327,7 @@ Proof of Lemma~\ref{lem:IntCaseLambdaSharing}:
 \begin{proof}
  We proceed by induction on $B$.
 \\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by lemma~\ref{lem:IntCaseLambda0}.
+1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseLambda0}.
 \\
 2) $B= C\vlim D$.
 Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We prove that  $(((\lambda x.u) v)\overline{w})t \in |D|$. Because $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u\{v/x\})\overline{w})t \in |D|$ and by induction hypothesis, $(((\lambda x.u) v)\overline{w})t \in |D|$. It follows that $((\lambda x.u) v)\overline{w} \in |C\vlim D|$.
@@ -1336,8 +1336,8 @@ Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We
 %The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
 \end{proof}
 %
-% \Comment{For proving proposition~\ref{prop:IntSubst} (case 3), we need the statement of lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
-%   Then for proving case 1 ($|B| = \SN$), we need the more complicated statement of lemma~\ref{lem:IntCaseLambda0}: the proof by induction of lemma~\ref{lem:IntCaseLambda0} introduces the case of sharing (case xx of the proof of lemma~\ref{lem:IntCaseLambda0})  }
+% \Comment{For proving Proposition~\ref{prop:IntSubst} (case 3), we need the statement of Lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of Lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
+%   Then for proving case 1 ($|B| = \SN$), we need the more complicated statement of Lemma~\ref{lem:IntCaseLambda0}: the proof by induction of Lemma~\ref{lem:IntCaseLambda0} introduces the case of sharing (case xx of the proof of Lemma~\ref{lem:IntCaseLambda0})  }
 % %=================================
 %
 % \subsection{Preservation of strong normalisation}
