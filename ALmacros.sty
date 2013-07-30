@@ -27,17 +27,22 @@
 
 % generic macros
 
+\newcommand*{\coloneq}{
+ \mathrel{%
+  \rlap{\raisebox{0.3ex}{$\m@th\cdot$}}%
+        \raisebox{-0.3ex}{$\m@th\cdot$}%
+ }=}
+
 \renewcommand\iff{\Leftrightarrow}
-\newcommand\coloneq{\mathrel{{:}{=}}}
+%\newcommand\coloneq{\mathrel{{:}{=}}}
 \newcommand\mmid{\quad\mid\quad}
 \newcommand\occurscount[2]{|#2|_{#1}}
 
 	% zero-width \subscript*
 
-\makeatletter
 \newcommand\subscript{\@ifstar\zerowidthsubscript_}
 \newcommand\zerowidthsubscript[1]{_{\makebox[0pt][l]{$\scriptstyle{#1}$}}}
-\makeatother
+
 
 	% grammar commands with variable width
 	%	\setMidspace [dimen] {dimen}
@@ -73,14 +78,11 @@
 
 %\newcommand{\CV}{{\mathop{\mathsf{CV}}}}
 %
-%\makeatletter
 %\renewcommand\Var{\@ifstar{\mathop{\mathsf{Var}\ensuremath{^+}}}{\mathop{\mathsf{Var}}}}
-%\makeatother
-
+%
 
 % atomic terms (and contexts)
 
-\makeatletter
 \newcommand\vv{\@ifstar\vec\vvnostar}
 \newcommand\tup{\@ifstar\tupstar\tupnostar}
 \newcommand\share{\@ifstar\sharestar\sharenostar}
@@ -89,7 +91,6 @@
 \newcommand\g{\@ifstar\gstar\gnostar}
 \newcommand\G{\@ifstar\Gstar\Gnostar}
 \newcommand\cxt{\@ifstar\cxtstar\cxtnostar}
-\makeatother
 
 \newcommand\vvnostar[2][n]{#2_1,\ldots,#2_{#1}}
 \newcommand\tupstar[1]{\langle #1\rangle}
@@ -125,30 +126,47 @@
 \newcommand\Rnil{\bullet}
 
 
-% rewriting arrows  ~>>  and  ~>>|
+% rewriting arrows  ~>| and ~>>  and  ~>>|
 
+
+\newcommand\squigarrowend{\mathbin{
+ \m@th\rightsquigarrow\mapsfromchar%
+}}
 \newcommand\squigarrowtrans{\mathbin{
- \makebox[0pt][l]{\hspace{1.1pt}$\rightsquigarrow$}
+ \makebox[0pt][l]{\kern1.1pt$\m@th\rightsquigarrow$}
  \makebox[0pt][l]{\color{white}\rule{8pt}{5pt}}
- {\rightsquigarrow\hspace{1.1pt}}
+ {\m@th\rightsquigarrow\kern1.1pt}
 }}
 \newcommand\squigarrowtransend{\mathbin{
- \makebox[0pt][l]{\hspace{1.1pt}$\rightsquigarrow\mapsfromchar$}
+ \makebox[0pt][l]{\kern1.1pt$\m@th\rightsquigarrow\mapsfromchar$}
  \makebox[0pt][l]{\color{white}\rule{8pt}{5pt}}
- {\rightsquigarrow\hspace{1.1pt}}
+ {\m@th\rightsquigarrow\kern1.1pt}
 }}
 
 
 % rewrite relations
 
 
+\def\@rw#1{%
+ \SWITCH{#1}
+  {~}	{\sim}
+  {~>}	{\squigarrow}
+  {~>>} {\squigarrowtrans}
+  {~>|} {\squigarrowend}
+  {~>>|}{\squigarrowtransend}
+ \DEFAULT{\errmessage{invalid argument to @rw}}
+}
 \newcommand\rewrite[1][{}]{
  \SWITCH{#1}
  {}  {\rightsquigarrow}
- {+} {\rightsquigarrow^+}
  {*} {\rightsquigarrow^\star}
+ {+} {\rightsquigarrow^+}
+ {|} {\squigarrowend}
+ {>|} {\squigarrowtransend}
+ {*|} {\squigarrowtransend}
  \DEFAULT{\rightsquigarrow^{#1}}
 }
+
 
 \newcommand\ALbeta[1][{}]{\rewrite[#1]_\beta}
 \newcommand\ALnotbeta[1][{}]{\rewrite[#1]_S}
@@ -186,9 +204,7 @@
 
 	% \displayrewrite * [relation] {left} {right}
 	
-\makeatletter
 \newcommand\displayrewrite{\@ifstar\displayrewritestar\displayrewritenostar}
-\makeatother
 
 \newcommand\displayrewritestar[3][{}]{#2\rightsquigarrow_{#1}#3}
 \newcommand\displayrewritenostar[3][{}]{
