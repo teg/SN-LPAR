@@ -628,11 +628,11 @@ A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\G
 
 
 % =================================================================================================
-\section{Strong normalisation proof}\label{sec:SNproof}
+\section{Proof of Strong Normalisation}\label{sec:SNproof}
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
 % and $D_a$
-using Tait's reducibility method. The proof of the main proposition (proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets proved in the next section (section~\ref{sec:ClosPropRedSets}).
+using Tait's reducibility method. The proof of the main proposition (proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalising atomic lambda trems proved in the next section (section~\ref{sec:ClosPropSN}).
 
 For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ in sharing normal form. This means in particular that we do not compute inside $\langle ... \rangle$. This
 restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
