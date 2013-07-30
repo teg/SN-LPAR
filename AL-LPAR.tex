@@ -671,14 +671,16 @@ The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
 \\
 %|A\cap B| & = & |A| \cap |B|
 %\\
-|A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
+|A\vlim B| & = & \mbox{\{$u\in\Lambda_a$ \;|\; for each term $v\in |A|$, $(u)v \in |B|$ \}}
+\\
 \end{array}
 \]
-Values are extended to conjunctions of formulas by the following clauses:
 
- For $n>0$, $|A_1\vlan\dots\vlan A_n|$ is the set of n-terms $t^n$ such that for each $i \leq n$, $\pi_i(t^n) \in |A_i|$;
-
- For $n=0$, $|\top|$ is the set of $0$-terms $\tup*{}\G$, such that for any $x$, $x\G\in\SN$.
+The value of a conjunctive formula is defined as
+\[
+|A_1\vlan\dots\vlan A_n| \; = \; \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$; and for any $x$, $x\G\in\SN$ \} ,}
+\]
+where $\G$ is the sequence of all the weakenings in $t^n$.
 
 Values of formulas are called {\em reducibility sets}. \\
 \end{ALdefinition}
@@ -698,7 +700,7 @@ For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \end{ALproposition}
 
 \begin{ALproposition}
- For any formulas $A_1,\dots,A_n$, if $t^n \in |A_1\vlan\dots\vlan A_n|$, then $t^n$ is strongly normalisable.
+ For any formulas $A_1,\dots,A_n$, $|A_1\vlan\dots\vlan A_n| \subseteq \SN$.
 \end{ALproposition}
 
 \begin{proof}
