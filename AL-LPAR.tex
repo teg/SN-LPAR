@@ -1029,7 +1029,11 @@ Because $Mes(U,U') < Mes(T,T')$, we have by induction hypothesis, $U\in\SN$.
 
 % =================================================================================================
 
-\section{Intersection Types}
+\section{Strong Normalisation for Intersection Types}
+
+In this section we outline how the above result can be extended from simple types to intersection types. The typing system $D_a$ is obtained from $S_a$ by adding the typing rules:
+
+Moreover, the notion of reducibility set is extended to intersection types by $|A\cap B|=|A|\cap|B|$. The following theorem can then be proven by generalising the results in Section~\ref{sec:SNproof}.
 
 \begin{ALtheorem}\label{thm:SND}
 If $x_1:A_1,\dots, x_n:A_n \vdash_D u:B$ then $u \in \SN$.
