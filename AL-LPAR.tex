@@ -678,8 +678,8 @@ For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share*{\vv*x}y)\overl
 \item If $(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, 
 	\\ then $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
 %
-\item If $(u\subn{x_i}{\sn(\lambda y.t\G)^i}[\sh (\lambda y.t\G)])\overline{w} \in |B|$ and $t[\Gamma]\in\SN$,
-	\\ then $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]])\overline{w} \in |B|$.
+\item If $(u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t)])\overline{w} \in |B|$ and $t\in\SN$,
+	\\ then $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y.t])\overline{w} \in |B|$.
 %
 \end{compactenum}
 %
@@ -814,23 +814,23 @@ We have to prove that the following term is in $|C|$:
 	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
 \]
 %
-The $n$-term $u^n$ is of the form $\tup*{t^1,\dotsc, t^n}\G$ with each $t^i$ a fresh variant of an unfolded term $t$.
+% The $n$-term $u^n$ is of the form $\tup*{t^1,\dotsc, t^n}\G$ with each $t^i$ a fresh variant of an unfolded term $t$.
 %
-Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
+% Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
 %
 By the induction hypothesis, for each $r\in |A|$
 \[
-	\tup*{t^1,\dotsc,t^n}\G\subn[m][j]{z_j}{w_j} \in|B\vlan\cdots\vlan B|
+	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B\vlan\cdots\vlan B|
 \]
-and therefore $t'\sub yr\in|B|$.
+and therefore $\pi_i(u'\sub yr)=\pi_i(u')\sub yr\in|B|$.
 %
-Then $(\lambda y.t')r \in|B|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.t'\in|A\vlim B|$.
+Then $(\lambda y.\pi_i(u'))r \in|B|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.\pi_i(u')\in|A\vlim B|$.
 %
-By lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.t'$ belongs to $|A \vlim B|$, as does any variant $\sn(\lambda y.t')^i$.
+By Lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.\pi_i(u')$ belongs to $|A \vlim B|$, as does any variant $\sn(\lambda y.\pi_i(u'))^i$.
 %
-By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.t')^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
+By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
 \[
-	s'\subn{x_i}{\sn(\lambda y.t')^i}[\sh(\lambda y.t')]\in|C|\;.
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
 \]
 It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
 %
