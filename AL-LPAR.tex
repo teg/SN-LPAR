@@ -35,6 +35,9 @@
 % Improves the text layout
 \usepackage{microtype}
 
+% For in-line lists
+\usepackage{paralist}
+
 % To typeset derivations
 \usepackage[lutzsyntax,pdftex]{virginialake}
 
@@ -172,70 +175,58 @@ For compactness the proof will be carried out for a discipline of simple types, 
 \label{sec:atomic-lambda-calculus}
 
 
+
 The \emph{atomic lambda-calculus} introduced in \cite{Gundersen-Heijltjes-Parigot-2013-LICS} is a refined lambda-calculus, in which abstraction is split into a linear abstraction and a sharing operation.
 %
 Duplication and deletion proceeds locally through the evaluation of sharings.
 %
-The calculus consists of a \emph{basic calculus}, a standard linear lambda-calculus with a sharing construct, extended by a further construction called the \emph{distributor}.
-%
-The basic calculus is introduced first.
+The calculus consists of a standard linear lambda-calculus with a sharing construct, extended by a further construction called the \emph{distributor}.
 
 
 
 \begin{ALdefinition}
-The \emph{basic calculus} $\Lambda_A^-$ is given by the grammar
 %
-\[
-s,t,u,v,w  \quad\coloneq\quad x
-	\mmid	\lambda x.t
-	\mmid	(t)u
-	\mmid	t\share xu
-\]
-%
-where
-(i) each variable may occur at most once,
-(ii) in $\lambda x.t$ the variable $x$ must occur in $t$ and becomes bound, and
-(iii) in $u\share xt$ each $x_i$ must occur in $u$ and becomes bound.
-%
-Terms of the basic calculus are called \emph{basic terms}.
-\end{ALdefinition}
-%
-%
-%
-The four constructors are called \emph{variable}, \emph{abstraction}, \emph{application}, and \emph{sharing} respectively.
-%
-A nullary sharing $u\share*{}t$ is called a \emph{weakening}.
-
-
-
-\begin{ALdefinition}
-The \emph{atomic lambda-calculus} $\Lambda_a$ extends the basic calculus with the \emph{distributor} constructor.
-%
-The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n\geq0$, written $t^n$. 
+The \emph{atomic lambda-calculus} $\Lambda_A$ is defined by the grammars
 %
 \setMidspace{10pt}
 \[
-\begin{array}{@{}r@{}c@{}l@{~}l@{}}
-		s,t,u,v,w \Coloneq & \ldots & \Mid u\distr xy{t^n}		& ^*
-\\[5pt]		t^n   \Coloneq & \tup t & \Mid t^n\share[m]xu 		& ^{**}
-\\[5pt]							   && \Mid t^n\distr[m]xy{t^m}	& ^{***}
+\begin{array}{r@{\Coloneq}c@{\Mid}l}
+	s,t,u,v,w
+	&	x \Mid \lambda x.t
+	&	(t)u \Mid t\g
+\\[5pt]
+	\g,\g*  &  \share xt  &  \distr xy{t^n}
+\\[5pt]
+	t^n  &  \tup t  &  t^n\g
 \end{array}
 \]
+where
 %
-where 
-(i) each variable may occur at most once, 
-(ii) in $(^*)$ each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and 
-(iii) in $(^{**})$ and $(^{***})$ each variable $x_i$ must occur in $t^n$ and becomes bound.
+\begin{inparaenum}[(i)]
+\item $n\geq0$, 
+%
+\item each variable may occur at most once,
+%
+\item in $\lambda x.t$, $x$ must occur in $t$ and becomes bound,
+%
+\item in $\lambda y.t^n$, $y$ must occur in $t^n$ and becomes bound, and
+%
+\item in $u\share xt$ and $u\distr xy{t^n}$, each $x_i$ must occur in $u$ and becomes bound, and likewise with $t^m$ for $u$.
+%
+\end{inparaenum}
 %
 \end{ALdefinition}
 
-
-
-The sharing and distributor constructors together will be referred to as \emph{closures} and abbreviated $\g$,$\g*$;
+%\noindent
+Terms $t$ are \emph{atomic lambda-terms}.
 %
-a sequence of closures $\g[1]\ldots\g[n]$ will be denoted $\g[i]_{i\leq n}$ or $\G$.
+The \emph{closures} $\g$ are called respectively \emph{sharing} and \emph{distributor}, and a nullary sharing $\share*{}t$ is a \emph{weakening}.
 %
-An $n$-term is of the form $\tup t\G$: an $n$-tuple of atomic lambda terms to which closures apply as though it were an atomic lambda term.
+Atomic lambda-terms not containing a distributor are \emph{basic} terms.
+%
+A sequence of closures $\g[1]\ldots\g[n]$ will be denoted $\g[i]_{i\leq n}$ or $\G$.
+%
+The $t^n$ are \emph{terms of multiplicity $n$} or \emph{$n$-terms}, and are of the form $\tup t\G$.
 %
 Where possible, terms and $n$-terms will not be distinguished, and both denoted $t,u,v$.
 %
@@ -245,6 +236,76 @@ Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub x
 %
 A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\subn{x_i}{t_i}$.
 
+
+
+%The basic calculus is introduced first.
+
+%
+%
+%\begin{ALdefinition}
+%The \emph{basic calculus} $\Lambda_A^-$ is given by the grammar
+%%
+%\setMidspace{10pt}
+%\[
+%s,t,u,v,w  \Coloneq x
+%	\Mid	\lambda x.t
+%	\Mid	(t)u
+%	\Mid	t\share xu
+%\]
+%%
+%where
+%(i) each variable may occur at most once,
+%(ii) in $\lambda x.t$ the variable $x$ must occur in $t$ and becomes bound, and
+%(iii) in $t\share xu$ each $x_i$ must occur in $t$ and becomes bound.
+%%
+%Terms of the basic calculus are called \emph{basic terms}.
+%\end{ALdefinition}
+%%
+%%
+%%
+%The four constructors are called \emph{variable}, \emph{abstraction}, \emph{application}, and \emph{sharing} respectively.
+%%
+%A nullary sharing $t\share*{}u$ is called a \emph{weakening}.
+%
+%
+%
+%\begin{ALdefinition}
+%The \emph{atomic lambda-calculus} $\Lambda_a$ extends the basic calculus with the \emph{distributor} constructor.
+%%
+%The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n\geq0$, written $t^n$. 
+%%
+%\setMidspace{10pt}
+%\[
+%\begin{array}{@{}r@{}c@{}l@{~}l@{}}
+%		s,t,u,v,w \Coloneq & \ldots & \Mid u\distr xy{t^n}		& ^*
+%\\[5pt]		t^n   \Coloneq & \tup t & \Mid t^n\share[m]xu 		& ^{**}
+%\\[5pt]							   && \Mid t^n\distr[m]xy{t^m}	& ^{***}
+%\end{array}
+%\]
+%%
+%where 
+%(i) each variable may occur at most once, 
+%(ii) in $(^*)$ each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and 
+%(iii) in $(^{**})$ and $(^{***})$ each variable $x_i$ must occur in $t^n$ and becomes bound.
+%%
+%\end{ALdefinition}
+%
+%
+%
+%The sharing and distributor constructors together will be referred to as \emph{closures} and abbreviated $\g$,$\g*$;
+%%
+%a sequence of closures $\g[1]\ldots\g[n]$ will be denoted $\g[i]_{i\leq n}$ or $\G$.
+%%
+%An $n$-term is of the form $\tup t\G$: an $n$-tuple of atomic lambda terms to which closures apply as though it were an atomic lambda term.
+%%
+%Where possible, terms and $n$-terms will not be distinguished, and both denoted $t,u,v$.
+%%
+%A sequence of variables $\vv x$ may be abbreviated $\vv*x$; a sharing is then denoted $\share*{\vv*x}t$.
+%%
+%Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub xt$ denotes the substitution of $t$ for $x$ in $u$.
+%%
+%A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\subn{x_i}{t_i}$.
+%
 
 
 For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G*}$.
@@ -261,9 +322,7 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 
 
 
-The function $\tercoden-\,:\,\Lambda\to\Lambda_A$ interprets standard lambda-terms as atomic lambda terms.
-%
-And the function $\terden-\,:\,\Lambda_A\to\Lambda$ gives a denotation to atomic lambda-terms in terms of standard lambda-terms \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
+The function $\tercoden-\,:\,\Lambda\to\Lambda_A$ interprets standard lambda-terms as atomic lambda terms; the function $\terden-\,:\,\Lambda_A\to\Lambda$ gives a denotation to atomic lambda-terms in terms of standard lambda-terms \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
 
 
 % =================================================================================================
@@ -555,7 +614,7 @@ Antecedents $x_1: A_1,\dots, x_n : A_n$ of judgements are treated as sets and wi
 The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rule $\typevar$, $\typeabs$ and $\typeapp$ are the rules of $S$ restricted by the linearity condition. Two rules for sharing and distributor are added, which are some kind of cuts, the one for sharing being natural and the one for distributor a bit more involved.
 
 
-The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$ and  ${S_a}$.
+The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$.
 
 
 \begin{ALtheorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]

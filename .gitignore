@@ -7,3 +7,13 @@ AL-LPAR.pdf
 AL-LPAR.synctex.gz
 
 .DS_Store
+
+scratch.tex
+
+scratch.pdf
+
+scratch.synctex.gz
+
+scratch.log
+
+*.aux
