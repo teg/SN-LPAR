@@ -518,22 +518,19 @@ $u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1
 
 The simply typed atomic lambda-calculus $S_a$ is defined by the following rules (see \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}).
 %
-%The atomic lambda-calculus with intersection types $D_a$ extends $S_a$ by the rules indicated below.
+Terms, including variables, are typed $t:A$ with $A$ a \emph{minimal} formula, one built over $\vlim$, while $n$-terms are typed by \emph{conjunctive} formulae, $t^n:A_1\vlan\cdots\vlan A_n$.
 %
-As for the pure atomic lambda-calculus we derive two sorts of expressions:
-\begin{itemize}
-
- \item Judgments for atomic lambda-terms $x_1: A_1,\dots, x_n : A_n \vdash t : B$ where $t$ is a term, $A_1, \dots, A_n, B$ are formulas built with $\vlim$, and $\vv x$ are the free variables of $t$;
-
- \item Judgments for terms of multiplicity $k>0$, $x_1: A_1,\dots, x_n : A_n \vdash t^k : B_1 \vlan\cdots\vlan B_k$, where $t$ is a term of multiplicity $k$, $A_1, \dots, A_n, B_1, \dots, B_k$ are formulas built with $\vlim$, and $\vv x$ are the free variables of $t^k$.
-
-\end{itemize}
-Antecedents $x_1: A_1,\dots, x_n : A_n$ of judgements are treated as sets and will be abbreviated $\Gamma$ or $\Delta$. In addition $x_1\ldots x_n : B$ abbreviates $x_1\colon B,\ldots,x_n : B$.
+The notation $t^*$ indicates either a term or an $n$-term, and $A^*$ either a minimal or conjunctive formula.
 %
+\emph{Judgments} are of the form $x_1:A_1,\dotsc,x_n:A_n\vdash t^*:B^*$, where $\vv x$ are the free variables of $t^*$. 
+%
+The antecedent $x_1\colon A_1,\ldots,x_n : A_n$ of a judgement will be treated as a set, and abbreviated $\Gamma$, $\Delta$, or $(x_i\colon A_i)_{i\leq n}$.
+
+
 
 \bigskip
 \noindent
-{\bf Typing rules of $S_a$ for atomic lambda-terms:}
+{\bf Typing rules of $S_a$:}
 \[
 \begin{array}{@{}c@{}}
 	\begin{array}{c@{\quads4}c}
@@ -549,72 +546,40 @@ Antecedents $x_1: A_1,\dots, x_n : A_n$ of judgements are treated as sets and wi
 	\\ \\
 	  \vlinf{}{\typevar}{x:A\vdash x:A}{}
 	&
-	  \vliiinf{}{\typeshare}
-	   {\Gamma, \Delta \vdash u\share xt : A}
-	   {\Gamma, x_1\dots x_n : B \vdash u : A}
-	   {}
-	   {\Delta \vdash t : B}
+	  \vliiinf{}{\typetuple _n}
+	   {\Gamma_1, \dots, \Gamma_n \vdash \langle t_1,\ldots,t_n\rangle : A_1\vlan\cdots\vlan A_n}
+	   {\Gamma_1 \vdash t_1 : A_1}
+	   {\quad\cdots\quad}
+	   {\Gamma_n \vdash t_n : A_n}
 	\end{array}
-\\ \\
+\\ \\[5pt]
+  \vliiinf{}{\typeshare}
+   {\Gamma, \Delta \vdash t^*\share xu : A^*}
+   {\Gamma, (x_i : B)_{i\leq n} \vdash t^* : A^*}
+   {}
+   {\Delta \vdash u : B}
+\\ \\[5pt]
   \vliiinf{}{\typedist}
-   {\Gamma, \Delta \vdash s\distr xy{t^n} : C}
-   {\Gamma, x_1 : A \vlim B_1, \dots, x_n : A \vlim B_n \vdash s : C}
-   {}
-   {\Delta, y : A \vdash t^n : B_1\vlan\cdots\vlan B_n}
-%\\ \\ \\
-\end{array}
-\]
-
-\bigskip
-\noindent
-{\bf  Typing rules of $S_a$ for terms of multiplicity {\boldmath $k$}:}
-\[
-\begin{array}{@{}c@{}}
-  \vliiinf{}{\typetuple _k}
-   {\Gamma_1, \dots, \Gamma_k \vdash \langle t_1,\ldots,t_k\rangle : A_1\vlan\cdots\vlan A_k}
-   {\Gamma_1 \vdash t_1 : A_1}
-   {\quad\cdots\quad}
-   {\Gamma_k \vdash t_k : A_k}
-\\ \\
-  \vliiinf{}{\typeshare _k}
-   {\Gamma, \Delta \vdash u^k\share xt : A_1\vlan\cdots\vlan A_k}
-   {\Gamma, x_1\dots x_n : B \vdash u^k : A_1\vlan\cdots\vlan A_k}
-   {}
-   {\Delta \vdash t : B}
-\\ \\
-  \vliiinf{}{\typedist _k}
-   {\Gamma, \Delta \vdash u^k\distr xy{t^n} : C_1\vlan\cdots\vlan C_k}
-   {\Gamma, x_1 : A \vlim B_1, \dots, x_n : A \vlim B_n \vdash u^k : C_1\vlan\cdots\vlan C_k}
+   {\Gamma, \Delta \vdash s^*\distr xy{t^n} : C^*}
+   {\Gamma, (x_i : A \vlim B_i)_{i\leq n} \vdash s^* : C^*}
    {}
    {\Delta, y : A \vdash t^n : B_1\vlan\cdots\vlan B_n}
 \end{array}
 \]
 
-%\bigskip
-%\noindent
-%{\bf  Typing rules of $D_a$}
-%\[
-%\begin{array}{c}
-%	  \vliiinf{}{\cap_i}
-%	   {\Gamma\vdash u : A\cap B}
-%	   {\Gamma \vdash u : A}
-%	   {}
-%	   {\Gamma \vdash u : B}
-%\quads4
-%         \vlinf{}{\cap_{e1}}
-%	   {\Gamma \vdash u : A}
-%	   {\Gamma \vdash  u : A\cap B}
-%\quads2
-%         \vlinf{}{\cap_{e2}}
-%	   {\Gamma \vdash   u : B}
-%	   {\Gamma \vdash u : A\cap B}
-%\end{array}
-%\]
 
-The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rule $\typevar$, $\typeabs$ and $\typeapp$ are the rules of $S$ restricted by the linearity condition. Two rules for sharing and distributor are added, which are some kind of cuts, the one for sharing being natural and the one for distributor a bit more involved.
+The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rules $\typevar$, $\typeabs$, and $\typeapp$ are the rules of $S$ restricted by the linearity condition.
+%
+The rule for sharing, $\typeshare$, is a standard cut-rule combined with contraction on the left.
+%
+Similarly, the rule for the distributor, $\typedist$, is a cut-rule, albeit a highly non-standard one.
+%
+It contracts only on $A$, the antecedent of the implications, but not on their consequent. 
+%
+This may be considered a limited amount of deepness.
 
 
-The typed atomic lambda-calculus enjoys the usual properties we are expecting from typed systems, in particular subject reduction, which holds both for ${S_a}$.
+The typed atomic lambda-calculus ${S_a}$ enjoys the usual properties of typed systems, in particular subject reduction.
 
 
 \begin{ALtheorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
@@ -622,87 +587,18 @@ If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
 \end{ALtheorem}
 
 \noindent
-Morever,
-%both simple types and intersection types
-types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
+Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
 
 \begin{ALproposition}\label{prop:types preserved}
 If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 \end{ALproposition}
 
-%\begin{ALproposition}\label{prop:intersection types preserved} $\;$\\
-%(i) If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$ \\
-%(ii) If $\Gamma\vdash_D N:A$, then $\Gamma\vdash_{D_a} \tercoden N:A$
-%\end{ALproposition}
-
-% \begin{proof}
-% %By induction on the typing derivation for $\Gamma\vdash N:A$.
-% %
-% %The case where consists of a single axiom is immediate, and if the last rule in the derivation is one of $\typeapp$, $\cap_{e1}$, $\cap_{e2}$, or $\cap_i$, the induction hypothesis applies immediately.
-% %
-% A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$, with the following notes:
-% %
-% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and
-% %
-% 2) a $(\lambda)$-inference in the derivation for $N$ translates to a consecutive $(\lambda)$-inference and $(\typeshare)$-inference, as illustrated below right.
-% %
-% \[
-% 	{\vliiinf{}{\typeshare}
-% 	   {\Gamma, x_i : B  \vdash u\share*{x^1_i,\dotsc,x^n_i}{x_i} : A}
-% 	   {\Gamma, x^1_i \dots x^n_i : B \vdash u : A }
-% 	   {}
-% 	   {x_i : B \vdash x_i : B }
-% 	}
-% \qquad
-% 	\vlderivation{
-% 	 \vlin{}{\lambda}
-% 	  {\Gamma \vdash \lambda x.u\share*{x^1,\dotsc,x^n}x : A\to B}
-% 	  {\vliiin{}{\typeshare}
-% 	   {\Gamma, x : B  \vdash u\share*{x^1,\dotsc,x^n}x : A}
-% 	   {\vlhy{ \Gamma, x^1 \dots x^n : B \vdash u : A }}
-% 	   {\vlhy{\ }}
-% 	   {\vlhy{ x : B \vdash x : B }}
-% 	  }
-% 	}
-% \quad
-% \]
-% \end{proof}
-
-
-
-
 \begin{proof}
 %
-A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$, with $(\typeshare)$-inferences added where required.
+By inserting sharing-inferences $(\typeshare)$ where required, a typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$.
 \end{proof}
-%the following notes:
-%%
-%1) the derivation for $\tercoden N$ ends in an additional series of combined $(\typeshare)$-inferences and axioms, as displayed below left; and
-%%
-%2) a $(\lambda)$-inference in the derivation for $N$ translates to a combined $(\lambda)$-inference, $(\typeshare)$-inference, and axiom, as illustrated below right.
-%%
-%\[
-%    \vlderivation{
-%     {\vliiin{}{\typeshare}
-%       {\Gamma, x_i : B  \vdash u\share*{x^1_i,\dotsc,x^n_i}{x_i} : A}
-%       {\vlhy{\Gamma, x^1_i \dots x^n_i : B \vdash u : A }}
-%       {\vlhy{\ }}
-%       {\vlin{}{\typevar}{x_i : B \vdash x_i : B }{\vlhy{\ }}}
-%    }}
-%\qquad
-%    \vlderivation{
-%     \vlin{}{\lambda}
-%      {\Gamma \vdash \lambda x.u\share*{x^1,\dotsc,x^n}x : A\to B}
-%      {\vliiin{}{\typeshare}
-%       {\Gamma, x : B  \vdash u\share*{x^1,\dotsc,x^n}x : A}
-%       {\vlhy{ \Gamma, x^1 \dots x^n : B \vdash u : A }}
-%       {\vlhy{\ }}
-%       {\vlin{}{\typevar}{x : B \vdash x : B}{\vlhy{\ }}}
-%      }
-%    }
-%\quad
-%\]
-%\end{proof}
+
+
 
 
 % =================================================================================================
@@ -712,7 +608,7 @@ In this section we prove the strong normalisation theorem for atomic lambda-term
 % and $D_a$
 using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in the next section (Section~\ref{sec:ClosPropSN}).
 
-For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ in unfolding. This means in particular that we do not compute inside $\langle ... \rangle$. This
+For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This
 restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
 
@@ -775,7 +671,7 @@ For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$
 \end{proof}
 
 \begin{ALlemma}\label{lem:Red-AddSharings}
-For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share xx)\overline{w} \in |B|$ .
+For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share*{\vv*x}y)\overline{w} \in |B|$ .
 \end{ALlemma}
 
 \begin{ALlemma}\label{lem:IntCaseLambdaSharing} $\;$ \\
