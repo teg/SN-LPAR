@@ -1123,9 +1123,9 @@ The reason it is not needed is that we we can actually start arguing backwards f
 \begin{ALlemma}\label{lem:type-normal-form}
 Any atomic lambda term $u$ on normal form with respect to $\ALtype$ can be represented as
 \[
- u \equiv \lambda x_1\dots x_n.(\cdots((y) v_1)\cdots )v_k\G\share* {\vec y_1}{y_1}\dots\share* {\vec y_l}{y_l}\;,
+ u \equiv \lambda x_1\dots x_n.(\cdots((y) v_1)\cdots )v_k\G\;,
 \]
-for some normal forms $v_1$, $\dots$, $v_k$,$\G$, where $\G$ on normal form is composed of $\share* {}{(u)v}$ and $\distr*{}z{\tup[m] t\G*}$ for some normal forms $t_1$, $\dots$, $t_m$ and $\G*$.
+for some normal forms $v_1$, $\dots$, $v_k$,$\G$, where $\G$ on normal form has the form $\G*\share* {\vec y_1}{y_1}\dots\share* {\vec y_l}{y_l}$, with $\G*$ composed of $\share* {}{(u)v}$ and $\distr*{}z{\tup*{}[\Sigma]}$ for some normal forms $(u)v$ and $[\Sigma]$.
 \end{ALlemma}
 
 \begin{ALlemma}\label{lem:T-norm-type}
