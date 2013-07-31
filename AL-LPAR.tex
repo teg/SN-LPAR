@@ -626,17 +626,17 @@ The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
 \\
 %|A\cap B| & = & |A| \cap |B|
 %\\
-|A\vlim B| & = & \mbox{\{$u\in\Lambda_a$ \;|\; for each term $v\in |A|$, $(u)v \in |B|$ \}}
-\\
+|A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
 \end{array}
 \]
-
-The value of a conjunctive formula is defined as
+Values are extended to conjunctions of formulas by the following clauses, for $n>0$:
 \[
-|A_1\vlan\dots\vlan A_n| \; = \; \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$; and for any $x$, $x\G\in\SN$ \} ,}
+\begin{array}{lll}
+|A_1\vlan\dots\vlan A_n| & = & \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$\}}
+\\
+|\top| & = & \mbox{\{$\tup*{}\G$ \;|\;| for any $x\in\Var$, $x\G\in\SN$\}}
+\end{array}
 \]
-where $\G$ is the sequence of all the weakenings in $t^n$.
-
 Values of formulas are called {\em reducibility sets}. \\
 \end{ALdefinition}
 
