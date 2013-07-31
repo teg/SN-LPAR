@@ -1050,6 +1050,57 @@ If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
 If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and by Theorem~\ref{thm:SND}, $\tercoden N$ is strongly normalisable.
 \end{proof}
 
+\section{Characterization of Strongly Normalising Atomic Lambda Terms}
+
+\begin{definition}
+Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
+\end{definition}
+
+The aim of this restricted notion of reduction is to be able to reason about reverse preservation of typing:
+
+\begin{lemma}\label{lem:rev-preserv-types}
+If $t\ALtype u$, then $t:A$ if and only if $u:A$.
+\end{lemma}
+
+The approach below differs a bit from the standard one, as follows. The regular way would be to show that the $\beta$,sharing-normal forms can be typed and argue backwards from that, using reflection, to show that any strongly normalising term can be typed. The difficulty is that reflection on weakenings only work when using certain strategies. In particular, consider
+
+\[(\lambda y. u\share*{}{(y)v})t\ALnotbeta(\lambda y. u\share*{}{y}\share*{}{v})t\]
+
+Given that the contractum ($(\lambda y^B. u^A\share*{}{y^B}\share*{}{v^C})t^B$) can be typed, and that $(y^{C\rightarrow D})v^C$ can be typed, it should follow that the redex can be typed. However, it is not immediate what type to assign to $t$ and $y$, they should have the same type, but neither $B$, $C\rightarrow D$, nor $B\cap C\rightarrow D$ works and something more complicated would be necessary.
+
+This problem may be overcome by imposing some strategy (left-most,outer-most should do it), and then even the rule $u\share*{}{(y)v}\ALnotbeta u\share*{}{y}\share*{}{v}$ may be reflected.
+
+We here impose the strategy of first reducing to the normal form with respect to $\ALtype$ before doing all the weakenings at the end to get to $\beta$,sharing-normal form. It turns out that this last step is actually not needed.
+
+The reason it is not needed is that we we can actually start arguing backwards from the $T$-normal form (as characterased below), rather than going all the way to $\beta$,sharing-normal form.
+
+\begin{lemma}\label{lem:type-normal-form}
+Any atomic lambda term $u$ on normal form with respect to $\ALtype$ can be represented as
+\[
+ u \equiv \lambda x_1\dots x_n.(\cdots((y) v_1)\cdots )v_k\G\share* {\vec y_1}{y_1}\dots\share* {\vec y_l}{y_l}\;,
+\]
+for some normal forms $v_1$, $\dots$, $v_k$,$\G$, where $\G$ on normal form is composed of $\share* {}{(u)v}$ and $\distr*{}z{\tup[m] t\G*}$ for some normal forms $t_1$, $\dots$, $t_m$ and $\G*$.
+\end{lemma}
+
+\begin{lemma}
+If $u$ is a $T$-normal form, then it is typeable with intersection types.
+\end{lemma}
+
+\begin{proof}
+By induction on the $T$-normal form.
+\end{proof}
+
+\begin{theorem}
+If $u$ is strongly normalising, then it is typeable with intersection types.
+\end{theorem}
+
+\begin{proof}
+If $u$ is strongly normalising, then it is strongly normalising with respect to $\ALtype$, so its normal form is typeable with intersection types. By induction on the length of any reduction sequence to the normal form it follows that $u$ is typeable with intersection types by Lemma~\ref{lem:rev-preserv-types}.
+\end{proof}
+
+
+
+
 \section{Conclusions and further work}
 
 
