@@ -878,8 +878,8 @@ We proceed by induction on $Mes(T) = (S(T'), lh(u), lh(v)), lh([\gamma])$ where
 
 To each closure $[\gamma]$, we associate its term $t(\gamma)$ and its computation $[\gamma]^v $ defined as follows:
 \begin{itemize}
- \item If $[\gamma] = [x_1,\dots,x_n \leftarrow t]$, then $t(\gamma) = t$  and $[\gamma]^v = \{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)]$
- \item If $[\gamma] = [x_1,\dots,x_n \twoheadleftarrow \lambda y\langle t^1,\dots,t^n \rangle[\Gamma]]$ with $t^1,\dots,t^n$  fresh variants of $t$, then  $t(\gamma) = \lambda y.t[\Gamma]$  and $[\gamma]^v = u\{\sn(\lambda y.t[\Gamma])^1/x_1,\dots,\sn(\lambda y.t[\Gamma])^n/x_n\}[\sh (\lambda y.t[\Gamma])]$.
+ \item If $[\gamma] = [x_1,\dots,x_n \leftarrow t]$, then $t(\gamma) = t$\\ and $[\gamma]^v = \{\sn(t)^1/x_1,\dots,\sn(t)^n/x_n\}[\sh (t)]$
+ \item If $[\gamma] = [x_1,\dots,x_n \twoheadleftarrow \lambda y.t]$, then  $t(\gamma) = \lambda y.t$\\ and $[\gamma]^v = \{\sn(\lambda y.\pi_1(t))^1/x_1,\dots,\sn(\lambda y.\pi_n(t))^n/x_n\}[\sh (\lambda y.t)]$.
 \end{itemize}
 
 \begin{ALlemma}\label{lem:CompSubst}
@@ -890,8 +890,9 @@ To each closure $[\gamma]$, we associate its term $t(\gamma)$ and its computatio
 Immediate by definition.
 \end{proof}
 
-\begin{ALlemma}\label{lem:IntCaseSharing0}
 For $[\Gamma] = [\gamma_1] \dots[\gamma_p]$, we denote by $[\Gamma]^*$ the sequence $[\gamma_1]^* \dots[\gamma_p]^*$, where $[\gamma_i]^*$ is either $[\gamma_i]$ or $[\gamma_i]^v$.
+
+\begin{ALlemma}\label{lem:IntCaseSharing0}
  If $(u[\Gamma_0]^*)\overline{w[\Gamma]^*} \in \SN$ and for each closure $[\gamma]$ of $[\Gamma_0]\overline{[\Gamma]}$,  $\term (\gamma)\in\SN$, then $(u[\Gamma])\overline{w[\Gamma]} \in \SN$.
 \end{ALlemma}
 
