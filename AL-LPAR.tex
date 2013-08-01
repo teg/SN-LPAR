@@ -511,360 +511,19 @@ $u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1
 
 
 
-
-% =================================================================================================
-\section{Typed atomic lambda-calculus}
-\label{sec:types}
-
-
-The simply typed atomic lambda-calculus $S_a$ is defined by the following rules (see \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}).
-%
-Terms, including variables, are typed $t:A$ with $A$ a \emph{minimal} formula, one built over $\vlim$, while $n$-terms are typed by \emph{conjunctive} formulae, $t^n:A_1\vlan\cdots\vlan A_n$.
-%
-With the notation $t^*$ indicating either a term or an $n$-term, a \emph{judgment} is of the form $x_1:A_1,\dotsc,x_n:A_n\vdash t^*:B$, where $\vv x$ are the free variables of $t^*$. 
-%
-The antecedent $x_1\colon A_1,\ldots,x_n : A_n$ of a judgement will be treated as a set, and abbreviated $\Gamma$, $\Delta$, or $(x_i\colon A_i)_{i\leq n}$.
-
-
-
-\bigskip
-\noindent
-{\bf Typing rules of $S_a$:}
-\[
-\begin{array}{@{}c@{}}
-	\begin{array}{c@{\quads4}c}
-	  \vlinf{}{\typeabs}
-	   {\Gamma \vdash \lambda x.t : A \vlim B}
-	   {\Gamma, x : A \vdash t : B}
-	&
-	  \vliiinf{}{\typeapp}
-	   {\Gamma, \Delta \vdash (u)v : B}
-	   {\Gamma \vdash u : A\vlim B}
-	   {}
-	   {\Delta \vdash v : A}
-	\\ \\
-	  \vlinf{}{\typevar}{x:A\vdash x:A}{}
-	&
-	  \vliiinf{}{\typetuple _n}
-	   {\Gamma_1, \dots, \Gamma_n \vdash \langle t_1,\ldots,t_n\rangle : A_1\vlan\cdots\vlan A_n}
-	   {\Gamma_1 \vdash t_1 : A_1}
-	   {\quad\cdots\quad}
-	   {\Gamma_n \vdash t_n : A_n}
-	\end{array}
-\\ \\[5pt]
-  \vliiinf{}{\typeshare}
-   {\Gamma, \Delta \vdash t^*\share xu : A}
-   {\Gamma, (x_i : B)_{i\leq n} \vdash t^* : A}
-   {}
-   {\Delta \vdash u : B}
-\\ \\[5pt]
-  \vliiinf{}{\typedist}
-   {\Gamma, \Delta \vdash s^*\distr xy{t^n} : C}
-   {\Gamma, (x_i : A \vlim B_i)_{i\leq n} \vdash s^* : C}
-   {}
-   {\Delta, y : A \vdash t^n : B_1\vlan\cdots\vlan B_n}
-\end{array}
-\]
-
-
-The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rules $\typevar$, $\typeabs$, and $\typeapp$ are the rules of $S$ restricted by the linearity condition.
-%
-The rule for sharing, $\typeshare$, is a standard cut-rule combined with contraction on the left.
-%
-Similarly, the rule for the distributor, $\typedist$, is a cut-rule, albeit a highly non-standard one.
-%
-It contracts only on $A$, the antecedent of the implications, but not on their consequent, integrating a limited amount of deepness.
-
-
-The typed atomic lambda-calculus ${S_a}$ enjoys the usual properties of typed systems, in particular subject reduction.
-
-
-\begin{ALtheorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
-If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
-\end{ALtheorem}
-
-\noindent
-Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
-
-\begin{ALproposition}\label{prop:types preserved}
-If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
-\end{ALproposition}
-
-\begin{proof}
-%
-By inserting sharing-inferences $(\typeshare)$ where required, a typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$.
-\end{proof}
-
-
-
-
-% =================================================================================================
-\section{Proof of Strong Normalisation}
-\label{sec:SNproof}
-
-In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
-% and $D_a$
-using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in the next section (Section~\ref{sec:ClosPropSN}).
-
-For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This
-restriction is  natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
-
-
-We denote by $\VAR$ the set of variables.
-For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
-We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
-By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
-
-
-\begin{ALdefinition}
-The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
-\[
-\begin{array}{lll}
-|X| & = & \mathcal{N}
-\\
-%|A\cap B| & = & |A| \cap |B|
-%\\
-|A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
-\end{array}
-\]
-Values are extended to conjunctive formulae by the following clauses, for $n>0$:
-\[
-\begin{array}{lll}
-|A_1\vlan\dots\vlan A_n| & = & \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$\}}
-\\
-|\top| & = & \mbox{\{$\tup*{}\G$ \;|\; for any $x\in\Var$, $x\G\in\SN$\}}
-\end{array}
-\]
-Values of formulae are called {\em reducibility sets}. \\
-\end{ALdefinition}
-%
-%
-\begin{remark}
-If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
-\end{remark}
-
-\begin{ALlemma}\label{lem:HeadVar}
-If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
-$(x)\overline{t} \in \SN$.
-\end{ALlemma}
-
-\begin{ALproposition}\label{prop:IntBase}
-For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
-\end{ALproposition}
-
-\begin{ALproposition}
- For any formulae $A_1,\dots,A_n$, $|A_1\vlan\dots\vlan A_n| \subseteq \SN$.
-\end{ALproposition}
-
-\begin{proof}
-The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and Proposition~\ref{prop:IntBase}.
-\end{proof}
-
-\begin{ALlemma}\label{lem:RedStab}
-For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$ .
-\end{ALlemma}
-
-\begin{proof}
- Immediate by induction on $A$.
-\end{proof}
-
-\begin{ALlemma}\label{lem:Red-AddSharings}
-For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share*{\vv*x}y)\overline{w} \in |B|$.
-\end{ALlemma}
-
-\begin{ALlemma}\label{lem:IntCaseLambdaSharing}
-\begin{compactenum}[\upshape(i)]
-%
-\item If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
-%
-\item If $(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, 
-	\\ then $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
-%
-\item If $(u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t)])\overline{w} \in |B|$ and $t\in\SN$,
-	\\ then $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y.t])\overline{w} \in |B|$.
-%
-\end{compactenum}
-%
-\end{ALlemma}
-
-\begin{proof}
-Statement (i) follows from Lemma~\ref{lem:IntCaseLambda0} (the full proof can be found in the Appendix); (ii) is proved below by induction on $B$; the proof of (iii) is similar.
-%
-\\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseSharing0}, which has been delayed to the next section.
-\\
-2) $B= C\vlim D$.
-%
-Let $u'=(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |C\vlim D|$ and $t\in\SN$.
-%
-Let $v\in|C|$.
-%
-We prove that $((u\share xt)\overline{w})v \in |D|$.
-%
-By the definition of $|C\vlim D|$ we have $(u')v\in|D|$.
-%
-By the induction hypothesis $((u[x_1,\dots,x_n \leftarrow t])\overline{w})v \in |D|$.
-%
-It follows that $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |C\vlim D|$.
-%\\
-%3) $B= C\cap B$.
-%The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
-
-\end{proof}
-
-\begin{ALproposition}\label{prop:IntSubst}
-%If $x_1:A_1,\ldots, x_n:A_n \vdash_S u:B$ and $v_1 \in |A_1|, \dots, v_n \in |A_n|$, then $u\{v_1/x_1, \dots, v_n/x_n\} \in |B|$.
-If $(x_i:A_i)_{i\leq n}\vdash_S u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
-
-\end{ALproposition}
-
-\begin{proof}
-%
-We proceed by induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_S u:B$.
-%
-\begin{enumerate}
-\setlength{\itemsep}{\medskipamount}%
-\setlength{\parskip}{0pt}
-
-	\item
-The last rule is $\typevar$, with conclusion $x:A\vdash x:A$.
-%
-For $v\in|A|$ we have $x\{v/x\} = v\in|A|$.
-
-
-	\item
-The last rule is
-\[
-  \vliiinf{}{\typeapp}
-	{(x_i:C_i)_{i\leq n},(y_j:D_j)_{j\leq m}\vdash (t)u : B}
-	{(x_i:C_i)_{i\leq n}\vdash t : A\vlim B}
-	{}
-	{(y_j:D_j)_{j\leq m}\vdash u : A}
-\]
-Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq n$ and $j\leq m$.
-%
-By the induction hypothesis, $t\subn{x_i}{v_i}\in|A\vlim B|$ and $u\subn[m][j]{y_j}{w_j}\in|A|$.
-%
-By the definition of $|-|$,
-%
-\[
-	((t)u)\subn{x_i}{v_i}\subn[m][j]{y_j}{w_j} = (t\subn{x_i}{v_i})u\subn[m][j]{y_j}{w_j} \in|B|\;.
-\]
-
-
-	\item
-The last rule is
-\[
-  \vlinf{}{\typeabs}
-	{(x_i:C_i)_{i\leq n} \vdash \lambda x.t : A \vlim B}
-	{(x_i:C_i)_{i\leq n}, x : A \vdash t : B}
-\]
-Let $v_i \in |C_i|$ for $i\leq n$, and suppose $w\in |A|$. 
-%
-By the induction hypothesis we have $t\subn{x_i}{v_i}\sub xw\in|B|$. 
-%
-By Lemma~\ref{lem:IntCaseLambdaSharing}, $(\lambda x.t\subn{x_i}{v_i})w \in |B|$.
-%
-It follows that 
-\[
-	(\lambda x.t)\subn{x_i}{v_i} = \lambda x.t\subn{x_i}{v_i}\in | A\vlim B|\;.
-\]
-
-
-	\item
-The last rule is
-\[
-  \vliiinf{}{\typeshare}
-	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash u\share xt : A}
-	{(y_i:C_i)_{i\leq k}, (x_i:B)_{i\leq n} \vdash u : A}
-	{}
-	{(z_i:D_i)_{i\leq m} \vdash t : B}
-\]
-Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $u'= u\subn[k]{y_i}{v_i}$ and $t'=t\subn[m][j]{z_j}{w_j}$.
-% 
-We have to prove that the following term is in $|A|$:
-\[
-	(u\share xt)\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}= u'\share x{t'}\;.
-\]
-By the induction hypothesis, $t'\in|B|$; then also the unfolded body $\sn(t')$ is in $|B|$.
-%
-Let $\sn(t')^1,\dotsc,\sn (t')^n$ be fresh variants.
-%
-Therefore by the induction hypothesis,
-\[
-	u'\subn{x_i}{\sn(t')^i}\in|A|\;,
-\]
-and by Lemma~\ref{lem:Red-AddSharings}, $u'\subn{x_i}{\sn(t')^i}[\sh(t')]\in|A|$.
-%
-It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $u'\share x{t'}\in |A|$.
-
-
-	\item
-The last rule is
-\[
-\hspace{-\leftmargin}
-  \vliiinf{}{\typedist}
-	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
-	{(y_i:C_i)_{i\leq k}, (x_i:A \vlim B)_{i\leq n} \vdash s : C}
-	{\hspace{-6pt}}
-	{(z_i:D_i)_{i\leq m}, y : A \vdash u^n : B\vlan\cdots\vlan B}
-\]
-Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $s'=s\subn[k]{y_i}{v_i}$ and $u'=u^n\subn[m][j]{z_j}{w_j}$.
-%
-We have to prove that the following term is in $|C|$:
-\[
-	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
-\]
-%
-% The $n$-term $u^n$ is of the form $\tup*{t^1,\dotsc, t^n}\G$ with each $t^i$ a fresh variant of an unfolded term $t$.
-%
-% Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
-%
-By the induction hypothesis, for each $r\in |A|$
-\[
-	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B\vlan\cdots\vlan B|
-\]
-and therefore $\pi_i(u'\sub yr)=\pi_i(u')\sub yr\in|B|$.
-%
-Then, for each $r\in |A|$, $(\lambda y.\pi_i(u'))r \in|B|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.\pi_i(u')\in|A\vlim B|$.
-%
-By Lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.\pi_i(u')$ belongs to $|A \vlim B|$, as does any variant $\sn(\lambda y.\pi_i(u'))^i$.
-%
-By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
-\[
-	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
-\]
-It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
-%
-\end{enumerate}
-
-
-\end{proof}
-
-\begin{ALtheorem}\label{thm:SN}
-%If $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$ then $u \in \SN$.
-If $(x_i:A_i)_{i\leq n} \vdash_S u:B$ then $u \in \SN$.
-\end{ALtheorem}
-
-
-
-\begin{proof}
-%
-Suppose $(x_i:A_i)_{i\leq n} \vdash_S u:B$.
-%
-By Proposition~\ref{prop:IntBase}, we have $x_i\in |A_i|$ for $i\leq n$.
-%
-Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ $u \in |B|$, and by Proposition~\ref{prop:IntBase} we have $u \in \SN$.
-
-\end{proof}
-
 % =================================================================================================
 \section{Closure properties of Strongly Normalisable Atomic Lambda Terms}
 \label{sec:ClosPropSN}
 
 
 In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
-which are used in Section 4.
+which are used in Section~\ref{sec:SNproof}.
+
+For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+
+For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
+We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
+By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 
 \begin{ALlemma}\label{lem:IntCaseLambda0}
 If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
@@ -1109,6 +768,340 @@ Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
 \end{proof}
 
 
+% =================================================================================================
+\section{Typed atomic lambda-calculus}
+\label{sec:types}
+
+
+The simply typed atomic lambda-calculus $S_a$ is defined by the following rules (see \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}).
+%
+Terms, including variables, are typed $t:A$ with $A$ a \emph{minimal} formula, one built over $\vlim$, while $n$-terms are typed by \emph{conjunctive} formulae, $t^n:A_1\vlan\cdots\vlan A_n$.
+%
+With the notation $t^*$ indicating either a term or an $n$-term, a \emph{judgment} is of the form $x_1:A_1,\dotsc,x_n:A_n\vdash t^*:B$, where $\vv x$ are the free variables of $t^*$. 
+%
+The antecedent $x_1\colon A_1,\ldots,x_n : A_n$ of a judgement will be treated as a set, and abbreviated $\Gamma$, $\Delta$, or $(x_i\colon A_i)_{i\leq n}$.
+
+
+
+\bigskip
+\noindent
+{\bf Typing rules of $S_a$:}
+\[
+\begin{array}{@{}c@{}}
+	\begin{array}{c@{\quads4}c}
+	  \vlinf{}{\typeabs}
+	   {\Gamma \vdash \lambda x.t : A \vlim B}
+	   {\Gamma, x : A \vdash t : B}
+	&
+	  \vliiinf{}{\typeapp}
+	   {\Gamma, \Delta \vdash (u)v : B}
+	   {\Gamma \vdash u : A\vlim B}
+	   {}
+	   {\Delta \vdash v : A}
+	\\ \\
+	  \vlinf{}{\typevar}{x:A\vdash x:A}{}
+	&
+	  \vliiinf{}{\typetuple _n}
+	   {\Gamma_1, \dots, \Gamma_n \vdash \langle t_1,\ldots,t_n\rangle : A_1\vlan\cdots\vlan A_n}
+	   {\Gamma_1 \vdash t_1 : A_1}
+	   {\quad\cdots\quad}
+	   {\Gamma_n \vdash t_n : A_n}
+	\end{array}
+\\ \\[5pt]
+  \vliiinf{}{\typeshare}
+   {\Gamma, \Delta \vdash t^*\share xu : A}
+   {\Gamma, (x_i : B)_{i\leq n} \vdash t^* : A}
+   {}
+   {\Delta \vdash u : B}
+\\ \\[5pt]
+  \vliiinf{}{\typedist}
+   {\Gamma, \Delta \vdash s^*\distr xy{t^n} : C}
+   {\Gamma, (x_i : A \vlim B_i)_{i\leq n} \vdash s^* : C}
+   {}
+   {\Delta, y : A \vdash t^n : B_1\vlan\cdots\vlan B_n}
+\end{array}
+\]
+
+
+The type system $S_a$ of the atomic lambda-calculus is a refinement of the simply typed lambda-calculus $S$: the rules $\typevar$, $\typeabs$, and $\typeapp$ are the rules of $S$ restricted by the linearity condition.
+%
+The rule for sharing, $\typeshare$, is a standard cut-rule combined with contraction on the left.
+%
+Similarly, the rule for the distributor, $\typedist$, is a cut-rule, albeit a highly non-standard one.
+%
+It contracts only on $A$, the antecedent of the implications, but not on their consequent, integrating a limited amount of deepness.
+
+
+The typed atomic lambda-calculus ${S_a}$ enjoys the usual properties of typed systems, in particular subject reduction.
+
+
+\begin{ALtheorem}[\cite{Gundersen-Heijltjes-Parigot-2013-JFLA}]
+If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
+\end{ALtheorem}
+
+\noindent
+Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
+
+\begin{ALproposition}\label{prop:types preserved}
+If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
+\end{ALproposition}
+
+\begin{proof}
+%
+By inserting sharing-inferences $(\typeshare)$ where required, a typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$.
+\end{proof}
+
+% =================================================================================================
+\section{Proof of Strong Normalisation for Simple Types}
+\label{sec:SNproof}
+
+In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
+% and $D_a$
+using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in Section~\ref{sec:ClosPropSN}.
+
+We denote by $\VAR$ the set of variables.
+
+\begin{ALdefinition}
+The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
+\[
+\begin{array}{lll}
+|X| & = & \mathcal{N}
+\\
+%|A\cap B| & = & |A| \cap |B|
+%\\
+|A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
+\end{array}
+\]
+Values are extended to conjunctive formulae by the following clauses, for $n>0$:
+\[
+\begin{array}{lll}
+|A_1\vlan\dots\vlan A_n| & = & \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$\}}
+\\
+|\top| & = & \mbox{\{$\tup*{}\G$ \;|\; for any $x\in\Var$, $x\G\in\SN$\}}
+\end{array}
+\]
+Values of formulae are called {\em reducibility sets}. \\
+\end{ALdefinition}
+%
+%
+\begin{remark}
+If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
+\end{remark}
+
+\begin{ALlemma}\label{lem:HeadVar}
+If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
+$(x)\overline{t} \in \SN$.
+\end{ALlemma}
+
+\begin{ALproposition}\label{prop:IntBase}
+For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
+\end{ALproposition}
+
+\begin{ALproposition}
+ For any formulae $A_1,\dots,A_n$, $|A_1\vlan\dots\vlan A_n| \subseteq \SN$.
+\end{ALproposition}
+
+\begin{proof}
+The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and Proposition~\ref{prop:IntBase}.
+\end{proof}
+
+\begin{ALlemma}\label{lem:RedStab}
+For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$ .
+\end{ALlemma}
+
+\begin{proof}
+ Immediate by induction on $A$.
+\end{proof}
+
+\begin{ALlemma}\label{lem:Red-AddSharings}
+For any formula $B$,  if $(u)\overline{w}\in |B|$ then $(u\share*{\vv*x}y)\overline{w} \in |B|$.
+\end{ALlemma}
+
+\begin{ALlemma}\label{lem:IntCaseLambdaSharing}
+\begin{compactenum}[\upshape(i)]
+%
+\item If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
+%
+\item If $(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, 
+	\\ then $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
+%
+\item If $(u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t)])\overline{w} \in |B|$ and $t\in\SN$,
+	\\ then $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y.t])\overline{w} \in |B|$.
+%
+\end{compactenum}
+%
+\end{ALlemma}
+
+\begin{proof}
+Statement (i) follows from Lemma~\ref{lem:IntCaseLambda0} (the full proof can be found in the Appendix); (ii) is proved below by induction on $B$; the proof of (iii) is similar.
+%
+\\
+1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseSharing0}.
+\\
+2) $B= C\vlim D$.
+%
+Let $u'=(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |C\vlim D|$ and $t\in\SN$.
+%
+Let $v\in|C|$.
+%
+We prove that $((u\share xt)\overline{w})v \in |D|$.
+%
+By the definition of $|C\vlim D|$ we have $(u')v\in|D|$.
+%
+By the induction hypothesis $((u[x_1,\dots,x_n \leftarrow t])\overline{w})v \in |D|$.
+%
+It follows that $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |C\vlim D|$.
+%\\
+%3) $B= C\cap B$.
+%The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
+
+\end{proof}
+
+\begin{ALproposition}\label{prop:IntSubst}
+%If $x_1:A_1,\ldots, x_n:A_n \vdash_S u:B$ and $v_1 \in |A_1|, \dots, v_n \in |A_n|$, then $u\{v_1/x_1, \dots, v_n/x_n\} \in |B|$.
+If $(x_i:A_i)_{i\leq n}\vdash_S u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
+
+\end{ALproposition}
+
+\begin{proof}
+%
+We proceed by induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_S u:B$.
+%
+\begin{enumerate}
+\setlength{\itemsep}{\medskipamount}%
+\setlength{\parskip}{0pt}
+
+	\item
+The last rule is $\typevar$, with conclusion $x:A\vdash x:A$.
+%
+For $v\in|A|$ we have $x\{v/x\} = v\in|A|$.
+
+
+	\item
+The last rule is
+\[
+  \vliiinf{}{\typeapp}
+	{(x_i:C_i)_{i\leq n},(y_j:D_j)_{j\leq m}\vdash (t)u : B}
+	{(x_i:C_i)_{i\leq n}\vdash t : A\vlim B}
+	{}
+	{(y_j:D_j)_{j\leq m}\vdash u : A}
+\]
+Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq n$ and $j\leq m$.
+%
+By the induction hypothesis, $t\subn{x_i}{v_i}\in|A\vlim B|$ and $u\subn[m][j]{y_j}{w_j}\in|A|$.
+%
+By the definition of $|-|$,
+%
+\[
+	((t)u)\subn{x_i}{v_i}\subn[m][j]{y_j}{w_j} = (t\subn{x_i}{v_i})u\subn[m][j]{y_j}{w_j} \in|B|\;.
+\]
+
+
+	\item
+The last rule is
+\[
+  \vlinf{}{\typeabs}
+	{(x_i:C_i)_{i\leq n} \vdash \lambda x.t : A \vlim B}
+	{(x_i:C_i)_{i\leq n}, x : A \vdash t : B}
+\]
+Let $v_i \in |C_i|$ for $i\leq n$, and suppose $w\in |A|$. 
+%
+By the induction hypothesis we have $t\subn{x_i}{v_i}\sub xw\in|B|$. 
+%
+By Lemma~\ref{lem:IntCaseLambdaSharing}, $(\lambda x.t\subn{x_i}{v_i})w \in |B|$.
+%
+It follows that 
+\[
+	(\lambda x.t)\subn{x_i}{v_i} = \lambda x.t\subn{x_i}{v_i}\in | A\vlim B|\;.
+\]
+
+
+	\item
+The last rule is
+\[
+  \vliiinf{}{\typeshare}
+	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash u\share xt : A}
+	{(y_i:C_i)_{i\leq k}, (x_i:B)_{i\leq n} \vdash u : A}
+	{}
+	{(z_i:D_i)_{i\leq m} \vdash t : B}
+\]
+Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $u'= u\subn[k]{y_i}{v_i}$ and $t'=t\subn[m][j]{z_j}{w_j}$.
+% 
+We have to prove that the following term is in $|A|$:
+\[
+	(u\share xt)\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}= u'\share x{t'}\;.
+\]
+By the induction hypothesis, $t'\in|B|$; then also the unfolded body $\sn(t')$ is in $|B|$.
+%
+Let $\sn(t')^1,\dotsc,\sn (t')^n$ be fresh variants.
+%
+Therefore by the induction hypothesis,
+\[
+	u'\subn{x_i}{\sn(t')^i}\in|A|\;,
+\]
+and by Lemma~\ref{lem:Red-AddSharings}, $u'\subn{x_i}{\sn(t')^i}[\sh(t')]\in|A|$.
+%
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $u'\share x{t'}\in |A|$.
+
+
+	\item
+The last rule is
+\[
+\hspace{-\leftmargin}
+  \vliiinf{}{\typedist}
+	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
+	{(y_i:C_i)_{i\leq k}, (x_i:A \vlim B)_{i\leq n} \vdash s : C}
+	{\hspace{-6pt}}
+	{(z_i:D_i)_{i\leq m}, y : A \vdash u^n : B\vlan\cdots\vlan B}
+\]
+Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $s'=s\subn[k]{y_i}{v_i}$ and $u'=u^n\subn[m][j]{z_j}{w_j}$.
+%
+We have to prove that the following term is in $|C|$:
+\[
+	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
+\]
+%
+% The $n$-term $u^n$ is of the form $\tup*{t^1,\dotsc, t^n}\G$ with each $t^i$ a fresh variant of an unfolded term $t$.
+%
+% Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
+%
+By the induction hypothesis, for each $r\in |A|$
+\[
+	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B\vlan\cdots\vlan B|
+\]
+and therefore $\pi_i(u'\sub yr)=\pi_i(u')\sub yr\in|B|$.
+%
+Then, for each $r\in |A|$, $(\lambda y.\pi_i(u'))r \in|B|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.\pi_i(u')\in|A\vlim B|$.
+%
+By Lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.\pi_i(u')$ belongs to $|A \vlim B|$, as does any variant $\sn(\lambda y.\pi_i(u'))^i$.
+%
+By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
+\]
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
+%
+\end{enumerate}
+
+
+\end{proof}
+
+\begin{ALtheorem}\label{thm:SN}
+%If $x_1:A_1,\dots, x_n:A_n \vdash_S u:B$ then $u \in \SN$.
+If $(x_i:A_i)_{i\leq n} \vdash_S u:B$ then $u \in \SN$.
+\end{ALtheorem}
+
+
+
+\begin{proof}
+%
+Suppose $(x_i:A_i)_{i\leq n} \vdash_S u:B$.
+%
+By Proposition~\ref{prop:IntBase}, we have $x_i\in |A_i|$ for $i\leq n$.
+%
+Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ $u \in |B|$, and by Proposition~\ref{prop:IntBase} we have $u \in \SN$.
+
+\end{proof}
 
 
 % =================================================================================================
