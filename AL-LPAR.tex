@@ -526,11 +526,11 @@ If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
 $(x)\overline{t} \in \SN$.
 \end{ALlemma}
 
+The following Lemma~\ref{lem:IntCaseLambda0} is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
+
 For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
 We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
 By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
-
-The following lemma is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
 
 \begin{ALlemma}\label{lem:IntCaseLambda0}
 If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
