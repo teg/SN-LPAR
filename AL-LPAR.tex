@@ -1170,11 +1170,11 @@ If $t\ALtype u$, then $t:A$ if and only if $u:A$.
 
 The approach below differs a bit from the standard one, as follows. The regular way would be to show that the $\beta$,sharing-normal forms can be typed and argue backwards from that, using reflection, to show that any strongly normalising term can be typed. The difficulty is that reflection on weakenings only work when using certain strategies. In particular, consider
 
-\[(\lambda y. u\share*{}{(y)v})t\ALnotbeta(\lambda y. u\share*{}{y}\share*{}{v})t\]
+\[u\{(x_1)w\}\distr xy{t^n\share*{}{(y)v}}\ALnotbeta u\{(x_1)w\}\distr xy{t^n\share*{}{y}\share*{}{v}}\]
 
-Given that the contractum ($(\lambda y^B. u^A\share*{}{y^B}\share*{}{v^C})t^B$) can be typed, and that $(y^{C\rightarrow D})v^C$ can be typed, it should follow that the redex can be typed. However, it is not immediate what type to assign to $t$ and $y$, they should have the same type, but neither $B$, $C\rightarrow D$, nor $B\cap C\rightarrow D$ works and something more complicated would be necessary.
+Given that the contractum ($u\{(x_1^{B\vlim A_1})w^B\}\distr x{y^B}{t^{\vls(A_1.\dots.A_n)}\share*{}{y^B}\share*{}{v^C}}$) can be typed, and that $(y^{C\rightarrow D})v^C$ can be typed, it should follow that the redex can be typed. However, it is not immediate what type to assign to $w$ and $y$, they should have the same type, but neither $B$, $C\rightarrow D$, nor $B\cap C\rightarrow D$ works and something more complicated would be necessary.
 
-This problem may be overcome by imposing some strategy (left-most,outer-most should do it), and then even the rule $u\share*{}{(y)v}\ALnotbeta u\share*{}{y}\share*{}{v}$ may be reflected.
+This problem may be overcome by imposing some strategy (left-most,outer-most should do it), and then even the rule $u\share*{}{(y)v}\ALnotbeta u\share*{}{y}\share*{}{v}$ may be reflected. However, only for terms reachable using the given strategy from terms originating in the regular lambda calculus. This would in particular exclude the contractum above.
 
 We here impose the strategy of first reducing to the normal form with respect to $\ALtype$ before doing all the weakenings at the end to get to $\beta$,sharing-normal form. It turns out that this last step is actually not needed.
 
