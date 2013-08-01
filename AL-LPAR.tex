@@ -1118,10 +1118,24 @@ In this section we outline how the above result can be extended from simple type
 \noindent\textbf{Typing rules for $D_a$:}
 \[
 	\vliiinf{}{}
-	  {u^*\distr xy{t^n}:A^*}
-	  {(x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A^*}
+	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
 	  {}
-	  {y:B_1\vdash t^n : C_1~\dotso~y:B_m\vdash t^n : C_m}
+	  {(\Delta, y:B_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+\]
+\[
+	\vliinf{}{}
+	  {\Gamma \vdash u: A\cap B}
+	  {\Gamma \vdash u: A}
+	  {\Gamma \vdash u: B}
+	\qquad
+	\vlinf{}{}
+	  {\Gamma \vdash u: A}
+	  {\Gamma \vdash u: A\cap B}
+	\qquad
+	\vlinf{}{}
+	  {\Gamma \vdash u: B}
+	  {\Gamma \vdash u: A\cap B}
 \]
 
 
