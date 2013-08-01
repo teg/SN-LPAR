@@ -513,7 +513,8 @@ $u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1
 
 
 % =================================================================================================
-\section{Typed atomic lambda-calculus}\label{sec:types}
+\section{Typed atomic lambda-calculus}
+\label{sec:types}
 
 
 The simply typed atomic lambda-calculus $S_a$ is defined by the following rules (see \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}).
@@ -598,7 +599,8 @@ By inserting sharing-inferences $(\typeshare)$ where required, a typing derivati
 
 
 % =================================================================================================
-\section{Proof of Strong Normalisation}\label{sec:SNproof}
+\section{Proof of Strong Normalisation}
+\label{sec:SNproof}
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$,
 % and $D_a$
@@ -857,8 +859,8 @@ Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ 
 \end{proof}
 
 % =================================================================================================
-
-\section{Closure properties of Strongly Normalisable Atomic Lambda Terms}\label{sec:ClosPropSN}
+\section{Closure properties of Strongly Normalisable Atomic Lambda Terms}
+\label{sec:ClosPropSN}
 
 
 In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
@@ -1110,8 +1112,8 @@ Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
 
 
 % =================================================================================================
-
 \section{Strong Normalisation for Intersection Types}
+\label{sec:SND}
 
 In this section we outline how the above result can be extended from simple types to intersection types. The typing system $D_a$ is obtained from $S_a$ by adding the typing rules:
 
@@ -1156,7 +1158,103 @@ If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
 If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and by Theorem~\ref{thm:SND}, $\tercoden N$ is strongly normalisable.
 \end{proof}
 
+
+% =================================================================================================
 \section{Characterization of Strongly Normalising Atomic Lambda Terms}
+
+\begin{ALproposition}
+\label{prop:normal form}
+If a term or $n$-term $t$ is normal, it is of one of the following forms, where $u$ and each $u_i$ are normal.
+\[
+	x \qquad \lambda x.u \qquad u\share xy \qquad (\dotso(x)u_1\dotso )u_n \qquad \tup u
+\]
+\end{ALproposition}
+
+\begin{ALproposition}
+\label{prop:intersection weakening}
+If $\Gamma, x:A\vdash t:B$ then $\Gamma,x:A\cap C\vdash t:B$.
+\end{ALproposition}
+
+
+\begin{ALproposition}
+For an atomic lambda-term $t$ in normal form there exist $\Gamma$, $A$ such that $\Gamma\vdash_{D_a} t:A$.
+\end{ALproposition}
+
+\begin{proof}
+The proof proceeds by induction on $t$, following Proposition~\ref{prop:normal form}.
+%
+\begin{enumerate}[1)]
+
+	\item
+Let $t=x$. Then $x:A\vdash x:A$ for any $A$.
+
+	\item
+Let $t=\lambda x.u$ with $u$ normal.
+%
+By the induction hypothesis there are $\Gamma$, $A$, and $B$ such that $\Gamma, x:A\vdash u:B$.
+%
+Then $\Gamma\vdash\lambda x.u:A\vlim B$.
+
+	\item
+let $t=u\share xy$ with $u$ normal.
+%
+By the induction hypothesis there are $\Gamma$, $A$, and $B_i$ for $i\leq n$ such that $\Gamma,(x_i:B_i)_{i\leq n}\vdash u:A$.
+%
+Let $B=\bigcap_{i\leq n}B_i$.
+%
+By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
+
+	\item
+Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
+%
+By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
+%
+For any $B$, the variable $x$ is typed by $x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash x: A_1 \vlim \dotso \vlim A_n \vlim B$.
+%
+Then $(\Gamma_i)_{i\leq n},x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash (\dotso(x)u_1\dotso )u_n: B$.
+
+	\item
+Let $t=\tup u$ with each $u_i$ normal.
+%
+By the induction hypothesis, there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that  $\Gamma_i \vdash u_i: A_i$.
+%
+By the inference rule $\typetuple_n$, for tuples, $(\Gamma_i)_{i\leq n}\vdash \tup u:A_1\vlan\dotso\vlan A_n$.
+
+\end{enumerate}
+\end{proof}
+
+
+\noindent
+\rule{\textwidth}{1pt}
+
+
+\[
+	\vliiinf{}{}
+	  {u^*\distr xy{t^n}:A^*}
+	  {(x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A^*}
+	  {}
+	  {\big(y:B_j\vdash t^n : C_j\big)_{j\leq m}}
+\]
+
+\[
+	\vliiinf{}{}
+	  {u^*\distr xy{t^n}:A^*}
+	  {(x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A^*}
+	  {}
+	  {y:B_1\vdash t^n : C_1~\dotso~y:B_m\vdash t^n : C_m}
+\]
+
+\[
+	\vliiinf{}{}
+	  {u^*\distr xy{t^n}:A^*}
+	  {(x_i:(B_1\vlim C_1)\cap\dotso\cap(B_m\vlim C_m))_{i\leq n} \vdash u^*:A^*}
+	  {}
+	  {\big(y:B_j\vdash t^n : C_j\big)_{j\leq m}}
+\]
+
+\noindent
+\rule{\textwidth}{1pt}
+
 
 \begin{ALdefinition}
 Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
@@ -1207,6 +1305,7 @@ If $u$ is strongly normalising, then it is strongly normalising with respect to 
 
 
 
+% =================================================================================================
 \section{Conclusions and further work}
 
 
@@ -1238,6 +1337,7 @@ Another direction would be the inclusion of general recursion in the calculus, a
 
 \newpage
 
+% =================================================================================================
 \section*{Appendix}
 
 
