@@ -6,16 +6,6 @@
 
 
 
-% unfolding
-
-\newcommand\unfold{\mathsf u}		% unfolding
-\newcommand{\sn}{{\mathsf{ub}}}		% unfolding body
-\newcommand{\sh}{{\mathsf{rn}}}		% unfolding renamings
-
-\newcommand{\SN}{\mathcal{N}}
-\newcommand{\VAR}{\mathcal{V}}
-\newcommand{\PDA}{\vdash_{D_a}}
-
 
 
 
@@ -75,6 +65,11 @@
 
 % special sets
 
+\newcommand{\SN}{\mathcal{N}}
+\newcommand{\VAR}{\mathcal{V}}
+\newcommand{\PDA}{\vdash_{D_a}}
+
+
 \newcommand{\BV}{{\mathop{\mathsf{BV}}}}
 \newcommand{\FV}{{\mathop{\mathsf{FV}}}}
 \newcommand{\Var}{{\mathop{\mathsf{Var}}}}
@@ -82,24 +77,59 @@
 \newcommand\ALcalc{\Lambda_A}
 
 
-%\newcommand{\CV}{{\mathop{\mathsf{CV}}}}
-%
-%\renewcommand\Var{\@ifstar{\mathop{\mathsf{Var}\ensuremath{^+}}}{\mathop{\mathsf{Var}}}}
-%
-
 % atomic terms (and contexts)
 
-\newcommand\vv{\@ifstar\vec\vvnostar}
-\newcommand\tup{\@ifstar\tupstar\tupnostar}
+
+\def\G{\futurelet\@let@token\@G}
+\def\@G{%
+ \ifx\@let@token*\let\next=\@Gstar\else%
+  \ifx\@let@token'\let\next=\@Gprime\else%
+   \let\next=\Gnostar%
+ \fi\fi%
+ \next
+}
+\def\@Gstar{\expandafter\Gstar\@gobble}
+\def\@Gprime{\expandafter\Gprime\@gobble}
+
+
+\def\vv{\futurelet\@let@token\@vv}
+\def\@vv{%
+ \ifx\@let@token*\let\next=\@vvstar\else%
+  \ifx\@let@token^\let\next=\@vvup\else%
+   \let\next=\vvnostar%
+ \fi\fi%
+ \next
+}
+\def\@vvstar{\expandafter\vvstar\@gobble}
+\def\@vvup{\expandafter\vvup\@gobble}
+
+\def\tup{\futurelet\@let@token\@tup}
+\def\@tup{%
+ \ifx\@let@token*\let\next=\@tupstar\else%
+  \ifx\@let@token^\let\next=\@tupup\else%
+   \let\next=\tupnostar%
+ \fi\fi%
+ \next
+}
+\def\@tupstar{\expandafter\tupstar\@gobble}
+\def\@tupup{\expandafter\tupup\@gobble}
+
+
+%\newcommand\vv{\@ifstar\vec\vvnostar}
+%\newcommand\tup{\@ifstar\tupstar\tupnostar}
 \newcommand\share{\@ifstar\sharestar\sharenostar}
 \newcommand\distr{\@ifstar\distrstar\distrnostar}
 \newcommand\coshare{\@ifstar\cosharestar\cosharenostar}
 \newcommand\g{\@ifstar\gstar\gnostar}
-\newcommand\G{\@ifstar\Gstar\Gnostar}
+%\newcommand\G{\@ifstar\Gstar\Gnostar}
 \newcommand\cxt{\@ifstar\cxtstar\cxtnostar}
 
+
+\newcommand\vvstar{\vec}
+\newcommand\vvup[2][n]{#2^1,\ldots,#2^{#1}}
 \newcommand\vvnostar[2][n]{#2_1,\ldots,#2_{#1}}
 \newcommand\tupstar[1]{\langle #1\rangle}
+\newcommand\tupup[2][n]{\langle\vvup[#1]{#2}\rangle}
 \newcommand\tupnostar[2][n]{\langle\vvnostar[#1]{#2}\rangle}
 \newcommand\sharestar[2]{[#1\leftarrow#2]}
 \newcommand\sharenostar[3][n]{[\vv[#1]{#2}\leftarrow #3]}
@@ -108,8 +138,9 @@
 \newcommand\cosharestar[2]{[#1\mathrel\blacktriangleleft #2]}
 \newcommand\cosharenostar[2][n]{[#2\mathrel\blacktriangleleft #2_1\dotso#2_{#1}]}
 \newcommand\gstar[1][{}]{[\delta_{#1}]}
-\newcommand\Gstar[1][{}]{[\oldDelta_{#1}]}
 \newcommand\gnostar[1][{}]{[\gamma_{#1}]}
+\newcommand\Gstar[1][{}]{[\oldDelta_{#1}]}
+\newcommand\Gprime[1][{}]{[\oldGamma'_{#1}]}
 \newcommand\Gnostar[1][{}]{[\oldGamma_{#1}]}
 \newcommand\cxtstar[1]{\{#1\}}
 \newcommand\cxtnostar[1][{}]{\{\cdot\}_{#1}}
@@ -118,6 +149,8 @@
 
 \newcommand\skel{{\mathsf{skel}}}
 
+\newcommand\lh{\mathit{lh}}
+
 % substitutions
 
 \newcommand\sub[2]{\{#2/#1\}}
@@ -125,6 +158,15 @@
 \newcommand\subapps[4][n]{\sub{#2_1}{(#3_1)#4_1}\dotso\sub{#2_{#1}}{(#3_{#1})#4_{#1}}}
 
 \newcommandx\subn[4][1=n,2=i]{\sub{#3}{#4}_{#2\leq #1}}
+
+
+% unfolding
+
+\newcommand\unfold{\mathsf u}		% unfolding
+\newcommand{\sn}{{\mathsf{ub}}}		% unfolding body
+\newcommand{\sh}{{\mathsf{rn}}}		% unfolding renamings
+
+
 
 % w-calculus terms
 
