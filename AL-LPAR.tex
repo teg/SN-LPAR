@@ -1216,39 +1216,6 @@ By the inference rule $\typetuple_n$, for tuples, $(\Gamma_i)_{i\leq n}\vdash \t
 \end{enumerate}
 \end{proof}
 
-
-\noindent
-\rule{\textwidth}{1pt}
-
-
-\[
-	\vliiinf{}{}
-	  {u^*\distr xy{t^n}:A^*}
-	  {(x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A^*}
-	  {}
-	  {\big(y:B_j\vdash t^n : C_j\big)_{j\leq m}}
-\]
-
-\[
-	\vliiinf{}{}
-	  {u^*\distr xy{t^n}:A^*}
-	  {(x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A^*}
-	  {}
-	  {y:B_1\vdash t^n : C_1~\dotso~y:B_m\vdash t^n : C_m}
-\]
-
-\[
-	\vliiinf{}{}
-	  {u^*\distr xy{t^n}:A^*}
-	  {(x_i:(B_1\vlim C_1)\cap\dotso\cap(B_m\vlim C_m))_{i\leq n} \vdash u^*:A^*}
-	  {}
-	  {\big(y:B_j\vdash t^n : C_j\big)_{j\leq m}}
-\]
-
-\noindent
-\rule{\textwidth}{1pt}
-
-
 \begin{ALdefinition}
 Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
 \end{ALdefinition}
