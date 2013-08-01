@@ -609,7 +609,7 @@ restriction is  natural in the context of sharing calculus and all the useful co
 
 
 We denote by $\VAR$ the set of variables.
-For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the lenght of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
+For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
 We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
 By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 
@@ -625,7 +625,7 @@ The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
 |A\vlim B| & = & \mbox{\{$u$ \;|\;  $u$ is a term and, for each term $v\in |A|$, $(u)v \in |B|$ \}}
 \end{array}
 \]
-Values are extended to conjunctions of formulas by the following clauses, for $n>0$:
+Values are extended to conjunctive formulae by the following clauses, for $n>0$:
 \[
 \begin{array}{lll}
 |A_1\vlan\dots\vlan A_n| & = & \mbox{\{$t^n$ \;|\; for each $i\leq n$, $\pi_i(t) \in |A_i|$\}}
@@ -635,8 +635,8 @@ Values are extended to conjunctions of formulas by the following clauses, for $n
 \]
 Values of formulae are called {\em reducibility sets}. \\
 \end{ALdefinition}
-
-
+%
+%
 \begin{remark}
 If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
 \end{remark}
@@ -878,7 +878,7 @@ This can be shown by induction on $Mes(T) = (S(T'), lh(u), lh(v), \lh\g)$ where 
 
 \newcommand{\term}{{\mathsf{t}}}
 
-To each closure $\g$, we associate its term $t(\gamma)$ and its computation $\g^v $ defined as follows:
+To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
 \begin{itemize}
 
 	\item
