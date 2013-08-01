@@ -519,11 +519,18 @@ $u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1
 In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
 which are used in Section~\ref{sec:SNproof}.
 
-For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+We denote by $\VAR$ the set of variables.
+
+\begin{ALlemma}\label{lem:HeadVar}
+If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
+$(x)\overline{t} \in \SN$.
+\end{ALlemma}
 
 For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
 We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
 By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
+
+The following lemma is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
 
 \begin{ALlemma}\label{lem:IntCaseLambda0}
 If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
@@ -549,6 +556,8 @@ If $\g = \share xt$, then $t(\gamma) = t$ and $\g^v = \subn{x_i}{\sn(t)^i}[\sh (
 If $\g = \distr xy{t^n}$, then  $t(\gamma) = \lambda y.t^n$\\ and $\g^v = \subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}[\sh (\lambda y.t^n)]$.
 \end{itemize}
 
+The following Lemma~\ref{lem:IntCaseSharing0} is a generalisation of the fact that if $(u\g^v)\overline w \in \SN$, then $(u\g)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
+
 \begin{ALlemma}\label{lem:CompSubst}
  $\g^v\sub xw \rightsquigarrow [\gamma\sub xw]^v$
 \end{ALlemma}
@@ -559,8 +568,10 @@ Immediate by definition.
 
 For $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$, where $\g[i]^*$ is either $\g[i]$ or $\g[i]^v$.
 
+For simplifying the presentation, we consider in the following that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+
 \begin{ALlemma}\label{lem:IntCaseSharing0}
- If $(u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G)\overline{w\G} \in \SN$.
+ If $(u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
 \end{ALlemma}
 
 \begin{proof}
@@ -859,8 +870,6 @@ In this section we prove the strong normalisation theorem for atomic lambda-term
 % and $D_a$
 using Tait's reducibility method. The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in Section~\ref{sec:ClosPropSN}.
 
-We denote by $\VAR$ the set of variables.
-
 \begin{ALdefinition}
 The \emph{value} $|A|$ of a formula $A$ is defined inductively by:
 \[
@@ -887,11 +896,6 @@ Values of formulae are called {\em reducibility sets}. \\
 \begin{remark}
 If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
 \end{remark}
-
-\begin{ALlemma}\label{lem:HeadVar}
-If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
-$(x)\overline{t} \in \SN$.
-\end{ALlemma}
 
 \begin{ALproposition}\label{prop:IntBase}
 For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
