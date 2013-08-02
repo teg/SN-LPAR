@@ -1140,21 +1140,67 @@ If $N$ is strongly normalisable, then it is typeable in $D$; then by a generaliz
 \section{Characterization of Strongly Normalising Atomic Lambda Terms}
 
 \begin{ALproposition}
-\label{prop:normal form}
-If a term or $n$-term $t$ is normal, it is of one of the following forms, where $u$ and each $u_i$ are normal.
-\[
-	x \qquad \lambda x.u \qquad u\share xy \qquad (\dotso(x)u_1\dotso )u_n \qquad \tup u
-\]
-\end{ALproposition}
-
-\begin{ALproposition}
 \label{prop:intersection weakening}
 If $\Gamma, x:A\vdash t:B$ then $\Gamma,x:A\cap C\vdash t:B$.
 \end{ALproposition}
 
+\begin{ALproposition}
+\label{prop:variant typing}
+If $t_1$ and $t_2$ are variants of the same term and $x_1:A_1,\dots,x_n:A_n\vdash_D t_1:B$, then $y_1:A_1,\dots,y_n:A_n\vdash_D t_2:B$.
+\end{ALproposition}
+
+\begin{ALdefinition}
+Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
+\end{ALdefinition}
+
+The aim of this restricted notion of reduction is to be able to reason about reverse preservation of typing:
+
+\begin{ALlemma}\label{lem:reflection}
+If $t\ALtype u$ and $\Gamma \vdash_D u:A$, then there is a $\Gamma'$, such that $\Gamma' \vdash_D t:A$.
+\end{ALlemma}
+
+\begin{proof}
+We only present the case for rule~\ref{eqn:distributor elimination}, the remaining cases being immediate by definition.
+
+Given
+\[
+\Gamma,\Delta_1,\dots,\Delta_n\vdash_D u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}:A\;,
+\]
+with each $t_i$ a fresh variant of the same term $t$, we have
+\[
+\Gamma, (x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A
+\]
+for some $B_i\vlim C_i$'s; and for each $i\leq n$,
+\[
+\Delta_i\vdash_D\lambda y_i.t_i\share*{\vv*z_i}{y_i}:B_i\vlim C_i\;.
+\]
+
+By Proposition~\ref{prop:intersection weakening} we get
+\[
+\Gamma, \bigcap_{i\leq n}(x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A\;,
+\]
+and by Proposition~\ref{prop:variant typing} and~\ref{prop:intersection weakening} we get
+for each $i,j\leq n$, $\Delta_i',\vv*z_i:B_j\vdash_D t_i:C_j$, where the $i^{\mbox{th}}$ variable in $\Delta_i'$ is $i^{\mbox{th}}$ variable of $\Delta_i$ with the type being the intersection of each of the types of the $i^{\mbox{th}}$ variable of each of the $\Delta_j$'s. Put together, we get, for each $j\leq n$,
+\[
+\Delta_1',\dots,\Delta_n',y:B_j\vdash_D \tup t\share*{\vv*z}{y}:\vls(C_j.\dots.C_j)\;.
+\]
+
+We then get
+\[
+	\Gamma,\Delta'_1,\dots,\Delta'_n\vdash_D u\distr xy{\tup t\share*{\vv*z}{y}}: A\;.
+\]
+\end{proof}
 
 \begin{ALproposition}
-For an atomic lambda-term $t$ in normal form there exist $\Gamma$, $A$ such that $\Gamma\vdash_{D_a} t:A$.
+\label{prop:normal form}
+If a term or $n$-term $t$ is normal with respect to $\ALtype$, it is of one of the following forms, where $u$, $v$ and each $u_i$ are normal.
+\[
+	x \qquad \lambda x.u \qquad u\share xy \qquad u\share*{}v \qquad (\dotso(x)u_1\dotso )u_n \qquad \tup u
+\]
+\end{ALproposition}
+
+\begin{ALproposition}
+For an atomic lambda-term $t$ in normal form with respect to $\ALtype$ there exist $\Gamma$, $A$ such that $\Gamma\vdash_{D_a} t:A$.
 \end{ALproposition}
 
 \begin{proof}
@@ -1182,6 +1228,13 @@ Let $B=\bigcap_{i\leq n}B_i$.
 By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
 
 	\item
+let $t=u\share*{}v$ with $u$, $v$ normal.
+%
+By the induction hypothesis there are $\Gamma$, $\Delta$, $A$ and $B$ such that $\Gamma\vdash u:A$ and $\Delta\vdash v:B$
+%
+By the inference rule $(\typeshare)$, for sharing, $\Gamma,\Delta \vdash u\share*{}v:A$.
+
+	\item
 Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
 %
 By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
@@ -1200,50 +1253,12 @@ By the inference rule $\typetuple_n$, for tuples, $(\Gamma_i)_{i\leq n}\vdash \t
 \end{enumerate}
 \end{proof}
 
-\begin{ALdefinition}
-Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
-\end{ALdefinition}
-
-The aim of this restricted notion of reduction is to be able to reason about reverse preservation of typing:
-
-\begin{ALlemma}\label{lem:rev-preserv-types}
-If $t\ALtype u$, then $t:A$ if and only if $u:A$.
-\end{ALlemma}
-
-The approach below differs a bit from the standard one, as follows. The regular way would be to show that the $\beta$,sharing-normal forms can be typed and argue backwards from that, using reflection, to show that any strongly normalising term can be typed. The difficulty is that reflection on weakenings only work when using certain strategies. In particular, consider
-
-\[u\{(x_1)w\}\distr xy{t^n\share*{}{(y)v}}\ALnotbeta u\{(x_1)w\}\distr xy{t^n\share*{}{y}\share*{}{v}}\]
-
-Given that the contractum ($u\{(x_1^{B\vlim A_1})w^B\}\distr x{y^B}{t^{\vls(A_1.\dots.A_n)}\share*{}{y^B}\share*{}{v^C}}$) can be typed, and that $(y^{C\rightarrow D})v^C$ can be typed, it should follow that the redex can be typed. However, it is not immediate what type to assign to $w$ and $y$, they should have the same type, but neither $B$, $C\rightarrow D$, nor $B\cap C\rightarrow D$ works and something more complicated would be necessary.
-
-This problem may be overcome by imposing some strategy (left-most,outer-most should do it), and then even the rule $u\share*{}{(y)v}\ALnotbeta u\share*{}{y}\share*{}{v}$ may be reflected. However, only for terms reachable using the given strategy from terms originating in the regular lambda calculus. This would in particular exclude the contractum above.
-
-We here impose the strategy of first reducing to the normal form with respect to $\ALtype$ before doing all the weakenings at the end to get to $\beta$,sharing-normal form. It turns out that this last step is actually not needed.
-
-The reason it is not needed is that we we can actually start arguing backwards from the $T$-normal form (as characterased below), rather than going all the way to $\beta$,sharing-normal form.
-
-\begin{ALlemma}\label{lem:type-normal-form}
-Any atomic lambda term $u$ on normal form with respect to $\ALtype$ can be represented as
-\[
- u \equiv \lambda x_1\dots x_n.(\cdots((y) v_1)\cdots )v_k\G\;,
-\]
-for some normal forms $v_1$, $\dots$, $v_k$,$\G$, where $\G$ on normal form has the form $\G'\share* {\vec y_1}{y_1}\dots\share* {\vec y_l}{y_l}$, with $\G'$ composed of $\share* {}{(u)v}$ and $\distr*{}z{\tup*{}[\Sigma]}$ for some normal forms $(u)v$ and $[\Sigma]$.
-\end{ALlemma}
-
-\begin{ALlemma}\label{lem:T-norm-type}
-If $u$ is a $T$-normal form, then it is typeable with intersection types.
-\end{ALlemma}
-
-\begin{proof}
-By induction on the $T$-normal form.
-\end{proof}
-
 \begin{ALtheorem}
 If $u$ is strongly normalising, then it is typeable with intersection types.
 \end{ALtheorem}
 
 \begin{proof}
-If $u$ is strongly normalising, then it is strongly normalising with respect to $\ALtype$, and its $T$-normal form is typeable with intersection types by Lemma~\ref{lem:T-norm-type}. By induction on the length of any reduction sequence from $u$ to its $T$-normal form it follows that $u$ is typeable with intersection types by Lemma~\ref{lem:rev-preserv-types}.
+If $u$ is strongly normalising, then it is strongly normalising with respect to $\ALtype$, and its $T$-normal form is typeable with intersection types by Proposition~\ref{prop:normal form}. By induction on the length of any reduction sequence from $u$ to its $T$-normal form it follows that $u$ is typeable with intersection types by Lemma~\ref{lem:reflection}.
 \end{proof}
 
 
