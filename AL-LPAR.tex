@@ -254,76 +254,6 @@ A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\
 
 
 
-%The basic calculus is introduced first.
-
-%
-%
-%\begin{ALdefinition}
-%The \emph{basic calculus} $\Lambda_A^-$ is given by the grammar
-%%
-%\setMidspace{10pt}
-%\[
-%s,t,u,v,w  \Coloneq x
-%	\Mid	\lambda x.t
-%	\Mid	(t)u
-%	\Mid	t\share xu
-%\]
-%%
-%where
-%(i) each variable may occur at most once,
-%(ii) in $\lambda x.t$ the variable $x$ must occur in $t$ and becomes bound, and
-%(iii) in $t\share xu$ each $x_i$ must occur in $t$ and becomes bound.
-%%
-%Terms of the basic calculus are called \emph{basic terms}.
-%\end{ALdefinition}
-%%
-%%
-%%
-%The four constructors are called \emph{variable}, \emph{abstraction}, \emph{application}, and \emph{sharing} respectively.
-%%
-%A nullary sharing $t\share*{}u$ is called a \emph{weakening}.
-%
-%
-%
-%\begin{ALdefinition}
-%The \emph{atomic lambda-calculus} $\Lambda_a$ extends the basic calculus with the \emph{distributor} constructor.
-%%
-%The following mutually recursive grammars simultaneously define the \emph{atomic lambda terms} and the \emph{terms of multiplicity $n$}, or \emph{$n$-terms}, for every $n\geq0$, written $t^n$. 
-%%
-%\setMidspace{10pt}
-%\[
-%\begin{array}{@{}r@{}c@{}l@{~}l@{}}
-%		s,t,u,v,w \Coloneq & \ldots & \Mid u\distr xy{t^n}		& ^*
-%\\[5pt]		t^n   \Coloneq & \tup t & \Mid t^n\share[m]xu 		& ^{**}
-%\\[5pt]							   && \Mid t^n\distr[m]xy{t^m}	& ^{***}
-%\end{array}
-%\]
-%%
-%where 
-%(i) each variable may occur at most once, 
-%(ii) in $(^*)$ each variable $x_i$ must occur in $u$ and becomes bound, and $y$ must occur in $t^n$ and becomes bound, and 
-%(iii) in $(^{**})$ and $(^{***})$ each variable $x_i$ must occur in $t^n$ and becomes bound.
-%%
-%\end{ALdefinition}
-%
-%
-%
-%The sharing and distributor constructors together will be referred to as \emph{closures} and abbreviated $\g$,$\g*$;
-%%
-%a sequence of closures $\g[1]\ldots\g[n]$ will be denoted $\g[i]_{i\leq n}$ or $\G$.
-%%
-%An $n$-term is of the form $\tup t\G$: an $n$-tuple of atomic lambda terms to which closures apply as though it were an atomic lambda term.
-%%
-%Where possible, terms and $n$-terms will not be distinguished, and both denoted $t,u,v$.
-%%
-%A sequence of variables $\vv x$ may be abbreviated $\vv*x$; a sharing is then denoted $\share*{\vv*x}t$.
-%%
-%Standard notions are: $\FV(u)$ is the set of free variables of $u$, and $u\sub xt$ denotes the substitution of $t$ for $x$ in $u$.
-%%
-%A series of substitutions $\sub{x_1}{t_1}\dotso\sub{x_n}{t_n}$ is abbreviated $\subn{x_i}{t_i}$.
-%
-
-
 For $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G'}$.
 
 
@@ -334,7 +264,6 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 \begin{equation}\label{eqn:explicit permutation}
 	t\g\g* ~\sim~ t\g*\g
 \end{equation}
-
 
 
 
@@ -438,6 +367,7 @@ if $u \rewrite^1 u'$, then $u\sub xv \rewrite^1 u'\sub xv$; and
 if $v\rewrite^1 v'$, then $u\sub xv \rewrite^1 u\sub x{v'}$.
 \end{ALlemma}
 
+
 % =================================================================================================
 \subsection{Basic properties of the atomic lambda-calculus}
 \label{ssec:basic properties}
@@ -459,9 +389,6 @@ Sharing in $u$ occurs only as $\lambda y.v\share*{\vv*x}y$, of bound variables i
 \begin{ALdefinition}
 The \emph{unfolded body} $\sn(t)$ of $t$ is the largest subterm of $\unfold(t)$ not of the form $u\g$.
 \end{ALdefinition}
-%
-%
-%For $t$ with unfolding $s$, let $\sn(t)$ denote the largest subterm of $s$ not of the form $u\g$; then $s$ is of the form $\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}$ (with the $x_{i,j}$ and $x_k$ distinct).
 %
 %
 The unfolded body of a term is what is duplicated during reduction.
@@ -495,304 +422,24 @@ $\vv[m]x$ are the free variables of all $t_j$ ($i\neq j$).
 \end{ALproposition}
 
 
-%For $\unfold(t)=\sn(t)\share*{\vv*x_j}{y_j}_{j\leq m}$, to characterise the effects of duplication on the free variables $y_j$ of a term, let $[\sh(t):1,\dotsc,n]$ denote the sharings $\share*{\vv*x_j^{\;i}}{y_j}_{j\leq m,i\leq n}$, abbreviated $[\sh (t)]$ where possible.
-%
+
 To characterise the effects of duplication on the free variables of a term $t$, let $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{\vv*y_1,\dotsc,\vv*y_k\}$, and define the \emph{renamings} of an $n$-fold duplication of $t$ by $[\sh (t):1,\dots,n] = \share*{\vv*y_i^{\;1},\dots,\vv*y_i^{\;n}}{y_i}_{i\leq k}$ (abbreviated $[\sh(t)]$ where possible).
 %
 The unfolded body and the renamings give the following key decomposition properties of the computational content of closures.
-%
-%
-%
-%Next, for any term $t$, with $\FV(t)=\{y_1,\dots,y_k\}$ and $\FV(\sn(t))=\{y_{1,1},\dots,y_{k,m_k}\}$, we define
-%$[\sh (t):1,\dots,n] =
-%\share*{y_{1,1}^1,\dots,y_{1,m_1}^n}{y_1}\dots
-%\share*{y_{k,1}^1,\dots,y_{k,m_k}^n}{y_k}$.
-%%
-%When there is no ambiguity, we will use the notation $[\sh (t)]$ in place of $[\sh (t):1,\dots,n]$.
-%
-%The two following lemmas then show key decomposition properties of the computational content of sharings and distributors.
 
 
 \begin{ALlemma}
 \label{lem:unsharing}
-%A term $u\share xt$ reduces to $u\subn{x_i}{\sn(t)^i}[\sh (t):1,\dots,n]$.
 $u\share xt \rewrite u\subn{x_i}{\sn(t)^i}[\sh (t):1,\dots,n]$
 \end{ALlemma}
 
+
 \begin{ALlemma}
 \label{lem:undist}
-%A term $u\distr xyt$ reduces to $u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1,\dots,n]$.
 $u\distr xyt \rewrite u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t):1,\dots,n]$
 \end{ALlemma}
 
 
-
-% =================================================================================================
-\section{Closure properties of Strongly Normalisable Atomic Lambda Terms}
-\label{sec:ClosPropSN}
-
-
-In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
-which are used in Section~\ref{sec:SNproof}.
-
-We denote by $\VAR$ the set of variables.
-
-\begin{ALlemma}\label{lem:HeadVar}
-If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
-$(x)\overline{t} \in \SN$.
-\end{ALlemma}
-
-The following Lemma~\ref{lem:IntCaseLambda0} is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
-
-For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
-We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
-By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
-
-\begin{ALlemma}\label{lem:IntCaseLambda0}
-If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
-\end{ALlemma}
-
-\begin{proof}
-Let $T = ((((\lambda x.u)\G) v)\G')\overline{w\G}$ and $T' = ((u\sub xv)\G\G')\overline{w\G}$.
-%
-To show that $T\in\SN$, it must be shown that each one-step reduction from $T$ gives a term $U\in\SN$.
-%
-This can be shown by induction on $Mes(T) = (S(T'), lh(u), lh(v), \lh\g)$ where $\lh\G$ is the length of the sequence $\G$.
-\end{proof}
-
-\newcommand{\term}{{\mathsf{t}}}
-
-To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
-\begin{itemize}
-
-	\item
-If $\g = \share xt$, then $t(\gamma) = t$ and $\g^v = \subn{x_i}{\sn(t)^i}[\sh (t)]$
-
-	\item
-If $\g = \distr xy{t^n}$, then  $t(\gamma) = \lambda y.t^n$\\ and $\g^v = \subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}[\sh (\lambda y.t^n)]$.
-\end{itemize}
-
-The following Lemma~\ref{lem:IntCaseSharing0} is a generalisation of the fact that if $(u\g^v)\overline w \in \SN$, then $(u\g)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
-
-\begin{ALlemma}\label{lem:CompSubst}
- $\g^v\sub xw \rightsquigarrow [\gamma\sub xw]^v$
-\end{ALlemma}
-
-\begin{proof}
-Immediate by definition.
-\end{proof}
-
-For $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$, where $\g[i]^*$ is either $\g[i]$ or $\g[i]^v$.
-
-For simplifying the presentation, we consider in the following, and in the rest of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
-
-\begin{ALlemma}\label{lem:IntCaseSharing0}
- If $(u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
-\end{ALlemma}
-
-\begin{proof}
-
-  Let $T = (u\G[0])\overline{w\G}$ and $T' = (u\G[0]^*)\overline{w\G^*}$.
-\\
-We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
-
- $m_1(T)$ is the sum of the $S(t(\gamma))$ for  $\g$ in $\G[0]\overline{\G}$
-
- $m_2(T)$ is the sum of the $lh(t(\gamma))$ for $\g$ in $\G[0]\overline{\G}$
- \\
-If,  for each closure $\g$ of $\G[0]\overline{\G}$,  $\g^* = \g$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $\g^* = \g$). We suppose in the following that $\g^* \neq \g$ for at least one$\g$ of $\G[0]\overline{\G}$ . We can also suppose that $u$ doesn't end with a losure, because it can be integrated in the sequence $\G[0]$.
-\\
-In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in Lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $\g$ of $\G[0]\overline{\G}$ using rule (2) we conclude also as in Lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $\g$ of $\G[0]\overline{\G}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $\g[1]$.
-%
-%
-\medskip
-\\
-1) Suppose that $U$ is obtained by the reduction a closure $\g$ such that  $\g^* = \g$. Suppose for instance that is closure $\g[i]$ of $\G[0] = \g[1] \dots\g[p]$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S\g[1]^S \dots [\gamma'_i]\dots \g[p])\overline{w\G}$.
-\\
-Consider $U' = (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*}$ (note that that by $\g[1]^{S*}$ we mean that we apply first the substitution and then computation, and by $\g[1]^{*S}$, the converse).  We have
-
-$
-\begin{array}{llll}
- T' & = & (u\g[1]^* \dots\g[p]^*)\overline{w\G^*} & \\
-    & \rightsquigarrow^1 & (u^S\g[1]^{*S} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \\
-    & \rightsquigarrow & (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \hspace{0.5cm} \mbox{by Lemma~\ref{lem:CompSubst}  }\\
-    & = & U' &
-\end{array}
-$
-\\
-Therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
-%
-%
-\medskip
-\\
-2) Suppose that $U$ is obtained by the reduction of a closure $\g$ such that $\g^* = \g^v$.
-%
-For simplicity we suppose that it is $\g[1]$, the first closure of $\G[0]$, and $\G[0] = \g[1]\G'[0]$.
-\smallskip
-\\
-2.1)  $T = (u\share xt\G'[0])\overline{w\G}$ and $U = (u\share x{t'}\G'[0])\overline{w\G}$ with $t\rightsquigarrow^1 t'$.
-%
-In this case $T' = (u\subn{x_i}{\sn(t)^i}[\sh (t)]\G'[0]^*)\overline{w\G^*}$.
-%
-Consider $U' = (u\subn{x_i}{\sn(t')^i}[\sh (t')]\G'[0]^*)\overline{w\G^*}$. We have $\sh (t') = \sh (t)$ and by Lemma~\ref{lem:lift-sn}, $\sn (t) \rightsquigarrow \sn (t')$. Therefore $T'\rightsquigarrow U'$ and $U'\in\SN$. We have also $S(U')\leq S(T')$ and $S(t')<S(t)$. It follows that  $m_1(U) < m_1(T)$ and  $Mes(U,U') < Mes(T,T')$ and we have by the induction hypothesis, $U\in\SN$.
-%
-\smallskip
-\\
-2.2)
-$T =  (u\distr xyt\G'[0])\overline{w\G}$ and
-$U =  (u\distr xy{t'}\G'[0])\overline{w\G}$, with $t ~\rewrite^1~ t'$.
-In this case
-$T' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh(\lambda y.t)]\G'[0]^*)\overline{w\G^*}$.
-Consider
-$U' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t'))^i}[\sh(\lambda y.t')]\G'[0]^*)\overline{w\G^*}$.
-Since $[\sh(\lambda y.t)]=[\sh(\lambda y.t')]$, by Lemma \ref{lem:lift-sn}
-$\sn(\lambda y.\pi_1(t)) \rewrite^\star \sn(\lambda y.\pi_1(t'))$.
-Therefore $T'\rewrite U'$ and $U'\in\SN$. We have also that
-$S(U')\leq S(T')$ and $S(t') < S(t)$. It follows that $m_1(U)<m_1(T)$
-and $Mes(U,U') < Mes(T,T')$ and we have by the induction hypothesis,
-$U\in\SN$.
-%
-% 2.2)  $T = (u[x_1,\dots,x_n \leftarrow (t)v]\G'[0])\overline{w\G}$ and
-% \\
-% $U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v]\G'[0])\overline{w\G}$.
-% \\
-% In this case $T' = (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*}$.
-% \\
-% Consider $U' = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}
-% \{\sn(t)^1/\alpha_1,\dots,\sn(t)^n/\alpha_n\}[\sh(t)]\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)]\G'[0]^*)\overline{w\G^*}$.
-% \\
-% We have
-% \begin{eqnarray*}
-%  U' & = & (u \{(\sn (t)^1)\sn (v)^1 /x_1,\dots, (\sn (t)^n)\sn(t)^n/x_n\}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}\\
-%     & = & (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*} \\
-%     & = & T'
-% \end{eqnarray*}
-% Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
-%
-\smallskip
-\\
-2.3)  $T = (u\share x{(t)v}\G'[0])\overline{w\G}$ and
-\\
-$U = (u\subn{x_i}{(\alpha_i)\beta_i}\share\alpha t\share\beta v\G'[0])\overline{w\G}$.
-%
-In this case $T' = (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*}$.
-%
-Consider 
-\[
-	U' = (u	\subn{x_i}{(\alpha_i)\beta_i}
-			\subn{\alpha_i}{\sn(t)^i}[\sh(t)]
-			\subn{\beta_i}{\sn(v)^i}[\sh(v)]
-			\G'[0]^*
-		  )\overline{w\G^*}
-\]
-We have
-\begin{eqnarray*}
- U' & = & (u\subn{x_i}{(\sn (t)^i)\sn (v)^i}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}\\
-    & = & (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*} \\
-    & = & T'
-\end{eqnarray*}
-Therefore $U'\in\SN$ and $S(U') = S(T')$. Since $lh(t) + lh(v) < lh((t)v)$, it follows that $m_2(U) < m_2(T)$, and since we also have $m_1(U) \leq m_1(T)$, we have $Mes(U,U') < Mes(T,T')$. Then by the induction hypothesis, $U\in\SN$.
-%
-\smallskip
-\\
-2.4)  $T = (u\share x{\lambda y.t}\G'[0])\overline{w\G}$ and
-\\
-$U = (u\distr xy{\tup\alpha\share\alpha t}\G'[0])\overline{w\G}$.
-%
-In this case $T' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh(\lambda y.t)]\G'[0]^*)\overline{w\G^*}$.
-%
-Consider 
-\[
-	U' = (u\subn{x_i}{\sn(\lambda y.\alpha\share*\alpha t)^i}[\sh(\lambda y.\alpha[\alpha \leftarrow t])]\G'[0]^*)\overline{w\G^*}
-\]
-%
-% NOTE: I made the $\lambda y.\alpha\share*\alpha t$ into variants 
-%
-We have  $U' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh (\lambda y.t)]\G'[0]^*)\overline{w\G^*} = T'$.
-%\EMPTY{(check this equality)}
-%
-Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have $m_1(U) \leq m_1(T)$, and $m_2(U) < m_2(T)$ because $\lh(\lambda y.\tup\alpha\share\alpha t) = \lh(t) < \lh(\lambda y.t)$, which gives us $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
-%
-\smallskip
-\\
-2.5)  $T = (u\share xy{\tup^t\share*{\vv^{\vv*z\kern2pt}}y}\G'[0])\overline{w\G}$ and
-\\
-$U = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}[\sh (\lambda y.t\share*{\vv*z}{y})]\G'[0])\overline{w\G}$.
-%
-In this case we have $T' = ( u\subn{x_i}{\sn(\lambda y.t\share*{\vv*z}y)^i}[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}$.
-%
-Consider 
-\[
-	U' = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}
-			[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}
-\]
-%
-Because $t^i$ is already unfolded, we have  $\sn(\lambda y.t)^i = \sn(\lambda y.t\lambda y.t\share*{\vv*z}y)^i$.
-%(\EMPTY{Here we use not only the fact that the $t^i$ are variants with the convention on variables, but also that they are unfolded, i.e. produced by reduction)}
-It follows that $T' = U'$, $U'\in\SN$ and $S(U') = S(T')$.
-%
-Therefore we have $U'\in\SN$ and $S(U') = S(T')$. 
-%
-Since $m_1(U) < m_1(T)$ it follows that $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
-%
-%
-%
-%
-\medskip
-\\
-3)  Suppose that U is obtained by the interaction of the two first closures of $\G[0]$ using rule (9). It is enough to consider only the non-trivial case where the term of the second closure is not a variable. We have
-%
-\begin{align*}
-	T &= (u[y_1,\dots,y_m  \leftarrow x_1][x_1,x_2\dots,x_n \leftarrow t]\G'[0])\overline{w\G} \\
-	U &= (u[y_1,\dots,y_m,x_2\dots,x_n \leftarrow t]\G'[0])\overline{w\G}\;.
-\end{align*}
-%
-Let $\vv[p]z$ be the free variables of $t$. By our renaming convention, the free variables of $\sn(t)^i$ are $\vv[p]{z^i}$. In the following we will have to consider $\sn (\sn (t)^1)^j$. Because $\sn(t)$ is unfolded, $\sn(\sn(t)) = \sn(t)$ and $\sn (\sn (t)^1)^j$ is obtained from $\sn(t)$ by replacing any variable $x$ by $(x^1)^j$: we will  adopt the notation $x^{1,j}$ for $(x^1)^j$ and $\sn(t)^{1,j}$ for $\sn (\sn (t)^1)^j$.
-%
-We have
-%
-\begin{eqnarray*}
- T' & = & (u\share[m]y{x_1}\subn{x_i}{\sn(t)^i}[\sh(t):1,\dotsc,n]\G^*)\overline{w\G^*} \\
-    & = & (u\share[m]y{\sn(t)^1}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh(t):1,\dotsc,n]\G^*)\overline{w\G^*} \\
-    & \rightsquigarrow 
-    	& (u\subn[m][j]{y_j}{\sn(t)^{1,j}}[\sh (t^1):(1,1),\dotsc,(1,m)] \\
-    &   & \quads4 \sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh (t):1,\dots,n]\G^*)\overline{w\G^*} \\
-    & = & (u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n} \\
-    &   & \quads4 [\sh (t^1):(1,1),\dots,(1,m)][\sh (t):1,\dots,n]\G^*)\overline{w\G^*}
-\end{eqnarray*}
-%
-Let $u' = u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}$.
-%
-We have
-%
-\[
-\begin{array}{rc@{}l@{}}
-	\multicolumn{3}{@{}l@{}}{
-		u'[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]
-		%\makebox[\textwidth][l]{$u_1[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]$}}
-	}
-\\[4pt]
-	&=&	u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}}{z_i^1}_{i\leq p}
-			\share*{\vv^{z_i}}{z_i}_{i\leq p}
-\\[4pt]
-	&{}\rightsquigarrow{}&
-		u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}, z_i^2,\dots,z_i^n}{z_i}_{i\leq p}
-\\[4pt]
-	&=&	u'[\sh (t):(1,1),\dotsc,(1,m),2,\dotsc,n]\;.
-\end{array}
-\]
-%
-Consider 
-$
-	U' = (u'%\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}
-		 [\sh (t):(1,1),\dots,(1,m),2,\dots,n]\G^*)\overline{w\G^*}
-$.
-We have $T'\rightsquigarrow U'$ and therefore $U'\in\SN$; because $t$ is not a variable, $S(U')<S(T')$.
-%\TODO{check in the limit cases (eg nullary sharings) that there is always one step of reduction}
-Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
-
-
-\end{proof}
 
 
 % =================================================================================================
@@ -877,6 +524,8 @@ If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 %
 By inserting sharing-inferences $(\typeshare)$ where required, a typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$.
 \end{proof}
+
+
 
 % =================================================================================================
 \section{Proof of Strong Normalisation for Simple Types}
@@ -1122,6 +771,276 @@ By Proposition~\ref{prop:IntBase}, we have $x_i\in |A_i|$ for $i\leq n$.
 Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ $u \in |B|$, and by Proposition~\ref{prop:IntBase} we have $u \in \SN$.
 
 \end{proof}
+
+
+% =================================================================================================
+\section{Closure properties of Strongly Normalisable Atomic Lambda Terms}
+\label{sec:ClosPropSN}
+
+
+In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
+which are used in Section~\ref{sec:SNproof}.
+
+We denote by $\VAR$ the set of variables.
+
+\begin{ALlemma}\label{lem:HeadVar}
+If $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, then
+$(x)\overline{t} \in \SN$.
+\end{ALlemma}
+
+The following Lemma~\ref{lem:IntCaseLambda0} is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
+
+For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
+We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
+By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
+
+\begin{ALlemma}\label{lem:IntCaseLambda0}
+If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
+\end{ALlemma}
+
+\begin{proof}
+Let $T = ((((\lambda x.u)\G) v)\G')\overline{w\G}$ and $T' = ((u\sub xv)\G\G')\overline{w\G}$.
+%
+To show that $T\in\SN$, it must be shown that each one-step reduction from $T$ gives a term $U\in\SN$.
+%
+This can be shown by induction on $Mes(T) = (S(T'), lh(u), lh(v), \lh\g)$ where $\lh\G$ is the length of the sequence $\G$.
+\end{proof}
+
+\newcommand{\term}{{\mathsf{t}}}
+
+To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
+\begin{itemize}
+
+	\item
+If $\g = \share xt$, then $t(\gamma) = t$ and $\g^v = \subn{x_i}{\sn(t)^i}[\sh (t)]$
+
+	\item
+If $\g = \distr xy{t^n}$, then  $t(\gamma) = \lambda y.t^n$\\ and $\g^v = \subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}[\sh (\lambda y.t^n)]$.
+\end{itemize}
+
+The following Lemma~\ref{lem:IntCaseSharing0} is a generalisation of the fact that if $(u\g^v)\overline w \in \SN$, then $(u\g)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
+
+\begin{ALlemma}\label{lem:CompSubst}
+ $\g^v\sub xw \rightsquigarrow [\gamma\sub xw]^v$
+\end{ALlemma}
+
+\begin{proof}
+Immediate by definition.
+\end{proof}
+
+For $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$, where $\g[i]^*$ is either $\g[i]$ or $\g[i]^v$.
+
+For simplifying the presentation, we consider in the following, and in the rest of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+
+\begin{ALlemma}\label{lem:IntCaseSharing0}
+ If $(u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
+\end{ALlemma}
+
+\begin{proof}
+
+  Let $T = (u\G[0])\overline{w\G}$ and $T' = (u\G[0]^*)\overline{w\G^*}$.
+\\
+We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
+
+ $m_1(T)$ is the sum of the $S(t(\gamma))$ for  $\g$ in $\G[0]\overline{\G}$
+
+ $m_2(T)$ is the sum of the $lh(t(\gamma))$ for $\g$ in $\G[0]\overline{\G}$
+ \\
+If,  for each closure $\g$ of $\G[0]\overline{\G}$,  $\g^* = \g$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $\g^* = \g$). We suppose in the following that $\g^* \neq \g$ for at least one$\g$ of $\G[0]\overline{\G}$ . We can also suppose that $u$ doesn't end with a closure, because it can be integrated in the sequence $\G[0]$.
+
+
+In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in Lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $\g$ of $\G[0]\overline{\G}$ using rule (2) we conclude also as in Lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $\g$ of $\G[0]\overline{\G}$ or the interaction of two such closures using rule (9). For simplication we consider the case where the reduction involves $\g[1]$.
+%
+%
+\medskip
+\\
+1) Suppose that $U$ is obtained by the reduction a closure $\g$ such that  $\g^* = \g$. Suppose for instance that is closure $\g[i]$ of $\G[0] = \g[1] \dots\g[p]$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S\g[1]^S \dots [\gamma'_i]\dots \g[p])\overline{w\G}$.
+\\
+Consider $U' = (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*}$ (note that that by $\g[1]^{S*}$ we mean that we apply first the substitution and then computation, and by $\g[1]^{*S}$, the converse).  We have
+
+$
+\begin{array}{llll}
+ T' & = & (u\g[1]^* \dots\g[p]^*)\overline{w\G^*} & \\
+    & \rightsquigarrow^1 & (u^S\g[1]^{*S} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \\
+    & \rightsquigarrow & (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \hspace{0.5cm} \mbox{by Lemma~\ref{lem:CompSubst}  }\\
+    & = & U' &
+\end{array}
+$
+\\
+Therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
+%
+%
+\medskip
+\\
+2) Suppose that $U$ is obtained by the reduction of a closure $\g$ such that $\g^* = \g^v$.
+%
+For simplicity we suppose that it is $\g[1]$, the first closure of $\G[0]$, and $\G[0] = \g[1]\G'[0]$.
+\smallskip
+\\
+2.1)  $T = (u\share xt\G'[0])\overline{w\G}$ and $U = (u\share x{t'}\G'[0])\overline{w\G}$ with $t\rightsquigarrow^1 t'$.
+%
+In this case $T' = (u\subn{x_i}{\sn(t)^i}[\sh (t)]\G'[0]^*)\overline{w\G^*}$.
+%
+Consider $U' = (u\subn{x_i}{\sn(t')^i}[\sh (t')]\G'[0]^*)\overline{w\G^*}$. We have $\sh (t') = \sh (t)$ and by Lemma~\ref{lem:lift-sn}, $\sn (t) \rightsquigarrow \sn (t')$. Therefore $T'\rightsquigarrow U'$ and $U'\in\SN$. We have also $S(U')\leq S(T')$ and $S(t')<S(t)$. It follows that  $m_1(U) < m_1(T)$ and  $Mes(U,U') < Mes(T,T')$ and we have by the induction hypothesis, $U\in\SN$.
+%
+\smallskip
+\\
+2.2)
+$T =  (u\distr xyt\G'[0])\overline{w\G}$ and
+$U =  (u\distr xy{t'}\G'[0])\overline{w\G}$, with $t ~\rewrite^1~ t'$.
+In this case
+$T' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh(\lambda y.t)]\G'[0]^*)\overline{w\G^*}$.
+Consider
+$U' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t'))^i}[\sh(\lambda y.t')]\G'[0]^*)\overline{w\G^*}$.
+Since $[\sh(\lambda y.t)]=[\sh(\lambda y.t')]$, by Lemma \ref{lem:lift-sn}
+$\sn(\lambda y.\pi_1(t)) \rewrite^\star \sn(\lambda y.\pi_1(t'))$.
+Therefore $T'\rewrite U'$ and $U'\in\SN$. We have also that
+$S(U')\leq S(T')$ and $S(t') < S(t)$. It follows that $m_1(U)<m_1(T)$
+and $Mes(U,U') < Mes(T,T')$ and we have by the induction hypothesis,
+$U\in\SN$.
+%
+% 2.2)  $T = (u[x_1,\dots,x_n \leftarrow (t)v]\G'[0])\overline{w\G}$ and
+% \\
+% $U = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}[\alpha_1,\dots,\alpha_n \leftarrow t][\beta_1,\dots,\beta_n \leftarrow v]\G'[0])\overline{w\G}$.
+% \\
+% In this case $T' = (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*}$.
+% \\
+% Consider $U' = (u\{(\alpha_1)\beta_1 /x_1,\dots, (\alpha_n)\beta_n/x_n\}
+% \{\sn(t)^1/\alpha_1,\dots,\sn(t)^n/\alpha_n\}[\sh(t)]\{\sn(v)^1/\beta_1,\dots,\sn(v)^n/\beta_n \leftarrow v\}[\sh(v)]\G'[0]^*)\overline{w\G^*}$.
+% \\
+% We have
+% \begin{eqnarray*}
+%  U' & = & (u \{(\sn (t)^1)\sn (v)^1 /x_1,\dots, (\sn (t)^n)\sn(t)^n/x_n\}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}\\
+%     & = & (u\{\sn((t)v)^1/x_1,\dots,\sn((t)v)^n/x_n\}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*} \\
+%     & = & T'
+% \end{eqnarray*}
+% Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have  $m_1(U) \leq m_1(T)$ and because $lh(t) + lh(v) < lh((t)v)$, $m_2(U) < m_2(T)$ and  $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
+%
+\smallskip
+\\
+2.3)  $T = (u\share x{(t)v}\G'[0])\overline{w\G}$ and
+\\
+$U = (u\subn{x_i}{(\alpha_i)\beta_i}\share\alpha t\share\beta v\G'[0])\overline{w\G}$.
+%
+In this case $T' = (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*}$.
+%
+Consider 
+\[
+	U' = (u	\subn{x_i}{(\alpha_i)\beta_i}
+			\subn{\alpha_i}{\sn(t)^i}[\sh(t)]
+			\subn{\beta_i}{\sn(v)^i}[\sh(v)]
+			\G'[0]^*
+		  )\overline{w\G^*}
+\]
+We have
+\begin{eqnarray*}
+ U' & = & (u\subn{x_i}{(\sn (t)^i)\sn (v)^i}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}\\
+    & = & (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*} \\
+    & = & T'
+\end{eqnarray*}
+Therefore $U'\in\SN$ and $S(U') = S(T')$. Since $lh(t) + lh(v) < lh((t)v)$, it follows that $m_2(U) < m_2(T)$, and since we also have $m_1(U) \leq m_1(T)$, we have $Mes(U,U') < Mes(T,T')$. Then by the induction hypothesis, $U\in\SN$.
+%
+\smallskip
+\\
+2.4)  $T = (u\share x{\lambda y.t}\G'[0])\overline{w\G}$ and
+\\
+$U = (u\distr xy{\tup\alpha\share\alpha t}\G'[0])\overline{w\G}$.
+%
+In this case $T' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh(\lambda y.t)]\G'[0]^*)\overline{w\G^*}$.
+%
+Consider 
+\[
+	U' = (u\subn{x_i}{\sn(\lambda y.\alpha\share*\alpha t)^i}[\sh(\lambda y.\alpha[\alpha \leftarrow t])]\G'[0]^*)\overline{w\G^*}
+\]
+%
+% NOTE: I made the $\lambda y.\alpha\share*\alpha t$ into variants 
+%
+We have  $U' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh (\lambda y.t)]\G'[0]^*)\overline{w\G^*} = T'$.
+%\EMPTY{(check this equality)}
+%
+Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have $m_1(U) \leq m_1(T)$, and $m_2(U) < m_2(T)$ because $\lh(\lambda y.\tup\alpha\share\alpha t) = \lh(t) < \lh(\lambda y.t)$, which gives us $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
+%
+\smallskip
+\\
+2.5)  $T = (u\share xy{\tup^t\share*{\vv^{\vv*z\kern2pt}}y}\G'[0])\overline{w\G}$ and
+\\
+$U = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}[\sh (\lambda y.t\share*{\vv*z}{y})]\G'[0])\overline{w\G}$.
+%
+In this case we have $T' = ( u\subn{x_i}{\sn(\lambda y.t\share*{\vv*z}y)^i}[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}$.
+%
+Consider 
+\[
+	U' = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}
+			[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}
+\]
+%
+Because $t^i$ is already unfolded, we have  $\sn(\lambda y.t)^i = \sn(\lambda y.t\lambda y.t\share*{\vv*z}y)^i$.
+%(\EMPTY{Here we use not only the fact that the $t^i$ are variants with the convention on variables, but also that they are unfolded, i.e. produced by reduction)}
+It follows that $T' = U'$, $U'\in\SN$ and $S(U') = S(T')$.
+%
+Therefore we have $U'\in\SN$ and $S(U') = S(T')$. 
+%
+Since $m_1(U) < m_1(T)$ it follows that $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
+%
+%
+%
+%
+\medskip
+\\
+3)  Suppose that U is obtained by the interaction of the two first closures of $\G[0]$ using rule (9). It is enough to consider only the non-trivial case where the term of the second closure is not a variable. We have
+%
+\begin{align*}
+	T &= (u[y_1,\dots,y_m  \leftarrow x_1][x_1,x_2\dots,x_n \leftarrow t]\G'[0])\overline{w\G} \\
+	U &= (u[y_1,\dots,y_m,x_2\dots,x_n \leftarrow t]\G'[0])\overline{w\G}\;.
+\end{align*}
+%
+Let $\vv[p]z$ be the free variables of $t$. By our renaming convention, the free variables of $\sn(t)^i$ are $\vv[p]{z^i}$. In the following we will have to consider $\sn (\sn (t)^1)^j$. Because $\sn(t)$ is unfolded, $\sn(\sn(t)) = \sn(t)$ and $\sn (\sn (t)^1)^j$ is obtained from $\sn(t)$ by replacing any variable $x$ by $(x^1)^j$: we will  adopt the notation $x^{1,j}$ for $(x^1)^j$ and $\sn(t)^{1,j}$ for $\sn (\sn (t)^1)^j$.
+%
+We have
+%
+\begin{eqnarray*}
+ T' & = & (u\share[m]y{x_1}\subn{x_i}{\sn(t)^i}[\sh(t):1,\dotsc,n]\G^*)\overline{w\G^*} \\
+    & = & (u\share[m]y{\sn(t)^1}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh(t):1,\dotsc,n]\G^*)\overline{w\G^*} \\
+    & \rightsquigarrow 
+    	& (u\subn[m][j]{y_j}{\sn(t)^{1,j}}[\sh (t^1):(1,1),\dotsc,(1,m)] \\
+    &   & \quads4 \sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh (t):1,\dots,n]\G^*)\overline{w\G^*} \\
+    & = & (u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n} \\
+    &   & \quads4 [\sh (t^1):(1,1),\dots,(1,m)][\sh (t):1,\dots,n]\G^*)\overline{w\G^*}
+\end{eqnarray*}
+%
+Let $u' = u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}$.
+%
+We have
+%
+\[
+\begin{array}{rc@{}l@{}}
+	\multicolumn{3}{@{}l@{}}{
+		u'[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]
+		%\makebox[\textwidth][l]{$u_1[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]$}}
+	}
+\\[4pt]
+	&=&	u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}}{z_i^1}_{i\leq p}
+			\share*{\vv^{z_i}}{z_i}_{i\leq p}
+\\[4pt]
+	&{}\rightsquigarrow{}&
+		u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}, z_i^2,\dots,z_i^n}{z_i}_{i\leq p}
+\\[4pt]
+	&=&	u'[\sh (t):(1,1),\dotsc,(1,m),2,\dotsc,n]\;.
+\end{array}
+\]
+%
+Consider 
+$
+	U' = (u'%\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}
+		 [\sh (t):(1,1),\dots,(1,m),2,\dots,n]\G^*)\overline{w\G^*}
+$.
+We have $T'\rightsquigarrow U'$ and therefore $U'\in\SN$; because $t$ is not a variable, $S(U')<S(T')$.
+%\TODO{check in the limit cases (eg nullary sharings) that there is always one step of reduction}
+Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
+
+
+\end{proof}
+
 
 
 % =================================================================================================
