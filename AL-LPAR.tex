@@ -112,9 +112,17 @@ In this paper we prove strong normalization of the typed atomic lambda-calculus 
 
 
 % citations to preserve:
-%	\cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011} - intersection types for explicit substitution
 %	\cite{Mellies-1995}
+
 %
+%One should say (in a better way that what follows) that:
+% we prove two fundamental results:
+%- we prove that typed atomic terms are strongly normalizing, using Tait's reducibility method;
+%- strongly normalizing pure atomic terms can be characterized  using a type system with intersection;
+%These results together shows that atomic lambda-calculus is  a rich mathematical object allowing to study lambda-calculus with sharing in the same way as lambda-calculus.
+%(I guess, you see what I want to say ...)
+
+
 
 
 
@@ -165,7 +173,15 @@ Reducibility is an abstract method compatible with higher-order logic, whose app
 Together, the two form an important part of the meta-theory of a calculus (for example for explicit substitution calculi, in \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011}).
 
 
-
+The fact that a reducibility proof can be carried out for the atomic lambda-calculus shows the generic character of this extension
+of the lambda-calculus.
+%
+Nevertheless, the proof is not a straightforward generalisation of the one for lambda-calculus, because one has to overcome
+the lack of local confluence.
+%
+%I would like to add something like this to avoid that the referee says: it is only a technical
+%generalization; you need only perseverance to get it; etc.
+%
 For compactness the proof will be carried out for a discipline of simple types, and will be shown extensible to intersection types.
 
 
