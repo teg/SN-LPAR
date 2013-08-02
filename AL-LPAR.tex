@@ -1075,6 +1075,51 @@ In this section we outline how the above result can be extended from simple type
 
 Moreover, the notion of reducibility set is extended to intersection types by $|A\cap B|=|A|\cap|B|$. The following theorem can then be proven by generalising the results in Section~\ref{sec:SNproof}.
 
+
+\begin{ALproposition}\label{prop:IntSubstIntersection}
+If $(x_i:A_i)_{i\leq n}\vdash_D u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
+\end{ALproposition}
+
+\begin{proof}
+%
+We proceed by induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_D u:B$.
+
+We only show the first intersection rule, the three others are immediate and the other cases are as in the proof of Proposition~\ref{prop:IntSubst}.
+
+The last rule is
+\[
+\hspace{-\leftmargin}
+  \vliiinf{}{\typedist}
+	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
+	{(y_i:C_i)_{i\leq k}, (x_i:\bigcap_{j\leq m}(A_j \vlim B_j))_{i\leq n} \vdash s : C}
+	{\hspace{-6pt}}
+	{((z_i:D_i)_{i\leq m}, y : A_j \vdash u^n : B_j\vlan\cdots\vlan B_j)_{j\leq m}}
+\]
+Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $s'=s\subn[k]{y_i}{v_i}$ and $u'=u^n\subn[m][j]{z_j}{w_j}$.
+%
+We have to prove that the following term is in $|C|$:
+\[
+	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
+\]
+By the induction hypothesis, for each $r\in |A|$ and $j\leq m$
+\[
+	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B_j\vlan\cdots\vlan B_j|
+\]
+and therefore $\pi_i(u'\sub yr)=\pi_i(u')\sub yr\in|B_j|$.
+%
+Then, for each $r\in |A|$ and $j\leq m$, $(\lambda y.\pi_i(u'))r \in|B_j|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.\pi_i(u')\in|A_j\vlim B_j|$. Again by definition of $|-|$, $\lambda y.\pi_i(u')\in|\bigcap_{j\leq m}(A_j \vlim B_j)|$.
+%
+By Lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.\pi_i(u')$ belongs to $|\bigcap_{j\leq m}(A_j \vlim B_j)|$, as does any variant $\sn(\lambda y.\pi_i(u'))^i$.
+%
+By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
+\]
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
+%
+
+\end{proof}
+
 \begin{ALtheorem}\label{thm:SND}
 If $x_1:A_1,\dots, x_n:A_n \vdash_D u:B$ then $u \in \SN$.
 \end{ALtheorem}
