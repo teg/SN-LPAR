@@ -1149,6 +1149,12 @@ If $\Gamma, x:A\vdash t:B$ then $\Gamma,x:A\cap C\vdash t:B$.
 If $t_1$ and $t_2$ are variants of the same term and $x_1:A_1,\dots,x_n:A_n\vdash_D t_1:B$, then $y_1:A_1,\dots,y_n:A_n\vdash_D t_2:B$.
 \end{ALproposition}
 
+\begin{ALproposition}
+\label{prop:typing substitution}
+If $\Gamma,\Delta \vdash_D u\sub xt:A$, then there exists a $B$, such that
+$\Gamma, x:B \vdash_D u:A$ and $\Delta\vdash_D t:B$.
+\end{ALproposition}
+
 \begin{ALdefinition}
 Let $\ALtype$ be the rewrite system $\ALbeta\cup\ALnotbeta$ where the rule $u\share x{(t)v}\ALnotbeta u\{(y_i)z_i/x_i\}_{i\leq n}\share yt\share zv$ is restricted to $n\geq 1$.
 \end{ALdefinition}
@@ -1159,22 +1165,127 @@ The aim of this restricted notion of reduction is to be able to reason about rev
 If $t\ALtype u$ and $\Gamma \vdash_D u:A$, then there is a $\Gamma'$, such that $\Gamma' \vdash_D t:A$.
 \end{ALlemma}
 
-\begin{proof}
-We only present the case for rule~\ref{eqn:distributor elimination}, the remaining cases being immediate by definition.
-
-Given
+\begin{proof}By induction on the length of the reduction path. We examine each reduction rule:
+\begin{itemize}
+%\begin{equation}\tag{$\beta$}\label{eqn:beta-reduction}
+%	(\lambda x.u)t ~\ALbeta~ u\sub xt
+%\end{equation}
+\item
+Consider rule~(\ref{eqn:beta-reduction}): Given $\Gamma,\Delta \vdash_D u\sub xt:A$, we have by Proposition~\ref{prop:typing substitution}, some $B$ such that
+$\Gamma, x:B \vdash_D u:A$ and $\Delta\vdash_D t:B$, which gives $\Gamma,\Delta\vdash_D (\lambda x.u)t$.
+%\label{eqn:sharing above abstraction}
+%	\lambda x.t\g & ~\ALnotbeta~ (\lambda x.t)\g
+%		 & \text{if}~x\in\FV(t) &&&
+\item
+Consider rule~(\ref{eqn:sharing above abstraction}). There are two cases:
+\begin{itemize}
+\item
+Given $\Gamma,\Delta \vdash_D (\lambda x.t)\share*{\vv*y}v:A$, we have $\Gamma,x:B,\vv*y:C\vdash_D t:A$ and
+$\Delta \vdash_D v:C$, which gives $\Gamma,\Delta\vdash_D \lambda x.(t\share*{\vv*y}v):A$.
+\item
+Given $\Gamma,\Delta \vdash_D (\lambda x.t)\distr*{\vv*y}zv:A$, we have $\Gamma,x:B,\vv*y:(C\vlim D)\vdash_D t:A$ and
+$\Delta,z:C \vdash_D v:D$, which gives $\Gamma,\Delta\vdash_D \lambda x.(t\distr*{\vv*y}zv):A$.
+\end{itemize}
+%\label{eqn:sharing above application function}
+%	(u\g)t & ~\ALnotbeta~ ((u)t)\g
+\item
+Consider rule~(\ref{eqn:sharing above application function}). There are two cases:
+\begin{itemize}
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $u$ and
+we have $\Gamma,\vv*y:C\vdash_D u:B\vlim A$, $\Delta\vdash_D t:B$ and
+$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u\share*{\vv*y}v)t:A$.
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $u$ and
+we have $\Gamma,\vv*y:(C\vlim D)\vdash_D u:B\vlim A$, $\Delta\vdash_D t:B$ and
+$\Sigma,z:C \vdash_D v:D$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u\distr*{\vv*y}zv)t:A$.
+\end{itemize}
+%\label{eqn:sharing above application argument}
+%	(u)t\g & ~\ALnotbeta~ ((u)t)\g
+\item
+Consider rule~(\ref{eqn:sharing above application argument}). There are two cases:
+\begin{itemize}
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma\vdash_D u:B\vlim A$, $\Delta,\vv*y:C\vdash_D t:B$ and
+$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u)t\share*{\vv*y}v:A$.
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma \vdash_D u:B\vlim A$, $\Delta\vv*y:(C\vlim D)\vdash_D t:B$ and
+$\Sigma,z:C \vdash_D v:D$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u)t\distr*{\vv*y}zv):A$.
+\end{itemize}
+%\label{eqn:sharing above sharing}
+%	u\share x{t\g} & ~\ALnotbeta~ u\share xt\g
+\item
+Consider rule~(\ref{eqn:sharing above sharing}). There are two cases:
+\begin{itemize}
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D u\share*{\vv*x}t\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma,\vv*x:B\vdash_D u:A$, $\Delta,\vv*y:C\vdash_D t:B$ and
+$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{t\share*{\vv*y}v}:A$.
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D u\share*{\vv*x}t\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma,\vv*x:B \vdash_D u:A$, $\Delta,\vv*y:(C\vlim D)\vdash_D t:B$ and
+$\Sigma,z:C \vdash_D v:D$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{t\distr*{\vv*y}zv}:A$.
+\end{itemize}
+%\label{eqn:sharing above distribution}
+%	u\distr xy{t\g} & ~\ALnotbeta~ u\distr xyt\g
+%		& \text{if}~y\in\FV(t) &&&
+\item
+Consider rule~(\ref{eqn:sharing above distribution}). There are two cases:
+\begin{itemize}
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D u\distr*{\vv*x}qt\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma,\vv*x:(E\vlim B)\vdash_D u:A$, $\Delta,\vv*y:C,q:E\vdash_D t:B$ and
+$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\distr*{\vv*x}q{t\share*{\vv*y}v}:A$.
+\item
+Given $\Gamma,\Delta,\Sigma \vdash_D u\distr*{\vv*x}qt\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
+we have $\Gamma,\vv*x:(E\vlim B) \vdash_D u:A$, $\Delta,\vv*y:(C\vlim D),q:E\vdash_D t:B$ and
+$\Sigma,z:C \vdash_D v:D$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\distr*{\vv*x}q{t\distr*{\vv*y}zv}:A$.
+\end{itemize}
+%\label{eqn:execute unary substitution}
+%	u\share*xt~\ALnotbeta~u\sub xt
+\item
+Consider rule~(\ref{eqn:execute unary substitution}): Given $\Gamma,\Delta \vdash_D u\sub xt:A$, we have by Proposition~\ref{prop:typing substitution}, some $B$ such that
+$\Gamma, x:B \vdash_D u:A$ and $\Delta\vdash_D t:B$, which gives $\Gamma,\Delta\vdash_D u\share*xt$.
+%\label{eqn:compound sharings}
+%	u\share*{\vv*x}{y_i}\share yt ~\ALnotbeta~
+%	u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}
+\item
+Consider rule~(\ref{eqn:compound sharings}):
+Given $\Gamma,\Delta\vdash_D u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}:A$, we have $\Gamma,y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n:B\vdash_D u:A$ and
+$\Delta\vdash_D t:B$. This gives $\Gamma,\vv*y:B\vdash_D u\share*{\vv*x}{y_i}$, which again gives $\Gamma,\Delta\vdash_D u\share*{\vv*x}{y_i}\share*{\vv*y}t$.
+%\label{eqn:share application}
+%	u\share x{(v)t} ~\ALnotbeta~
+%	u\subn{x_i}{(y_i)z_i}\share yv\share zt
+\item
+Consider rule~(\ref{eqn:share application}), for $n\geq1$:
+Given $\Gamma,\Delta,\Sigma \vdash_D u\subn{x_i}{(y_i)z_i}\share yv\share zt:A$. As this is a redex of the given rule, $\vv*z$ binds only in $u$,
+we have $\Gamma,\vv*y:D,\vv*z:C\vdash_D u\subn{x_i}{(y_i)z_i}:A$;
+and by Proposition~\ref{prop:typing substitution}, there is an $B$, such that $D=C\vlim B$.
+We then have $\Delta\vdash_D v:C\vlim B$ and $\Sigma\vdash_D t:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{(v)t}:A$.
+%\label{eqn:share abstraction}
+%	u\share x{\lambda x.t}~\ALnotbeta~ u\distr xx{\tup y\share yt}
+\item
+Consider rule~(\ref{eqn:share abstraction}):
+Given $\Gamma,\Delta\vdash_D u\distr*{\vv*x}y{\tup z\share zt}:A$, we have $\Gamma,\vv*x:B\vlim C\vdash_D u:A$ and $\Delta,y:B\vdash_D t:C$, which gives
+$\Gamma,\Delta\vdash_D u\share*{\vv*x}{\lambda y.t}:A$.
+%\label{eqn:distributor elimination}
+%	u\distr xy{\tup t\share*{\vv*z}{y}}~\ALnotbeta~
+%	u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}
+\item
+Consider rule~(\ref{eqn:distributor elimination}): Given
 \[
 \Gamma,\Delta_1,\dots,\Delta_n\vdash_D u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}:A\;,
 \]
-with each $t_i$ a fresh variant of the same term $t$, we have
+with each $t_i$ a fresh variant of the same term $t$, we have by Proposition~\ref{prop:typing substitution}, some $B_i\vlim C_i$'s such that
 \[
-\Gamma, (x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A
+\Gamma, (x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A\;;
 \]
-for some $B_i\vlim C_i$'s; and for each $i\leq n$,
+and for each $i\leq n$,
 \[
 \Delta_i\vdash_D\lambda y_i.t_i\share*{\vv*z_i}{y_i}:B_i\vlim C_i\;.
 \]
-
 By Proposition~\ref{prop:intersection weakening} we get
 \[
 \Gamma, \bigcap_{i\leq n}(x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A\;,
@@ -1184,11 +1295,11 @@ for each $i,j\leq n$, $\Delta_i',\vv*z_i:B_j\vdash_D t_i:C_j$, where the $i^{\mb
 \[
 \Delta_1',\dots,\Delta_n',y:B_j\vdash_D \tup t\share*{\vv*z}{y}:\vls(C_j.\dots.C_j)\;.
 \]
-
 We then get
 \[
 	\Gamma,\Delta'_1,\dots,\Delta'_n\vdash_D u\distr xy{\tup t\share*{\vv*z}{y}}: A\;.
 \]
+\end{itemize}
 \end{proof}
 
 \begin{ALproposition}
