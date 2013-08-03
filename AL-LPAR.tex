@@ -1135,7 +1135,6 @@ If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
 If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and by Theorem~\ref{thm:SND}, $\tercoden N$ is strongly normalisable.
 \end{proof}
 
-
 % =================================================================================================
 \section{Characterization of Strongly Normalising Atomic Lambda Terms}
 
@@ -1372,6 +1371,13 @@ If $u$ is a redex of $\ALtype$, there is a $v$ such that $u\ALtype v$. Then $S(v
 \item
 If $u=w\share*{}{(t)v}$, both $w,(t)v\in\SN$ and $S(w),S((t)v)<S(u)$, so by the induction hypothesis we have $\Gamma\vdash_D w:A$ and $\Delta\vdash_D (t)v:B$, which gives $\Gamma,\Delta\vdash_D w\share*{}{(t)v}:A$.
 \item
+If $u=w\distr*{\vv*x}y{s^n\share*{}{(t)v}}$, both
+$w\distr*{\vv*x}y{s^n\share*{}y},(t)v\in\SN$
+and
+$S(w\distr*{\vv*x}y{s^n\share*{}y}),S((t)v)<S(u)$,
+so by the induction hypothesis we have $\Gamma,\vv*x:\bigcap_{i\leq m}(B_i\vlim C_i)\vdash_D w:A$ and, for each $i\leq m$, $\Delta\vdash_D s^n:C_i$, and $\Sigma,y:X\vdash_D (t)v:Y$. We then get, for each $i\leq m$, $\Delta,y:X^+\vdash_D s^n\share*{}{(t)v}:C_i$, which gives $\Gamma,\Delta,\Sigma\vdash_D w\distr*{\vv*x}y{s^n\share*{}{(t)v}}:A$.
+%the induction hypothesis we have $\Gamma, (x_i:B_i\vlim C_i)_{i\leq n}\vdash_D v:A$ and $\Delta,y:X\vdash_D w:B$ so we have $\Delta,y:X^+\vdash_D w:B$ and $\Gamma,\Delta\vdash_D v\distr xy{t^n\share*{}w}:A$.
+\item
 If $u$ is not a redex, procede by induction on the structure of $u$:
 \begin{itemize}
 \item
@@ -1379,16 +1385,10 @@ $u=\lambda x.t$, $t$ is typeable by the induction hypothesis, and $u$ is typable
 \item
 $u=(\dotso(x)t_1\dotso )t_n$, by the induction hypothesis each of $t_1$, $\dots$, $t_n$ and so is $u$ as in the proof of Proposition~\ref{prop:typable normal form}.
 \item
-$u=v\share xt$, by the induction hypothesis we have $\Gamma,(x_i:B_i)_{i\leq n}\vdash_D v:A$ and $\Delta\vdash_D t:B$, so $\Gamma,\Delta\vdash_D v\share xt:A$ as in the proof of Proposition~\ref{prop:typable normal form}.
-\item
-$u=v\distr xyt$, by the induction hypothesis we have $\Gamma, (x_i:B_i\vlim C_i)_{i\leq n}\vdash_D v:A$ and $\Delta,y:X\vdash_D t:B$ so we have $\Delta,y:X^+\vdash_D t:B$ and $\Gamma,\Delta\vdash_D v\distr xyt:A$.
-\item
-$u=\tup t$, by the induction hypothesis we have, for each $i\leq n$, $\Gamma_i\vdash_D t_i:A_i$, which gives $\Gamma_1,\dots,\Gamma_n\vdash_D\tup t:\vls(A_1.\dots.A_n)$.
+$u=v\share xy$, by the induction hypothesis we have $\Gamma,(x_i:B_i)_{i\leq n}\vdash_D v:A$ so $\Gamma,\Delta\vdash_D v\share xy:A$ as in the proof of Proposition~\ref{prop:typable normal form}.
 \end{itemize}
 \end{itemize}
 \end{proof}
-
-
 
 
 % =================================================================================================
