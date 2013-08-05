@@ -1071,7 +1071,41 @@ In this section we outline how the above result can be extended from simple type
 	  {}
 	  {(\Delta, y:V_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
 \]
-Where in the last rule, $V_j$ may be any type if $y$ occurs weakened, and $V_j=B_j$ otherwise.
+Where in the last rule, $V_j$ may be any type if $y$ occurs \emph{weakened}, as defined below, and $V_j=B_j$ otherwise.
+
+\begin{ALdefinition}
+A variable $y$ occurs \emph{weakened} in a term $t$ if $t$ has a subterm $v\share xu$ such that $y\in\FV(u)$ and each $x_i$ occurs weakened in $v$.
+\end{ALdefinition}
+
+
+\begin{ALlemma}
+\label{lem:unfolding weakened variable}
+If a variable $y$ occurs free and weakened in a term $t$ then the unfolding of $t$ is of the form $t'\share*{}y$.
+\end{ALlemma}
+
+\begin{ALlemma}
+\label{lem:weakening SN}
+If $(t)\overline w\in\SN$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in\SN$.
+\end{ALlemma}
+
+\begin{ALlemma}
+\label{lem:weakening RED}
+If $(t)\overline w\in|B|$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in|B|$.
+\end{ALlemma}
+
+\begin{proof}
+The proof is by induction on $B$.
+%
+The case where $B$ is an atom is covered by Lemma~\ref{lem:weakening SN}; the case $B=C\cap D$ is immediate.
+%
+For $B=C\vlim D$, let $v\in\SN$. 
+%
+We have to show that $(t\share*{}v)\overline w\in|C\vlim D|$, i.e.\ that $(t\share*{}v)\overline ww\in |D|$ for all $w\in|C|$.
+%
+Let $w\in|C|$.
+%
+Because $(t)\overline w\in|C\vlim D|$, we have $(t)\overline ww\in|D|$, and by the induction hypothesis, $(t\share*{}v)\overline ww\in|D|$.
+\end{proof}
 
 
 Furthermore, the notion of reducibility set is extended to intersection types by $|A\cap B|=|A|\cap|B|$. The following theorem can then be proven by generalising the results in Section~\ref{sec:SNproof}.
@@ -1102,6 +1136,17 @@ We have to prove that the following term is in $|C|$:
 \[
 	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
 \]
+
+We distinguish two cases, depending on whether $y$ occurs weakened.
+
+\medskip
+
+\noindent\textbf{(i)}
+%
+The variable $y$ occurs weakened.
+%
+In this case, $V_j=A_j$.
+%
 By the induction hypothesis, for each $r\in |A|$ and $j\leq m$
 \[
 	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B_j\vlan\cdots\vlan B_j|
@@ -1119,6 +1164,36 @@ By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, a
 It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
 %
 
+\medskip
+
+\noindent\textbf{(ii)}
+%
+The variable $y$ occurs weakened.
+%
+By the induction hypothesis, for each $j\leq m$
+\[
+	u'=u^n\subn[m][j]{z_j}{w_j}\in|B_j\vlan\dotso\vlan B_j|\;,
+\]
+and therefore $\pi_i(u')\in|B_j|$, and $\sn(\pi_i(u'))\in|B_j|$.
+%
+Because $y$ is weakened, we have $\sn(\lambda y.\pi_i(u'))=\lambda y.u''\share*{}y$ with $u''=\sn(\pi_i(u'))$.
+%
+Since $u''\in|B_j|$, by Lemma~\ref{lem:weakening RED} we have $u''\share*{}v\in|B_j|$ for any $v\in\SN$.
+%
+Therefore $\lambda y.u''\share*{}y\in|V\vlim B_j|$ for any formula $V$, and in particular $\lambda y.u''\share*{}y\in|A_j\to B_j|$.
+%
+This means that $\sn(\lambda y.\pi_i(u'))$ is in $|\bigcap_{j\leq n}(A_j\vlim B_j)|$, as is any variant of it.
+%
+By the induction hypothesis, 
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|
+\]
+and by Lemma~\ref{lem:Red-AddSharings}
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
+\]
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
+%
 \end{proof}
 
 \begin{ALtheorem}\label{thm:SND}

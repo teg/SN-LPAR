@@ -82,6 +82,7 @@
 
 \begin{document}
 
+
 \begin{ALlemma}
 \label{lem:weakening SN}
 If $(t)\overline w\in\SN$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in\SN$.
@@ -106,6 +107,55 @@ Let $w\in|C|$.
 Because $(t)\overline w\in|C\vlim D|$, we have $(t)\overline ww\in|D|$, and by the induction hypothesis, $(t\share*{}v)\overline ww\in|D|$.
 \end{proof}
 
+
+\begin{ALlemma}
+\label{lem:unfolding weakened variable}
+If a variable $y$ occurs free and weakened in a term $t$ then the unfolding of $t$ is of the form $t'\share*{}y$.
+\end{ALlemma}
+
+
+
+\noindent{\color{red} To be inserted into the proof of `Proposition 23'}
+
+\noindent{\color{red} Part (i)}
+
+We distinguish two cases, depending on whether $y$ occurs weakened.
+
+\medskip
+
+\textbf{(i)} The variable $y$ occurs weakened.
+%
+In this case, $V_j=A_j$.
+
+\noindent{\color{red} Part (ii)}
+
+\medskip
+
+\textbf{(ii)} The variable $y$ occurs weakened.
+%
+By the induction hypothesis, 
+\[
+	u'=u^n\subn[m][j]{z_j}{w_j}\in|B_j\vlan\dotso\vlan B_j|
+\]
+for each $j\leq m$, and therefore $\pi_i(u')\in|B_j|$, and $\sn(\pi_i(u'))\in|B_j|$.
+%
+Because $y$ is weakened, we have $\sn(\lambda y.\pi_i(u'))=\lambda y.u''\share*{}y$ with $u''=\sn(\pi_i(u'))$.
+%
+Since $u''\in|B_j|$, by Lemma~\ref{lem:weakening RED} we have $u''\share*{}v\in|B_j|$ for any $v\in\SN$.
+%
+Therefore $\lambda y.u''\share*{}y\in|V\vlim B_j|$ for any formula $V$, and in particular $\lambda y.u''\share*{}y\in|A_j\to B_j|$.
+%
+This means that $\sn(\lambda y.\pi_i(u'))$ is in $|\bigcap_{j\leq n}(A_j\vlim B_j)|$, as is any variant of it.
+%
+By the induction hypothesis, 
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|
+\]
+and by Lemma~\ref{lem:Red-AddSharings}
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
+\]
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
 
 
 \end{document}
