@@ -50,6 +50,8 @@
 % Don't remember what this does
 \usepackage[normalem]{ulem}
 
+\usepackage{proof}
+
 % Nice fractions
 \usepackage{units}
 
@@ -81,6 +83,170 @@
 
 
 \begin{document}
+
+\begin{ALlemma}[Draft]
+Subject reduction for the distributor rule of $D_a$.
+\end{ALlemma}
+
+\begin{proof}
+
+\noindent
+Distributor introduction, before:
+\[
+\vlderivation{
+  \vliiin{}{}
+	{\vdash u\share x{\lambda y.t}:C}
+	{\vlhy{(x_i:\bigcap_{j\leq m}(A_j\vlim B_j))_{i\leq n}\vdash u:C}}
+	{\vlhy{}}
+	{\vlin{}{}
+	  {\vdash\lambda y.t:\bigcap_{j\leq m}(A_j\vlim B_j)}
+	  {\vlhy{
+	    \left(
+		\vlinf{}{}
+	 	  {\vdash\lambda y.t:A_j\vlim B_j}
+		  {y:A_j\vdash t:B_j}
+		\right)_{j\leq m}
+	}}}
+}
+\]
+
+\noindent
+Distributor introduction, after:
+\[
+  \vliiinf{}{}
+	{u\distr xy{\tup z\share zt}:C}
+	{\raisebox{-25pt}{
+		$(x_i:\bigcap_{j\leq m}(A_j\vlim B_j))_{i\leq n}\vdash u:C$
+	}}	
+	{\vlhy{}}
+	{\left(\vlderivation{
+		\vliiin{}{}
+	 	  {y:A_j\vdash \tup z\share zt : B_j\vlan\dotso\vlan B_j}
+		  {\vlhy{y:A_j\vdash t:B_j}}
+		  {\vlhy{}}
+		  {\vlin{}{}
+			{(z_i:B_j)_{i\leq n}\vdash \tup z:B_j\vlan\dotso\vlan B_j}
+			{\vlhy{
+				\Big(
+					\raisebox{5pt}{$\vlinf{}{}{z_i:B_j\vdash z_i:B_j}{}$}
+				\Big)_{i\leq n}}}
+		}}
+		\right)_{j\leq m}
+	}
+\]
+
+
+\noindent
+Distributor elimination, $y$ not weakened, before:
+\[
+\vliiinf{}{}
+  {u\distr xy{\tup t\share*{\vv*z}y}:C}
+  {\raisebox{-25pt}{$(x_i:\bigcap_{j\leq m}(A_j\vlim B^i_j))_{i\leq n}\vdash u:C$}}
+  {}
+  {\left(
+	\vlderivation{
+	  \vliiin{}{}
+		{y:A_j\vdash \tup t\share*{\vv*z}y:B^1_j\vlan\dotso\vlan B^n_j}
+		{\vlin{}{}
+		  {\vv*z:A_j\vdash\tup t:B^1_j\vlan\dotso\vlan B^n_j}
+		  {\vlhy{(\vv*z_i:A_j\vdash t_i:B^i_j)_{i\leq n}}}
+		}
+		{\vlhy{}}
+		{\vlin{}{}{y:A_j\vdash y:A_j}{}}
+	}
+   \right)_{j\leq m}
+  }
+\]
+
+\noindent
+Distributor elimination, $y$ not weakened, after: for each $i\leq n$:
+\[
+\vlinf{}{}
+  {\vdash\lambda y_i.t_i\share*{\vv*z_i}{y_i}:\bigcap_{j\leq m}(A_j\vlim B^i_j)}
+  {\left(
+	\vlderivation{
+	  \vlin{}{}
+		{\vdash\lambda y_i.t_i\share*{\vv*z_i}{y_i}:A_j\vlim B^i_j}
+		{\vliiin{}{}
+		  {y:A_j\vdash t_i\share*{\vv*z_i}{y_i}\:B^i_j}
+		  {\vlhy{\vv*z_i:A_j\vdash t_i:B^i_j}}
+		  {\vlhy{}}
+		  {\vlin{}{}{y:A_j\vdash y:A_j}{}}
+	}}
+   \right)_{j\leq m}
+  }
+\]
+
+\noindent
+Distributor elimination, $y$ weakened, before:
+\[
+\vliiinf{}{}
+  {u\distr xy{\tup t\share*{}y}:C}
+  {\raisebox{-16pt}{$(x_i:\bigcap_{j\leq m}(A_j\vlim B^i_j))_{i\leq n}\vdash u:C$}}
+  {}
+  {\left(
+	\vlderivation{
+	  \vliiin{}{}
+		{y:V_j\vdash \tup t\share*{}y:B^1_j\vlan\dotso\vlan B^n_j}
+		{\vlin{}{}
+		  {\vdash\tup t:B^1_j\vlan\dotso\vlan B^n_j}
+		  {\vlhy{(\vdash t_i:B^i_j)_{i\leq n}}}
+		}
+		{\vlhy{}}
+		{\vlin{}{}{y:V_j\vdash y:V_j}{}}
+	}
+   \right)_{j\leq m}
+  }
+\]
+
+\noindent
+Distributor elimination, $y$ weakened, after: for each $i\leq n$:
+\[
+\vlinf{}{}
+  {\vdash\lambda y_i.t_i\share*{}{y_i}:\bigcap_{j\leq m}(A_j\vlim B^i_j)}
+  {\left(
+	\vlderivation{
+	  \vlin{}{}
+		{\vdash\lambda y_i.t_i\share*{}{y_i}:A_j\vlim B^i_j}
+		{\vliiin{}{}
+		  {y:A_j\vdash t_i\share*{}{y_i}\:B^i_j}
+		  {\vlhy{\vdash t_i:B^i_j}}
+		  {\vlhy{}}
+		  {\vlin{}{}{y:A_j\vdash y:A_j}{}}
+	}}
+   \right)_{j\leq m}
+  }
+\]
+
+\noindent
+During reduction, in the typing derivations for $t^n$ in
+\[
+\vliiinf{}{}
+	{u\distr xy{t^n}:C}
+	{(x_i:\bigcap_{j\leq m}(A_j\vlim B^i_j))_{i\leq n}\vdash u:C}	
+	{\vlhy{}}
+	{(y:V_j\vdash t^n:B^1_j\vlan\dotso\vlan B^n_j)_{j\leq m}}
+\]
+the following holds for the variable $y$:
+\begin{itemize}
+
+	\item
+if it is weakened, it remains weakened;
+
+	\item
+if it is not, it may become weakened only through a beta-step in $t^n$;
+
+	\item
+if it becomes weakened, it may retain its previous type.
+
+\end{itemize}
+
+\end{proof}
+
+
+
+
+\end{document}
 
 
 \begin{ALlemma}
