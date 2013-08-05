@@ -1051,13 +1051,6 @@ In this section we outline how the above result can be extended from simple type
 
 \noindent\textbf{Typing rules for $D_a$:}
 \[
-	\vliiinf{}{}
-	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
-	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
-	  {}
-	  {(\Delta, y:B_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
-\]
-\[
 	\vliinf{}{}
 	  {\Gamma \vdash u: A\cap B}
 	  {\Gamma \vdash u: A}
@@ -1071,9 +1064,17 @@ In this section we outline how the above result can be extended from simple type
 	  {\Gamma \vdash u: B}
 	  {\Gamma \vdash u: A\cap B}
 \]
+\[
+	\vliiinf{}{}
+	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
+	  {}
+	  {(\Delta, y:V_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+\]
+Where in the last rule, $V_j$ may be any type if $y$ occurs weakened, and $V_j=B_j$ otherwise.
 
 
-Moreover, the notion of reducibility set is extended to intersection types by $|A\cap B|=|A|\cap|B|$. The following theorem can then be proven by generalising the results in Section~\ref{sec:SNproof}.
+Furthermore, the notion of reducibility set is extended to intersection types by $|A\cap B|=|A|\cap|B|$. The following theorem can then be proven by generalising the results in Section~\ref{sec:SNproof}.
 
 
 \begin{ALproposition}\label{prop:IntSubstIntersection}

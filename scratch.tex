@@ -1,0 +1,119 @@
+% Preempt some bad decisions by LLNCS
+\RequirePackage{fixllncs}
+
+
+\documentclass[orivec]{llncs}
+
+
+% To get cases in equations
+\usepackage{amsmath}
+
+% To use definitions, lemmas and theorems.
+%\usepackage{amsthm}
+
+% twoheadleftarrow
+\usepackage{amssymb}
+
+% Nicer array and tabular layout (IEEE-suggested)
+\usepackage{array}
+
+% A more pleasant font
+\usepackage[T1]{fontenc} % use postscript type 1 fonts
+\usepackage{textcomp} % use symbols in TS1 encoding
+%\usepackage[garamond]{mathdesign} % use a nice font
+
+% A taste of french
+%\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+
+% Allow inclusion of graphics
+%\usepackage[pdftex]{graphicx}
+
+% To get url's
+%\usepackage[hidelinks]{hyperref}
+
+% Improves the text layout
+\usepackage{microtype}
+
+% For in-line lists
+\usepackage{paralist}
+
+% To typeset derivations
+\usepackage[lutzsyntax,pdftex]{virginialake}
+
+% Landscape-orientated floats
+\usepackage{rotating}
+
+% To get semantic brackets
+\usepackage{stmaryrd}
+
+% Don't remember what this does
+\usepackage[normalem]{ulem}
+
+% Nice fractions
+\usepackage{units}
+
+% For commands with multiple optional arguments
+\usepackage{xargs}
+
+% Our own stuff
+\usepackage{ALmacros}
+%\usepackage{includeFigure}
+%\input{ALpictures}
+\usepackage{willemtools}
+
+% Get counters and fonts right for theorem environments
+\spnewtheorem{ALtheorem}{Theorem}{\bfseries}{\itshape}
+\spnewtheorem{ALdefinition}[ALtheorem]{Definition}{\bfseries}{\upshape}
+\spnewtheorem{ALproposition}[ALtheorem]{Proposition}{\bfseries}{\itshape}
+\spnewtheorem{ALlemma}[ALtheorem]{Lemma}{\bfseries}{\itshape}
+
+
+\newif\ifnonotes\nonotesfalse
+\newcommand{\EMPTY}[1]{\ifnonotes\else{\color{red}    \noindent #1}\fi}
+\newcommand{\Comment}[1]{\ifnonotes\else{\color{red}    \noindent{\bf Comment: }#1}\fi}
+\newcommand{\Remark}[1]{\ifnonotes\else{\color{red}    \noindent{\bf Remark: }#1}\fi}
+\newcommand{\TODO}[1]{\ifnonotes\else{\color{red}    \noindent{\bf TODO }#1}\fi}
+%\newcommand{\Rem}[1]{\ifnonotes\else{\color{red}    \bigskip\\{\bf Remark: }#1 \bigskip\\}\fi}
+%\nonotestrue % If this is commented, notes appear in the paper (if any)
+%---------------------------------------------------------- REMOVE WHEN FINISHED
+
+
+
+\begin{document}
+
+\begin{ALlemma}
+\label{lem:weakening SN}
+If $(t)\overline w\in\SN$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in\SN$.
+\end{ALlemma}
+
+\begin{ALlemma}
+\label{lem:weakening RED}
+If $(t)\overline w\in|B|$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in|B|$.
+\end{ALlemma}
+
+\begin{proof}
+The proof is by induction on $B$.
+%
+The case where $B$ is an atom is covered by Lemma~\ref{lem:weakening SN}; the case $B=C\cap D$ is immediate.
+%
+For $B=C\vlim D$, let $v\in\SN$. 
+%
+We have to show that $(t\share*{}v)\overline w\in|C\vlim D|$, i.e.\ that $(t\share*{}v)\overline ww\in |D|$ for all $w\in|C|$.
+%
+Let $w\in|C|$.
+%
+Because $(t)\overline w\in|C\vlim D|$, we have $(t)\overline ww\in|D|$, and by the induction hypothesis, $(t\share*{}v)\overline ww\in|D|$.
+\end{proof}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
