@@ -321,9 +321,9 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 {\bf Transformations on closures:}
 %
 \begin{gather}
-\label{eqn:execute unary substitution}
-	u\share*xt~\ALnotbeta~u\sub xt
-\\[5pt]
+%\label{eqn:execute unary substitution}
+%	u\share*xt~\ALnotbeta~u\sub xt
+%\\[5pt]
 \label{eqn:compound sharings}
 	u\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t ~\ALnotbeta~
 	u\share*{\vv*x,\vv*y,\vv*z}t
@@ -350,10 +350,10 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 % 	u\distr xy{\tup t}~\ALnotbeta~u\sub{x_1}{t'_1} \dotso \sub{x_j}{\lambda y.t_j} \dotso \sub{x_n}{t'_n} \\[5pt]
 % 			\mbox{where } y\in\FV(t_j) \mbox{ and } t'_i = \lambda y_i.t_i\share*{}{y_i}
 % \end{multline}
-
-\begin{remark}
-Rule~\eqref{eqn:execute unary substitution}, which evaluates unary sharings by actual substitutions, is redundant and may be considered an optimisation: its functionality is subsumed by the rules for $n$-ary sharings.
-\end{remark}
+%
+%\begin{remark}
+%Rule~\eqref{eqn:execute unary substitution}, which evaluates unary sharings by actual substitutions, is redundant and may be considered an optimisation: its functionality is subsumed by the rules for $n$-ary sharings.
+%\end{remark}
 %
 %\begin{remark}
 %Compared to the presentation in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS} the rewrite rule to lift closures out of a tuple has been dropped (rule 5 in op.cit.), for the combined reason that it was redundant and it complicated the strong normalisation proof---see also the start of Section~\ref{sec:SNproof}.
@@ -466,7 +466,7 @@ Terms, including variables, are typed $t:A$ with $A$ a \emph{minimal} formula, o
 %
 With the notation $t^*$ indicating either a term or an $n$-term, a \emph{judgment} is of the form $x_1:A_1,\dotsc,x_n:A_n\vdash t^*:B$, where $\vv x$ are the free variables of $t^*$. 
 %
-The antecedent $x_1\colon A_1,\ldots,x_n : A_n$ of a judgement will be treated as a set, denoted $\Gamma$, $\Delta$, and abbreviated as $(x_i\colon A_i)_{i\leq n}$, or $\vv*x:A$ if $A_i=A$ for all $i$.
+The antecedent $x_1\colon A_1,\ldots,x_n : A_n$ of a judgement is treated as a set, denoted $\Gamma$, $\Delta$, and abbreviated $(x_i\colon A_i)_{i\leq n}$, or $\vv*x:A$ if $A_i=A$ for all $i$.
 
 
 
