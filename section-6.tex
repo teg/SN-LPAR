@@ -1,0 +1,318 @@
+% =================================================================================================
+\section{Characterization of Strongly Normalising Atomic Lambda Terms via Typing}
+\label{sec:SND}
+
+In this section we outline how  strongly normalising atomic $\lambda$-terms can be characterized as those typeable in a system $D_a$ with intersection types.
+%
+As for lambda-calculus, $D_a$ extends the corresponding simple type system $S_a$ with the natural rules of introduction and elimination of the intersection typing connective $\cap$.
+%
+In addition, the rules for sharing and distributor are adapted in subtle ways, in order to account for a specific property of the atomic lambda-calculus, namely the fact that garbage collection is part of the computation.
+
+
+
+In particular, during the evaluation of a sharing $\share*{\vv*x}t$ the body $t$ will be duplicated, and simultaneously unfolded.
+%
+% This has the effect that a weakening $\share*{}u$ inside $t$ must be wholly or partially deleted, before any of its variables bound within $t$ may be instantiated.
+%
+This has the effect that if  $t$ is $\lambda y.w\share*{}u$, with $y \in FV(u)$, $u$ must be wholly or partially deleted, before $y$ may be instantiated through the sharing $\share*{\vv*x}t$.
+
+
+
+
+\subsection{Typing rules for $D_a$}
+
+%The following technical constructions are introduced to deal with the above issue.
+
+\begin{ALdefinition}
+A variable $y$ occurs \emph{weakened} in a term $t$ if (i) $t$ has a subterm $tv\share*{}y$ such that $y\in\FV(u)$ or 
+(ii) $t$ has a subterm $v\share xu$, with $n>0$, such that $y\in\FV(u)$ and each $x_i$ occurs weakened in $v$.
+\end{ALdefinition}
+
+
+\begin{ALlemma}
+\label{lem:unfolding weakened variable}
+If a variable $y$ occurs free and weakened in a term $t$ then the unfolding of $t$ is of the form $t'\share*{}y$.
+\end{ALlemma}
+
+% \begin{ALdefinition}
+% A type $A'$ is a \emph{replacement type} for $t:A$ if
+% \begin{itemize}
+% 	\item $A=B\vlim C$, $t=\lambda x.u$, and $A'=B'\vlim C'$, while $B'=B$ or $x$ is weakened in $u$, and $C'$ is a replacement type for $u:C$; or
+% 	\item $A=\bigcap_{i\leq n}A_i$ and $A'=\bigcap_{i\leq n}A'_i$ with $A'_i$ a replacement type for $t:A'_i$ for each $i\leq n$; or
+% 	\item $A'=A$.
+% \end{itemize}
+% \end{ALdefinition}
+% 
+% 
+% In other words, a replacement type $A'$ for $t:A$ may differ from $A$ in the type of the weakened leading abstractions of $t$.
+
+% 
+% \noindent\textbf{Typing rules for $D_a$:}
+% \[
+% 	\vliinf{}{}
+% 	  {\Gamma \vdash u: A\cap B}
+% 	  {\Gamma \vdash u: A}
+% 	  {\Gamma \vdash u: B}
+% 	\qquad
+% 	\vlinf{}{}
+% 	  {\Gamma \vdash u: A}
+% 	  {\Gamma \vdash u: A\cap B}
+% 	\qquad
+% 	\vlinf{}{}
+% 	  {\Gamma \vdash u: B}
+% 	  {\Gamma \vdash u: A\cap B}
+% \]
+% \bigskip
+% \[
+%   \vliiinf{}{}
+%    {\Gamma, \Delta \vdash t^*\share*{\vv*x}u : A}
+%    {\Gamma, \vv*x : B' \vdash t^* : A}
+%    {}
+%    {\Delta \vdash u : B}
+% \]
+% \bigskip
+% \[
+% 	\vliiinf{}{}
+% 	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
+% 	  {\Gamma, (x_i:\bigcap_{j\leq m}(B'_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
+% 	  {}
+% 	  {(\Delta, y:B_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+% \]
+% Where in the fourth rule, $B'$ is a replacement type for $u:B$, and in the last rule, $B'_j=B_j$ or $y$ is weakened in $t^n$.
+
+
+%
+%
+\noindent
+The typing rules for $D_a$ are the rules $\lambda, \typeapp, ax, \typetuple _n$ and $\typeshare$ (restricted to $u$ not being an abstraction) of $S_a$ plus the following rules :
+\[
+	\vliinf{}{}
+	  {\Gamma \vdash u: A\cap B}
+	  {\Gamma \vdash u: A}
+	  {\Gamma \vdash u: B}
+	\qquad
+	\vlinf{}{}
+	  {\Gamma \vdash u: A}
+	  {\Gamma \vdash u: A\cap B}
+	\qquad
+	\vlinf{}{}
+	  {\Gamma \vdash u: B}
+	  {\Gamma \vdash u: A\cap B}
+\]
+
+\[
+	\vliiinf{}{\typeshare_{D_a}}
+	  {\Gamma,\Delta \vdash u^*\share x{\lambda y.s}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A}
+	  {}
+	  {(\Delta \vdash \lambda y.s : \vls(V_j\vlim C_j))_{j\leq m}}
+\]
+
+\[
+	\vliiinf{}{\typedist_{D_a}}
+	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
+	  {}
+	  {(\Delta, y:V_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+\]
+where in the last two rules rules, $V_j$ may be any type if $y$ occurs \emph{weakened}, as defined below, and $V_j=B_j$ otherwise.
+
+\medskip \noindent
+The rules $\typeshare_{D_a}$ and $\typedist_{D_a}$ show how the type system $D_a$ deals with abstractions over weakened variables which will never be instantied: the type connection between the abstraction and its ``potential`` arguments which will never become true arguments is simply broken. It should be noted that in this outline, the rule $\typeshare_{D_a}$ is given in a simplified form: its general form includes in particular several abstractions over weakened variables.
+
+\subsection{Strong Normalisation for $D_a$}
+
+We extend the notion of reducibility set to intersection types by $|A\cap B|=|A|\cap|B|$ and generalise proposition \ref{prop:IntSubst} to the following proposition from which strong normalisation for $D_a$ follows immediately:
+
+                                                                
+\begin{ALproposition}\label{prop:IntSubstIntersection}
+If $(x_i:A_i)_{i\leq n}\vdash_{D_a} u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
+\end{ALproposition}
+
+
+\begin{ALlemma}
+\label{lem:weakening SN}
+If $(t)\overline w\in\SN$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in\SN$.
+\end{ALlemma}
+
+\begin{ALlemma}
+\label{lem:weakening RED}
+If $(t)\overline w\in|B|$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in|B|$.
+\end{ALlemma}
+%
+%\textcolor{blue}{
+%\begin{proof}
+%The proof is by induction on $B$.
+%%
+%The case where $B$ is an atom is covered by Lemma~\ref{lem:weakening SN}; the case $B=C\cap D$ is immediate.
+%%
+%For $B=C\vlim D$, let $v\in\SN$. 
+%%
+%We have to show that $(t\share*{}v)\overline w\in|C\vlim D|$, i.e.\ that $(t\share*{}v)\overline ww\in |D|$ for all $w\in|C|$.
+%%
+%Let $w\in|C|$.
+%%
+%Because $(t)\overline w\in|C\vlim D|$, we have $(t)\overline ww\in|D|$, and by the induction hypothesis, $(t\share*{}v)\overline ww\in|D|$.
+%\end{proof}
+%}
+
+
+\begin{proof}[of proposition \ref{prop:IntSubstIntersection}]
+%
+We proceed by induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_D u:B$. The rules of $S_a$ are treated as in the proof of Proposition~\ref{prop:IntSubst}. The cases of the 
+intersection rules are immediate. The rules for sharing and distributor need a specifice argument in the case of an abstration on a weakened variable. Suppose that last rule is
+\[
+\hspace{-\leftmargin}
+  \vliiinf{}{\typedist_{D_a}}
+	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
+	{(y_i:C_i)_{i\leq k}, (x_i:\bigcap_{j\leq m}(A_j \vlim B_j))_{i\leq n} \vdash s : C}
+	{\hspace{-6pt}}
+	{((z_i:D_i)_{i\leq m}, y : A_j \vdash u^n : B_j\vlan\cdots\vlan B_j)_{j\leq m}}
+\]
+and that $y$ occurs weakened in $u^n$. Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $s'=s\subn[k]{y_i}{v_i}$ and $u'=u^n\subn[m][j]{z_j}{w_j}$.
+%
+We have to prove that the following term is in $|C|$:
+\[
+	(s\distr xy{u^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=s'\distr xy{u'}\;.
+\]
+%
+By the induction hypothesis, for each $j\leq m$, $u'=u^n\subn[m][j]{z_j}{w_j}\in|B_j\vlan\dotso\vlan B_j|\;,$
+and therefore $\pi_i(u')\in|B_j|$, and $\sn(\pi_i(u'))\in|B_j|$.
+%
+Because $y$ is weakened, we have $\sn(\lambda y.\pi_i(u'))=\lambda y.u''\share*{}y$ with $u''=\sn(\pi_i(u'))$.
+%
+Since $u''\in|B_j|$, by Lemma~\ref{lem:weakening RED} we have $u''\share*{}v\in|B_j|$ for any $v\in\SN$.
+%
+Therefore $\lambda y.u''\share*{}y\in|V\vlim B_j|$ for any formula $V$, and in particular $\lambda y.u''\share*{}y\in|A_j\to B_j|$.
+%
+This means that $\sn(\lambda y.\pi_i(u'))$ is in $|\bigcap_{j\leq n}(A_j\vlim B_j)|$, as is any variant of it.
+%
+By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$ and by Lemma~\ref{lem:Red-AddSharings}
+\[
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
+\]
+It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
+%
+\end{proof}
+
+\noindent{\bf Remark:}
+It should be noted that as a consequence of strong normalisation for $D_a$, we get the preservation of the strong normalisation with respect to lambda-calculus (often called PSN property), using the well know fact that the strongly normalisable lambda-terms are typable in $D$ (\cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}).
+
+
+\begin{ALtheorem}[PSN]
+If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
+\end{ALtheorem}
+
+\begin{proof}
+If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and therefore  $\tercoden N$ is strongly normalisable.
+\end{proof}
+
+
+% =================================================================================================
+\subsection{Typing of Strongly Normalising Atomic Lambda Terms}
+
+We first show that atomic lambda-terms in normal form are typeable in $D_a$ and then extends the typing to any strongly normalisable  atomic lambda-term, by induction on the sum of the lengths of the reduction paths.
+
+\begin{ALproposition}
+\label{prop:intersection weakening}
+If $\Gamma, x:A\vdash t:B$ then $\Gamma,x:A\cap C\vdash t:B$.
+\end{ALproposition}
+
+
+% 
+% \begin{ALproposition}
+% \label{prop:normal form}
+% If a term is normal, it is of one of the following forms, where $u$ and each $u_i$ are normal.
+% \[
+% 	x \qquad \lambda x.u \qquad u\share xy \qquad (\dotso(x)u_1\dotso )u_n
+% \]
+% \end{ALproposition}
+
+\begin{ALproposition}
+\label{prop:typable normal form}
+For an atomic lambda-term $t$ in normal form there exist $\Gamma$, $A$ such that $\Gamma\vdash_{D_a} t:A$.
+\end{ALproposition}
+
+
+\begin{proof}
+The proof proceeds by induction on $t$. If  $t=x$ or  $t=\lambda x.u$ with $u$ normal, the result is immediate.
+\\
+Let $t=u\share xy$ with $u$ normal.
+%
+By the induction hypothesis there are $\Gamma$, $A$, and $B_i$ for $i\leq n$ such that $\Gamma,(x_i:B_i)_{i\leq n}\vdash u:A$.
+%
+Let $B=\bigcap_{i\leq n}B_i$.
+%
+By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
+\\
+Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
+%
+By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
+%
+For any $B$, the variable $x$ is typed by $x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash x: A_1 \vlim \dotso \vlim A_n \vlim B$.
+%
+Then $(\Gamma_i)_{i\leq n},x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash (\dotso(x)u_1\dotso )u_n: B$.
+
+\end{proof}
+
+% \begin{proof}
+% The proof proceeds by induction on $t$.
+% %
+% \begin{enumerate}[1)]
+% 
+% 	\item
+% Let $t=x$. Then $x:A\vdash x:A$ for any $A$.
+% 
+% 	\item
+% Let $t=\lambda x.u$ with $u$ normal.
+% %
+% By the induction hypothesis there are $\Gamma$, $A$, and $B$ such that $\Gamma, x:A\vdash u:B$.
+% %
+% Then $\Gamma\vdash\lambda x.u:A\vlim B$.
+% 
+% 	\item
+% let $t=u\share xy$ with $u$ normal.
+% %
+% By the induction hypothesis there are $\Gamma$, $A$, and $B_i$ for $i\leq n$ such that $\Gamma,(x_i:B_i)_{i\leq n}\vdash u:A$.
+% %
+% Let $B=\bigcap_{i\leq n}B_i$.
+% %
+% By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
+% 
+% 	\item
+% Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
+% %
+% By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
+% %
+% For any $B$, the variable $x$ is typed by $x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash x: A_1 \vlim \dotso \vlim A_n \vlim B$.
+% %
+% Then $(\Gamma_i)_{i\leq n},x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash (\dotso(x)u_1\dotso )u_n: B$.
+% 
+% \end{enumerate}
+% \end{proof}
+
+\begin{ALtheorem}
+If $u$ is strongly normalising, then it is typeable in $D_a$.
+\end{ALtheorem}
+
+\begin{proof}
+By induction on $S(u)$. One considers the possible forms of terms and chooses in each case a specific reduction which allows to reverse the type from the reduct to the original term. The following example shows why the relaxing of the type contraints in the rules $\typeshare_{D_a}$ and $\typedist_{D_a}$ is necessary to type all the strongly normalisable atomic $\lambda$-terms:
+\[
+ ((x_1)
+\lambda z.(z_1)z_2\sharestar{z_1,z_2}{z})
+x_2 \distrstar
+{x_1,x_2}
+{y}
+{\tupstar{t_1,t_2}  \sharestar{}
+                              {(y)\lambda q.(q_1)q_2 \sharestar{q_1,q_2}{q}}}
+\]
+This term is a strongly normalisable term, which can be typed using the fact that $\typedist_{D_a}$ breaks the relation between the type of $y$ and the one of the argument of $x_1$. Without this relaxing of the type contraints, the term would not be typable, because this  would mean typing the term
+\[
+(\lambda z.(z_1)z_2\sharestar{z_1,z_2}{z})\lambda q.(q_1)q_2 \sharestar{q_1,q_2}{q}
+\]
+which is not strongly normalisable. 
+
+
+\end{proof}
+
+
