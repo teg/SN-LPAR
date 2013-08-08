@@ -109,7 +109,9 @@ It has been shown that it allows fully lazy sharing to be reproduced in a typed 
 %
 In this paper we prove strong normalization of the typed atomic lambda-calculus using Tait's reducibility method.
 %
-To characterise exactly the strongly normalisable terms by an intersection typing discipline proves to be extremely subtle, and a tentative approach is proposed.
+In addition we give a characterisation of exactly the strongly normalisable atomic lambda-terms by an intersection typing discipline.
+%
+%A characterisation of exactly the strongly normalisable terms by an intersection typing discipline, which proves to be extremely subtle, is outlined.
 \end{abstract}
 
 
@@ -188,13 +190,15 @@ For compactness the proof will be carried out for a discipline of simple types, 
 
 
 
-The characterisation of exactly the strongly normalisable atomic lambda-terms by intersection types is more subtle.
+The characterisation of exactly the strongly normalisable atomic lambda-terms by intersection types is more subtle than for the lambda-calculus, due to the fact that garbage collection is an integral part of the computation.
 %
-The interaction of atomic duplication rules with beta-reduction means that a certain, natural amount of garbage collection is required inbetween beta-reduction steps.
+Such a type system is given in Section~\ref{sec:SND}, and the proof of the characterization is outlined.
+
+%The interaction of atomic duplication rules with beta-reduction means that a certain, natural amount of garbage collection is required inbetween beta-reduction steps.
 %
-As a consequence, terms are strongly normalisable that don't appear so.
+%As a consequence, terms are strongly normalisable that don't appear so.
 %
-A tentative approach to capture these reductions in the type system is explored in the last section of the paper.
+%A characterisation to capture these terms is outlined in the last section of the paper.
 
 
 % =================================================================================================
@@ -282,7 +286,7 @@ The functions $\tercoden-\,:\,\Lambda\to\Lambda_A$ and $\terden-\,:\,\Lambda_A\t
 Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two parts:
 \begin{inparaenum}[\upshape(i)]
  \item linear $\beta$-reduction, denoted $\ALbeta$: the usual rule (rule~\ref{eqn:beta-reduction} below) applied linearly;
- \item sharing reductions, denoted $\ALnotbeta$, comprising two kinds of rule: (a) \emph{permutations} taking closures outward (rules~\ref{eqn:sharing above abstraction}--\ref{eqn:sharing above distribution}), and (b) local \emph{transformations} that evaluate closures (rules~\ref{eqn:execute unary substitution}--\ref{eqn:distributor elimination}).
+ \item sharing reductions, denoted $\ALnotbeta$, comprising two kinds of rule: (a) \emph{permutations} taking closures outward (rules~\ref{eqn:sharing above abstraction}--\ref{eqn:sharing above distribution}), and (b) local \emph{transformations} that evaluate closures (rules~\ref{eqn:compound sharings}--\ref{eqn:distributor elimination}).
 \end{inparaenum}
 
 \bigskip
@@ -402,7 +406,7 @@ The \emph{unfolded body} $\sn(t)$ of $t$ is the largest subterm of $\unfold(t)$ 
 %
 The unfolded body of a term is what is duplicated during reduction.
 %
-To identify the various copies, let a \emph{variant} of a term $t$ be any term obtained form $t$ by renaming certain (bound or free) variables.
+To identify the various copies, let a \emph{variant} of a term $t$ be any term obtained from $t$ by renaming certain (bound or free) variables.
 %
 A variant is \emph{fresh} if all its variables are fresh, and $t^i$ is the fresh variant of $t$ obtained by replacing each
 variable $x$ by a fresh variable $x^i$.
@@ -516,7 +520,7 @@ The rule for sharing, $\typeshare$, is a standard cut-rule combined with contrac
 %
 Similarly, the rule for the distributor, $\typedist$, is a cut-rule, albeit a highly non-standard one.
 %
-It contracts only on $A$, the antecedent of the implications, but not on their consequent, integrating a limited amount of deepness.
+It contracts on $A$, the antecedent of the implications, but not on their consequent, integrating a limited amount of deepness.
 
 
 The typed atomic lambda-calculus ${S_a}$ enjoys the usual properties of typed systems, in particular subject reduction.
@@ -527,17 +531,11 @@ If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
 \end{ALtheorem}
 
 \noindent
-Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms.
+Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms, by inserting sharing-inferences $(\typeshare)$ where required.
 
 \begin{ALproposition}\label{prop:types preserved}
 If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 \end{ALproposition}
-
-\begin{proof}
-%
-By inserting sharing-inferences $(\typeshare)$ where required, a typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$.
-\end{proof}
-
 
 
 % =================================================================================================
@@ -567,13 +565,13 @@ Values are extended to conjunctive formulae by the following clauses, for $n>0$:
 |\top| & = & \mbox{\{$\tup*{}\G$ \;|\; for any $x\in\Var$, $x\G\in\SN$\}}
 \end{array}
 \]
-Values of formulae are called {\em reducibility sets}. \\
 \end{ALdefinition}
 %
 %
-\begin{remark}
-If $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
-\end{remark}
+Values of formulae are called {\em reducibility sets}. 
+%
+Note that if $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
+
 
 \begin{ALproposition}\label{prop:IntBase}
 For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
@@ -582,10 +580,6 @@ For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \begin{ALproposition}
  For any formulae $A_1,\dots,A_n$, $|A_1\vlan\dots\vlan A_n| \subseteq \SN$.
 \end{ALproposition}
-
-\begin{proof}
-The result follows directly from the defintion of  $|A_1\vlan\dots\vlan A_n|$ and Proposition~\ref{prop:IntBase}.
-\end{proof}
 
 \begin{ALlemma}\label{lem:RedStab}
 For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$ .
@@ -718,10 +712,10 @@ By the induction hypothesis, $t'\in|B|$; then also the unfolded body $\sn(t')$ i
 Let $\sn(t')^1,\dotsc,\sn (t')^n$ be fresh variants.
 %
 Therefore by the induction hypothesis,
-\[
-	u'\subn{x_i}{\sn(t')^i}\in|A|\;,
-\]
-and by Lemma~\ref{lem:Red-AddSharings}, $u'\subn{x_i}{\sn(t')^i}[\sh(t')]\in|A|$.
+$
+	u'\subn{x_i}{\sn(t')^i}\in|A|
+$,
+and by Lemma~\ref{lem:Red-AddSharings}, $u'\subn{x_i}{\sn(t')^i}[\sh(t')]$ is in $|A|$.
 %
 It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $u'\share x{t'}\in |A|$.
 
@@ -747,20 +741,23 @@ We have to prove that the following term is in $|C|$:
 %
 % Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
 %
-By the induction hypothesis, for each $r\in |A|$
-\[
+By the induction hypothesis,
+$
 	u^n\subn[m][j]{z_j}{w_j}\sub{y}{r} \in|B\vlan\cdots\vlan B|
-\]
+$
+for each $r\in |A|$,
+%
 and therefore $\pi_i(u'\sub yr)=\pi_i(u')\sub yr\in|B|$.
 %
 Then, for each $r\in |A|$, $(\lambda y.\pi_i(u'))r \in|B|$ by Lemma~\ref{lem:IntCaseLambdaSharing}, and by definition of $|-|$, $\lambda y.\pi_i(u')\in|A\vlim B|$.
 %
 By Lemma~\ref{lem:RedStab} also the unfolding of $\lambda y.\pi_i(u')$ belongs to $|A \vlim B|$, as does any variant $\sn(\lambda y.\pi_i(u'))^i$.
 %
-By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}\in|C|$, and by Lemma~\ref{lem:Red-AddSharings},
-\[
-	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|\;.
-\]
+By the induction hypothesis, $s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}$ is in $|C|$, and by Lemma~\ref{lem:Red-AddSharings},
+$
+	s'\subn{x_i}{\sn(\lambda y.\pi_i(u'))^i}[\sh(\lambda y.u^n)]\in|C|.
+$
+%
 It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $s'\distr xy{u'}\in|C|$.
 %
 \end{enumerate}
@@ -843,7 +840,7 @@ Immediate by definition.
 
 For $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$, where $\g[i]^*$ is either $\g[i]$ or $\g[i]^v$.
 
-For simplifying the presentation, we consider in the following, and in the rest of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+For simplifying the presentation, we consider in the remainder of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
  If $(u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
@@ -869,10 +866,9 @@ In order to show that $T\in\SN$, we show that each one-step reduction from $T$ g
 \\
 1) Suppose that $U$ is obtained by the reduction a closure $\g$ such that  $\g^* = \g$. Suppose for instance that is closure $\g[i]$ of $\G[0] = \g[1] \dots\g[p]$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S\g[1]^S \dots [\gamma'_i]\dots \g[p])\overline{w\G}$.
 \\
-Consider $U' = (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*}$ (note that that by $\g[1]^{S*}$ we mean that we apply first the substitution and then computation, and by $\g[1]^{*S}$, the converse).  We have
-
+Consider $U' = (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*}$ (note that that by $\g[1]^{S*}$ we mean that we apply first the substitution and then computation, and by $\g[1]^{*S}$, the converse).  We have:\quad
 $
-\begin{array}{llll}
+\begin{array}[t]{llll}
  T' & = & (u\g[1]^* \dots\g[p]^*)\overline{w\G^*} & \\
     & \rightsquigarrow^1 & (u^S\g[1]^{*S} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \\
     & \rightsquigarrow & (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\G^*} & \hspace{0.5cm} \mbox{by Lemma~\ref{lem:CompSubst}  }\\
@@ -887,7 +883,7 @@ Therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U,U') < Mes(T,T')$, we have
 \\
 2) Suppose that $U$ is obtained by the reduction of a closure $\g$ such that $\g^* = \g^v$.
 %
-For simplicity we suppose that it is $\g[1]$, the first closure of $\G[0]$, and $\G[0] = \g[1]\G'[0]$.
+For simplicity let $\g=\g[1]$, the first closure of $\G[0]$, and $\G[0] = \g[1]\G'[0]$.
 \smallskip
 \\
 2.1)  $T = (u\share xt\G'[0])\overline{w\G}$ and $U = (u\share x{t'}\G'[0])\overline{w\G}$ with $t\rightsquigarrow^1 t'$.
@@ -945,12 +941,12 @@ Consider
 			\G'[0]^*
 		  )\overline{w\G^*}
 \]
-We have
-\begin{eqnarray*}
- U' & = & (u\subn{x_i}{(\sn (t)^i)\sn (v)^i}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}\\
-    & = & (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*} \\
-    & = & T'
-\end{eqnarray*}
+We have:\quad
+\begin{tabular}[t]{rclcl}
+ $U'$ & $=$ & $(u\subn{x_i}{(\sn (t)^i)\sn (v)^i}[\sh(t)][\sh(v)]\G'[0]^*)\overline{w\G^*}$
+\\    & $=$ & $(u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)]\G'[0]^*)\overline{w\G^*}$
+      & $=$ & $T'$\;.
+\end{tabular}\\
 Therefore $U'\in\SN$ and $S(U') = S(T')$. Since $lh(t) + lh(v) < lh((t)v)$, it follows that $m_2(U) < m_2(T)$, and since we also have $m_1(U) \leq m_1(T)$, we have $Mes(U,U') < Mes(T,T')$. Then by the induction hypothesis, $U\in\SN$.
 %
 \smallskip
@@ -1071,15 +1067,13 @@ In addition, the rules for sharing and distributor are adapted in subtle ways, i
 
 In particular, during the evaluation of a sharing $\share*{\vv*x}t$ the body $t$ will be duplicated, and simultaneously unfolded.
 %
-This has the effect that a weakening $\share*{}u$ inside $t$ must be wholly or partially deleted, before any of its variables bound within $t$ may be instantiated.
+This has the effect that if  $t$ is $\lambda y.w\share*{}u$, with $y \in FV(u)$, $u$ must be wholly or partially deleted, before $y$ may be instantiated through the sharing $\share*{\vv*x}t$.
 %
-(TO DO: insert example here)
-
-
-
+%(TO DO: insert example here)
+%
 \subsection{Typing rules for $D_a$}
-
-The following technical constructions are introduced to deal with the above issue.
+%
+%The following technical constructions are introduced to deal with the above issue.
 
 \begin{ALdefinition}
 A variable $y$ occurs \emph{weakened} in a term $t$ if (i) $t$ has a subterm $v\share*{}u$ such that $y\in\FV(u)$ or 
@@ -1091,21 +1085,8 @@ A variable $y$ occurs \emph{weakened} in a term $t$ if (i) $t$ has a subterm $v\
 \label{lem:unfolding weakened variable}
 If a variable $y$ occurs free and weakened in a term $t$ then the unfolding of $t$ is of the form $t'\share*{}y$.
 \end{ALlemma}
-
-\begin{ALdefinition}
-A type $A'$ is a \emph{replacement type} for $t:A$ if
-\begin{itemize}
-	\item $A=B\vlim C$, $t=\lambda x.u$, and $A'=B'\vlim C'$, while $B'=B$ or $x$ is weakened in $u$, and $C'$ is a replacement type for $u:C$; or
-	\item $A=\bigcap_{i\leq n}A_i$ and $A'=\bigcap_{i\leq n}A'_i$ with $A'_i$ a replacement type for $t:A'_i$ for each $i\leq n$; or
-	\item $A'=A$.
-\end{itemize}
-\end{ALdefinition}
-
-
-In other words, a replacement type $A'$ for $t:A$ may differ from $A$ in the type of the weakened leading abstractions of $t$.
-
-
-\noindent\textbf{Typing rules for $D_a$:}
+\noindent
+The typing rules for $D_a$ are the rules $\lambda, \typeapp, ax, \typetuple _n$ and $\typeshare$ (restricted to $u$ not being an abstraction) of $S_a$ plus the following rules :
 \[
 	\vliinf{}{}
 	  {\Gamma \vdash u: A\cap B}
@@ -1120,55 +1101,26 @@ In other words, a replacement type $A'$ for $t:A$ may differ from $A$ in the typ
 	  {\Gamma \vdash u: B}
 	  {\Gamma \vdash u: A\cap B}
 \]
-\bigskip
+
 \[
-  \vliiinf{}{}
-   {\Gamma, \Delta \vdash t^*\share*{\vv*x}u : A}
-   {\Gamma, \vv*x : B' \vdash t^* : A}
-   {}
-   {\Delta \vdash u : B}
-\]
-\bigskip
-\[
-	\vliiinf{}{}
-	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
-	  {\Gamma, (x_i:\bigcap_{j\leq m}(B'_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
+	\vliiinf{}{\typeshare_{D_a}}
+	  {\Gamma,\Delta \vdash u^*\share x{\lambda y.s}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C_j))_{i\leq n} \vdash u^*:A}
 	  {}
-	  {(\Delta, y:B_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+	  {(\Delta \vdash \lambda y.s : \vls(V_j\vlim C_j))_{j\leq m}}
 \]
-Where in the fourth rule, $B'$ is a replacement type for $u:B$, and in the last rule, $B'_j=B_j$ or $y$ is weakened in $t^n$.
 
+\[
+	\vliiinf{}{\typedist_{D_a}}
+	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
+	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
+	  {}
+	  {(\Delta, y:V_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
+\]
+where in the last two rules rules, $V_j$ may be any type if $y$ occurs \emph{weakened}, as defined below, and $V_j=B_j$ otherwise.
 
-%
-%
-%\noindent
-%The typing rules for $D_a$ are the following:
-%\[
-%	\vliinf{}{}
-%	  {\Gamma \vdash u: A\cap B}
-%	  {\Gamma \vdash u: A}
-%	  {\Gamma \vdash u: B}
-%	\qquad
-%	\vlinf{}{}
-%	  {\Gamma \vdash u: A}
-%	  {\Gamma \vdash u: A\cap B}
-%	\qquad
-%	\vlinf{}{}
-%	  {\Gamma \vdash u: B}
-%	  {\Gamma \vdash u: A\cap B}
-%\]
-%
-% \noindent 
-%\textcolor{red}{[rule for sharing to be added]}
-%
-%\[
-%	\vliiinf{}{\typedist_{D_a}}
-%	  {\Gamma,\Delta \vdash u^*\distr xy{t^n}:A}
-%	  {\Gamma, (x_i:\bigcap_{j\leq m}(B_j\vlim C^i_j))_{i\leq n} \vdash u^*:A}
-%	  {}
-%	  {(\Delta, y:V_j\vdash t^n : \vls(C_j^1.\dots.C_j^n))_{j\leq m}}
-%\]
-%where in the last rule, $V_j$ may be any type if $y$ occurs \emph{weakened}, as defined below, and $V_j=B_j$ otherwise.
+\medskip \noindent
+The rules $\typeshare_{D_a}$ and $\typedist_{D_a}$ show how the type system $D_a$ deals with abstractions over weakened variables that will never be instantiated: the type connection between the abstraction and its ``potential'' arguments, which will never become actual arguments, is simply broken. It should be noted that in this outline, the rule $\typeshare_{D_a}$ is given in a simplified form: its general form includes in particular several abstractions over weakened variables.
 
 
 \subsection{Strong Normalisation for $D_a$}
@@ -1177,7 +1129,7 @@ We extend the notion of reducibility set to intersection types by $|A\cap B|=|A|
 
                                                                 
 \begin{ALproposition}\label{prop:IntSubstIntersection}
-If $(x_i:A_i)_{i\leq n}\vdash_{D_a} u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
+If $(x_i{\,:\,}A_i)_{i\leq n}\vdash_{D} u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
 \end{ALproposition}
 
 
@@ -1190,36 +1142,35 @@ If $(t)\overline w\in\SN$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in\SN
 \label{lem:weakening RED}
 If $(t)\overline w\in|B|$, then $\forall v\in\SN.~(t\share*{}v)\overline w\in|B|$.
 \end{ALlemma}
-%
-%\textcolor{blue}{
-%\begin{proof}
-%The proof is by induction on $B$.
-%%
-%The case where $B$ is an atom is covered by Lemma~\ref{lem:weakening SN}; the case $B=C\cap D$ is immediate.
-%%
-%For $B=C\vlim D$, let $v\in\SN$. 
-%%
-%We have to show that $(t\share*{}v)\overline w\in|C\vlim D|$, i.e.\ that $(t\share*{}v)\overline ww\in |D|$ for all $w\in|C|$.
-%%
-%Let $w\in|C|$.
-%%
-%Because $(t)\overline w\in|C\vlim D|$, we have $(t)\overline ww\in|D|$, and by the induction hypothesis, $(t\share*{}v)\overline ww\in|D|$.
-%\end{proof}
-%}
-
 
 \begin{proof}[of proposition \ref{prop:IntSubstIntersection}]
 %
-We proceed by induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_D u:B$. The rules of $S_a$ are treated as in the proof of Proposition~\ref{prop:IntSubst}. The cases of the 
-intersection rules are immediate. The rules for sharing and distributor need a specifice argument in the case of an abstration on a weakened variable. Suppose that last rule is
+By induction on the derivation of $(x_i:A_i)_{i\leq n}\vdash_D u:B$. The rules of $S_a$ are treated as in the proof of Proposition~\ref{prop:IntSubst}.
+%
+The cases of the intersection rules are immediate.
+%
+The rules for sharing and distributor need a specific argument in the case of an abstraction on a weakened variable.
+%
+Suppose the last rule is (with premisses stacked for lack of space) 
 \[
-\hspace{-\leftmargin}
-  \vliiinf{}{\typedist_{D_a}}
+\vlinf{}{\typedist_{D_a}}
 	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
-	{(y_i:C_i)_{i\leq k}, (x_i:\bigcap_{j\leq m}(A_j \vlim B_j))_{i\leq n} \vdash s : C}
-	{\hspace{-6pt}}
-	{((z_i:D_i)_{i\leq m}, y : A_j \vdash u^n : B_j\vlan\cdots\vlan B_j)_{j\leq m}}
+	{\begin{array}{c}
+			(y_i:C_i)_{i\leq k}, (x_i:\bigcap_{j\leq m}(A_j \vlim B_j))_{i\leq n}  \vdash  s : C
+	 \\	\vspace{-8pt} \\
+	 		((z_i:D_i)_{i\leq m}, y : A_j  \vdash  u^n : B_j\vlan\cdots\vlan B_j)_{j\leq m}
+	 \end{array}
+	}
 \]
+%
+%\[
+%\hspace{-\leftmargin}
+%  \vliiinf{}{\typedist_{D_a}}
+%	{(y_i:C_i)_{i\leq k}, (z_i:D_i)_{i\leq m} \vdash s\distr xy{u^n} : C}
+%	{(y_i:C_i)_{i\leq k}, (x_i:\bigcap_{j\leq m}(A_j \vlim B_j))_{i\leq n} \vdash s : C}
+%	{\hspace{-6pt}}
+%	{((z_i:D_i)_{i\leq m}, y : A_j \vdash u^n : B_j\vlan\cdots\vlan B_j)_{j\leq m}}
+%\]
 and that $y$ occurs weakened in $u^n$. Let $v_i\in|C_i|$ and $w_j\in|D_j|$ for $i\leq k$ and $j\leq m$, and let $s'=s\subn[k]{y_i}{v_i}$ and $u'=u^n\subn[m][j]{z_j}{w_j}$.
 %
 We have to prove that the following term is in $|C|$:
@@ -1253,9 +1204,10 @@ It should be noted that as a consequence of strong normalisation for $D_a$, we g
 If $N$ is strongly normalisable then $\tercoden N$ is strongly normalisable.
 \end{ALtheorem}
 
-\begin{proof}
-If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and therefore  $\tercoden N$ is strongly normalisable.
-\end{proof}
+%\begin{proof}
+%If $N$ is strongly normalisable, then it is typeable in $D$; then by a generalization of Proposition~\ref{prop:types preserved}, $\tercoden N$ is typeable in $D_a$, and therefore  $\tercoden N$ is strongly normalisable.
+%\end{proof}
+
 
 % =================================================================================================
 \subsection{Typing of Strongly Normalising Atomic Lambda Terms}
@@ -1269,44 +1221,31 @@ If $\Gamma, x:A\vdash t:B$ then $\Gamma,x:A\cap C\vdash t:B$.
 
 
 % 
-\begin{ALproposition}
-\label{prop:normal form}
-If a term is normal, it is of one of the following forms, where $u$ and each $u_i$ are normal.
-\[
-	x \qquad \lambda x.u \qquad u\share xy \qquad (\dotso(x)u_1\dotso )u_n
-\]
-\end{ALproposition}
+% \begin{ALproposition}
+% \label{prop:normal form}
+% If a term is normal, it is of one of the following forms, where $u$ and each $u_i$ are normal.
+% \[
+% 	x \qquad \lambda x.u \qquad u\share xy \qquad (\dotso(x)u_1\dotso )u_n
+% \]
+% \end{ALproposition}
 
 \begin{ALproposition}
 \label{prop:typable normal form}
 For an atomic lambda-term $t$ in normal form there exist $\Gamma$, $A$ such that $\Gamma\vdash_{D_a} t:A$.
 \end{ALproposition}
 
+
 \begin{proof}
-The proof proceeds by induction on $t$, following Proposition~\ref{prop:normal form}.
-%
-\begin{enumerate}[1)]
-
-	\item
-Let $t=x$. Then $x:A\vdash x:A$ for any $A$.
-
-	\item
-Let $t=\lambda x.u$ with $u$ normal.
-%
-By the induction hypothesis there are $\Gamma$, $A$, and $B$ such that $\Gamma, x:A\vdash u:B$.
-%
-Then $\Gamma\vdash\lambda x.u:A\vlim B$.
-
-	\item
-let $t=u\share xy$ with $u$ normal.
+The proof proceeds by induction on $t$. If  $t=x$ or  $t=\lambda x.u$ with $u$ normal, the result is immediate.
+\\
+Let $t=u\share xy$ with $u$ normal.
 %
 By the induction hypothesis there are $\Gamma$, $A$, and $B_i$ for $i\leq n$ such that $\Gamma,(x_i:B_i)_{i\leq n}\vdash u:A$.
 %
 Let $B=\bigcap_{i\leq n}B_i$.
 %
 By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
-
-	\item
+\\
 Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
 %
 By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
@@ -1315,21 +1254,65 @@ For any $B$, the variable $x$ is typed by $x: A_1 \vlim \dotso \vlim A_n \vlim B
 %
 Then $(\Gamma_i)_{i\leq n},x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash (\dotso(x)u_1\dotso )u_n: B$.
 
-\end{enumerate}
 \end{proof}
+
+% \begin{proof}
+% The proof proceeds by induction on $t$.
+% %
+% \begin{enumerate}[1)]
+% 
+% 	\item
+% Let $t=x$. Then $x:A\vdash x:A$ for any $A$.
+% 
+% 	\item
+% Let $t=\lambda x.u$ with $u$ normal.
+% %
+% By the induction hypothesis there are $\Gamma$, $A$, and $B$ such that $\Gamma, x:A\vdash u:B$.
+% %
+% Then $\Gamma\vdash\lambda x.u:A\vlim B$.
+% 
+% 	\item
+% let $t=u\share xy$ with $u$ normal.
+% %
+% By the induction hypothesis there are $\Gamma$, $A$, and $B_i$ for $i\leq n$ such that $\Gamma,(x_i:B_i)_{i\leq n}\vdash u:A$.
+% %
+% Let $B=\bigcap_{i\leq n}B_i$.
+% %
+% By Proposition~\ref{prop:intersection weakening} $\Gamma,(x_i:B)_{i\leq n}\vdash u:A$, and by the inference rule $(\typeshare)$, for sharing, $\Gamma\vdash u\share xy:A$.
+% 
+% 	\item
+% Let $t=(\dotso(x)u_1\dotso )u_n$ with each $u_i$ normal.
+% %
+% By the induction hypothesis there are $\Gamma_i$ and $A_i$ for each $i\leq n$ such that $\Gamma_i \vdash u_i: A_i$.
+% %
+% For any $B$, the variable $x$ is typed by $x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash x: A_1 \vlim \dotso \vlim A_n \vlim B$.
+% %
+% Then $(\Gamma_i)_{i\leq n},x: A_1 \vlim \dotso \vlim A_n \vlim B \vdash (\dotso(x)u_1\dotso )u_n: B$.
+% 
+% \end{enumerate}
+% \end{proof}
 
 \begin{ALtheorem}
-If $u$ is strongly normalising, then it is typeable with intersection types.
+If $u$ is strongly normalising, then it is typeable in $D_a$.
 \end{ALtheorem}
 
-\begin{proof}
-By induction on $S(u)$. One consider the possible forms of terms and choose in each case a specific reduction which allows to to reverse the type from the reduct to the original term. The following example shows why the relaxing of the type contraints in the rules $\typeshare_{D_a}$ and $\typedist_{D_a}$ to type all the strongly normalisable atomic $\lambda$-terms.
-\\
-\textcolor{red}{Tom: can you provide one or two nice examples with a sentence of explanation?}
-
-
+\begin{proof}[Outline]
+By induction on $S(u)$. One considers the possible forms of terms and chooses in each case a specific reduction which allows to reverse the type from the reduct to the original term. The following example shows why the relaxing of the type contraints in the rules $\typeshare_{D_a}$ and $\typedist_{D_a}$ is necessary to type all the strongly normalisable atomic $\lambda$-terms:
+\[
+ ((x_1)
+\lambda z.(z_1)z_2\sharestar{z_1,z_2}{z})
+x_2 \distrstar
+{x_1,x_2}
+{y}
+{\tupstar{t_1,t_2}  \sharestar{}
+                              {(y)\lambda q.(q_1)q_2 \sharestar{q_1,q_2}{q}}}
+\]
+This term is a strongly normalisable term, which can be typed using the fact that $\typedist_{D_a}$ breaks the relation between the type of $y$ and the one of the argument of $x_1$. Without this relaxing of the type contraints, the term would not be typable, because this  would mean typing the term
+\[
+(\lambda z.(z_1)z_2\sharestar{z_1,z_2}{z})\lambda q.(q_1)q_2 \sharestar{q_1,q_2}{q}
+\]
+which is not strongly normalisable. 
 \end{proof}
-
 
 
 
@@ -1345,7 +1328,7 @@ Future investigations will expand in three directions: strengthening the current
 
 
 
-The present work strongly suggests an angle for future research: it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
+The present work strongly suggests an angle for future research: it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious.% in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
 
 
 For the atomic lambda-calculus in general, further work will focus on variations on the calculus that more closely approach the reduction dynamics of sharing graphs, to encompass further degrees of sharing.
@@ -1359,746 +1342,17 @@ Another direction would be the inclusion of general recursion in the calculus, a
 
 \newpage
 
-% =================================================================================================
-\section*{Appendix}
+\include{appendix}
 
-
-
-Proof of Lemma~\ref{lem:unsharing}:
-
-\begin{proof}
-The case $u\share x{\sn(t)}$ follows by structural induction on $\sn(t)$.
-%
-This gives the third step for the general case, in which
-$u\share xt$ reduces as follows: $u\share xt$
-\\ $ \rewrite u\share x{\sn(t)\share*{x_{1,1},\dots,x_{1,m_1}}{x_1}\dots\share*{x_{n,1},\dots,x_{n,m_n}}{x_n}}$
-\\ $ \rewrite u\share x{\sn(t)}\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
-\\ $ \rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(\sn(t))]\share*{y_{1,1},\dots,y_{1,m_1}}{y_1}\dots\share*{y_{n,1},\dots,y_{n,m_n}}{y_n}$
-\\ $\rewrite u\sub{x_1}{\sn(t)^1}\dots\sub{x_n}{\sn(t)^n}[\sh(t)]$
-\end{proof}
-
-Proof of Lemma~\ref{lem:undist}:
-
-\begin{proof}
-Analogous to the proof of Lemma~\ref{lem:unsharing}.
-\end{proof}
-
-Proof of Lemma~\ref{lem:lift-sn}:
-
-\begin{proof}
-The following three cases are proven simultaneously.
-\\ 1) If $u ~\ALnotbeta~ u'$, then $\sn(u) ~=~ \sn(u')$.
-\\ 2) If $u ~\ALbeta~ u'$, then the statement follows by structural induction on $u$.
-\\ 3) If $t=\tup t\G ~\rewrite~ t'=\tup{t'}\G'$, by case 2 (and Proposition~\ref{prop:sn_pi}) the result follows from the reduction
-%
-	$t_i\share*{}{x_1}\dots\share*{}{x_m}\G\rewrite
-	 t'_i\share*{}{x_1}\dots\share*{}{x_m}\G'$,
-which will be shown next.
-
-If the reduction happens inside $\vv t$, or inside $\G$ without substituting into
-$\vv t$, the result is immediate.
-%
-Otherwise, write $t'=\tup t\sub{y_{1,1}}{u_{1,1}}\sub{y_{m,k_m}}{u_{m,k_m}}\G'$, where $\FV(t_i)=\{y_{i,1},...,y_{i,k_i}\}$.
-%
-Without loss of generality, consider $i=1$. Then
-%
-\[
-\begin{aligned}
-\pi_1(t)
-	&= t_1\share*{}{y_{1,1}}\dots\share*{}{y_{m,k_m}}\G
-\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{u_{2,1}}\dots\share*{}{u_{m,k_m}}\G'
-\\ &\rewrite t_1\sub{y_{1,1}}{u_{1,1}}\sub{y_{1,k_1}}{u_{1,k_1}}\share*{}{z_1}\dots\share*{}{z_l}\G'
-\\ &= \pi_1(t')\;,
-\end{aligned}
-\]
-%
-where $\{z_1, \dots, z_l\}$ are the free variables of $u_{2,1}$,
-$\dots$, $u_{m,k_m}$.
-
-\end{proof}
-
-\begin{ALlemma}
-\label{lem:lift-sn}
-For any terms $u$ and $u'$ if $u\rewrite u'$, then $\sn(u)
-~\rewrite^\star~ \sn(u')$. Moreover, for any terms of multiplicity
-$n$, $t$ and $t'$, and any $i\leq n$, if $t\rewrite t'$, then
-$\sn(\pi_i(t))\rewrite^\star\sn(\pi_i(t'))$.
-\end{ALlemma}
-
-
-Proof of Lemma~\ref{lem:HeadVar}:
-
-\begin{proof}
-Every reduction step in $(x)\overline{t}$ can be lifted to a reduction
-step in one of the terms of $\overline{t}$, with the exception of
-reductions on the form $(u\g)v\ALnotbeta(u)v\g$. The crucial fact is
-that if $(u\g)v\ALnotbeta(u)v\g$, then a reduction step in $(u)v\g$
-can be lifted to either $u\g$ or $v$, as $\g$ can not capture any
-variables in $v$, and hence can not interact with it.
-%
-As there may only be finitely many reduction steps of a form that
-cannot be lifted, the result follows by contradiction.
-\end{proof}
-
-Proof of Lemma~\ref{prop:IntSubst}
-
-\begin{proof}
-We prove by induction on $A$ that (i) $ |A| \subseteq  \SN$ and (ii) for each $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$, $(x)\overline{t} \in |A|$.
-\\
-1) If $A=X$, then $|A| =\SN$ and the result follows from Lemma~\ref{lem:HeadVar}.
-\\
-2) Suppose $A=C\vlim D$.
-\\
-(i) Let $u \in |A|$. For $x \in \VAR$, we have $x\in |C|$ by the induction hypothesis; therefore $(u)x \in |D|$ and by the induction hypothesis $(u)x \in \SN$. It follows  $u \in \SN$.
-\\
-(ii) Let $x\in \VAR$ and $\overline{t} \in \SN^{<\omega}$. Let $v\in |C|$; then by the induction hypothesis,  $v\in \SN$ and therefore, also by the induction hypothesis, $((x)\overline{t})v \in |D|$. It follows that $(x)\overline{t} \in |C \vlim D|$.
-\\
-3) Suppose $A=C \cap D$. By definition of $|-|$, we have $u\in |A|$ iff $u\in |C|$ and $u\in |D|$, and the result follows directly by the induction hypothesis.
-\end{proof}
-
-\begin{ALlemma}\label{lem:SN-AddSharings}
-If $(u)\overline{w} \in \SN$, then $(u\share xx)\overline{w} \in \SN$.
-\end{ALlemma}
-
-
-\begin{proof}
-First show the result for empty $\overline{w}$, by contradiction.
-%
-Let $w_0\rewrite^1 w_1\rewrite^1 \ldots$ be an infinite reduction from $w_0=u\share xx$.
-%
-Each $w_i$ can be written as $w'_i\G[i]$, where $\G[i]$ the largest possible sequence of sharings of the form $\share xx$ (with the body a variable).
-%
-A rewrite $w_i\rewrite^1 w_{i+1}$ is of one of the following three forms: \textit{a)} it is inside $w'_i$, \textit{b)} it is inside $\G[i]$, or \textit{c)} it rewrites $w'_i$ to $w'_{i+1}\G'$, so that $\G[i+1]=\G'\G[i]$.
-\[
-		a)\quad	w'_i\G[i] \rewrite^1 w'_{i+1}\G[i]
-\qquad	b)\quad	w'_i\G[i] \rewrite^1 w'_i\G[i+1]
-\qquad	c)\quad	w'_i\G[i] \rewrite^1 w'_{i+1}\G'\G[i]
-\]
-The reduction path from $w_0$ is modified as follows: steps of type \textit{a)} and \textit{c)} are retained (up to renaming of variables), but those of type \textit{b)} are omitted.
-%
-It will be shown that the resulting path \textit{1)} is well-defined, \textit{2)} is infinite, and \textit{3)} generates an infinite reduction from $u$.
-
-
-First, note that a rewrite step of type \textit{b)} must be an instance of rule \eqref{eqn:execute unary substitution} or \eqref{eqn:compound sharings}.
-%
-In the latter case, $w'_i$ remains unaffected, i.e.\ $w'_i=w'_{i+1}$; in the former case, a sharing $\share xy$ is evaluated by a substitution $\sub xy$; then $w'_i$ and $w'_{i+1}$ are identical up to renaming of $x$ by $y$.
-%
-This proves \textit{1)}.
-%
-For \textit{2)}, each step of type \textit{b)} reduces the length of $\G[i]$ by 1; thus, if the original infinite reduction from $w_0$ contains infinitely many steps of type \textit{b)}, it must also contain infinitely many of type \textit{c)}.
-%
-For \textit{3)} it suffices to observe that in the new path no rewrite step affects the sharing $\share xx$, since the latter is part of $\G[0]$; thus, the new reduction path from $w_0$ immediately gives and infinite reduction from $u$.
-
-Lastly, the full result follows as $x$ must be free in $(u\share
-xx)\overline{w}$, and hence all but a finite number of reduction steps
-may be lifted from $(u\share xx)\overline{w}$ to
-$(u)\overline{w}\share xx$.
-
-%\TODO{ write a condensed proof}
-%
-\end{proof}
-
-
-
-
-Proof of Lemma~\ref{lem:Red-AddSharings}
-
-\begin{proof}
- We proceed by induction on $B$.
-\\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:SN-AddSharings}.
-\\
-2) $B= C\vlim D$.
-Suppose $(u)\overline{w} \in |C\vlim D|$. Let $t\in|C|$. We prove that  $((u\share xx)\overline{w})t \in |D|$. Because $(u)\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u)\overline{w})t \in |D|$ and by the induction hypothesis, $((u\share xx)\overline{w})t \in |D|$. It follows that $(u\share xx)\overline{w} \in |C\vlim D|$.
-\\
-3) $B= C\cap B$.
-The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
-
-\end{proof}
-
-
-Proof of Lemma~\ref{lem:IntCaseLambda0}:
-
-\begin{proof}
- Let $T = ((((\lambda x.u)\G) v)\G')\overline{w\G}$ and $T' = ((u[v/x])\G\G')\overline{w\G}$.
-\\
-In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$.
-%
-We proceed by induction on $Mes(T) = (S(T'), lh(u), lh(v), \lh\g)$ where $\lh\G$ is the length of the sequence $\G$.
-%
-We consider the different possibilities for $U$.
-\smallskip
-\\
-1)  $U = ((u\{v/x\})\G\G')\overline{w\G}$ (in this case $\G$ is empty).
-\\
-We have $U=T'\in\SN$.
-\smallskip
-\\
-2)  $U = ((((\lambda x.u^*)\G) v)\G')\overline{w\G}$ with $u\rightsquigarrow^1 u^*$.
-\\
-Consider $U' = ((u^*\{v/x\})\G\G')\overline{w\G}$. We have $T'\rightsquigarrow^1 U'$ and therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U) < Mes(T)$, we have by the induction hypothesis, $U\in\SN$.
-\smallskip
-\\
-3)  $U = ((((\lambda x.u_1)\g\G) v)\G')\overline{w\G}$ with $u = u_1\g$ and $x \notin FV(\gamma)$.
-\\
-Consider $U' = ((u_1\{v/x\})\g\G\G')\overline{w\G}$.
-We have
-\\
-$T' = (((u_1\g)\{v/x\})\G\G')\overline{w\G} = (((u_1\{v/x\})\g)\G\G')\overline{w\G} = U'$ and $U'\in\SN$.
-Because $S(U') = S(T')$ and $lh(u_1) < lh(u)$, we have $Mes(U) < Mes(T)$ and by the induction hypothesis, $U\in\SN$.
-\smallskip
-\\
-4)  $U = ((((\lambda x.u)[\Gamma^*]) v)\G')\overline{w\G}$ with $[\Gamma^*]$ is obtained by a one-step reduction in $\G$ using any rule except \eqref{eqn:execute unary substitution}, \eqref{eqn:share application}, \eqref{eqn:distributor elimination}.
-\\
-Consider $U' = ((u\{v/x\})[\Gamma^*]\G')\overline{w\G}$.  We have $T'\rightsquigarrow^1 U'$ and therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U) < Mes(T)$, we have by the induction hypothesis, $U\in\SN$.
-\\
-The same argument holds if $U$ is obtained from $T$ by any one-step reduction in $\G'\overline{w\G}$ using any rule except \eqref{eqn:execute unary substitution}, \eqref{eqn:share application}, \eqref{eqn:distributor elimination}.
-\smallskip
-\\
-5)  $U = ((((\lambda x.u^*)[\Gamma^*]) v)\G')\overline{w\G}$ and $U$ is obtained from $T$ by a one-step reduction in $\G$ using a rule among \eqref{eqn:execute unary substitution}, \eqref{eqn:share application}, \eqref{eqn:distributor elimination} (these rules may apply substitutions to $u$ transforming it into $u^*$).
-\\
-Consider $U' = ((u^*\{v/x\})[\Gamma^*]\G')\overline{w\G}$. $U'$ is obtained from $T'$ by applying the same rule $\G$ and therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U) < Mes(T)$, we have by the induction hypothesis, $U\in\SN$.
-\\
-The same argument holds if $U$ is obtained from $T$ by any one-step reduction in $\G'\overline{w\G}$ using a rule among \eqref{eqn:execute unary substitution}, \eqref{eqn:share application}, \eqref{eqn:distributor elimination} (in this case the substitution may transform also $u$, $v$ and $\G$).
-\smallskip
-\\
-6)  $U = ((((\lambda x.u)[\Sigma]) v)\g\G')\overline{w\G}$ with $\G = [\Sigma]\g$ (application of rule \eqref{eqn:sharing above application function})
-\\
-Consider $U' = ((u\{v/x\})[\Sigma]\g\G')\overline{w\G}$.
-We have $T' = U'$ and therefore $U'\in\SN$ and $S(U') = S(T')$. Because $lh([\Sigma]) < \lh\G$, we have $Mes(U) < Mes(T)$ and by the induction hypothesis, $U\in\SN$.
-\smallskip
-\\
-7)  $U = ((((\lambda x.u)\G) v_1)\g\G')\overline{w\G}$ with $v = v_1\g$.
-\\
-Consider $U' = ((u\{v_1/x\})\G\g\G')\overline{w\G}$.
-We have $T' = (((u)\{v_1\g/x\})\G\G')\overline{w\G}$. $T'$ reduce to $U'$ in $n\ge 0$ steps (it can be $0$ in the case where $u = x$). Therefore $U'\in\SN$ and $S(U') \leq S(T')$. Because $lh(v_1) < lh(v)$, we have $Mes(U) < Mes(T)$ and by the induction hypothesis, $U\in\SN$.
-\smallskip
-\\
-8)  $U = ((((\lambda x.u)\G) v*)\G')\overline{w\G}$ with $v\rightsquigarrow^1 v^*$.
-\\
-Consider $U' = ((u\{v^*/x\})\G\G')\overline{w\G}$. We have $T'\rightsquigarrow^1 U'$ (because $x$ has exactly one occurrence in $u$) and therefore $U'\in\SN$ and $S(U')<S(T')$. Because $Mes(U) < Mes(T)$, we have by the induction hypothesis, $U\in\SN$.
-
-\end{proof}
-
-
-Proof of Lemma~\ref{lem:IntCaseLambdaSharing}:
-
-\begin{proof}
- We proceed by induction on $B$.
-\\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseLambda0}.
-\\
-2) $B= C\vlim D$.
-Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We prove that  $(((\lambda x.u) v)\overline{w})t \in |D|$. Because $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u\{v/x\})\overline{w})t \in |D|$ and by the induction hypothesis, $(((\lambda x.u) v)\overline{w})t \in |D|$. It follows that $((\lambda x.u) v)\overline{w} \in |C\vlim D|$.
-%\\
-%3) $B= C\cap B$.
-%The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
-\end{proof}
-%
-% \Comment{For proving Proposition~\ref{prop:IntSubst} (case 3), we need the statement of Lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of Lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
-%   Then for proving case 1 ($|B| = \SN$), we need the more complicated statement of Lemma~\ref{lem:IntCaseLambda0}: the proof by induction of Lemma~\ref{lem:IntCaseLambda0} introduces the case of sharing (case xx of the proof of Lemma~\ref{lem:IntCaseLambda0})  }
-
-
-
-
-Proof of the remaining cases of Lemma~\ref{lem:safe reflection}
-
-\begin{proof}
-\begin{itemize}
-
-	\item[\eqref{eqn:sharing above abstraction}]
-There are two cases:
-\begin{itemize}
-
-	\item
-Given $\Gamma,\Delta \vdash_D (\lambda x.t)\share*{\vv*y}v:A$, we have $\Gamma,x:B,\vv*y:C\vdash_D t:A$ and $\Delta \vdash_D v:C$, which gives $\Gamma,\Delta\vdash_D \lambda x.(t\share*{\vv*y}v):A$.
-
-	\item
-Given $\Gamma,\Delta \vdash_D (\lambda x.t)\distr*{\vv*y}zv:A$, we have $\Gamma,x:B,\vv*y:\bigcap_{i\leq n}(C_i\vlim D_i)\vdash_D t:A$ and for each $i\leq n$, $\Delta,z:C^\star_i \vdash_D v:D_i$, which gives $\Gamma,\Delta\vdash_D \lambda x.(t\distr*{\vv*y}zv):A$.
-\end{itemize}
-
-%\label{eqn:sharing above application function}
-%	(u\g)t & ~\ALnotbeta~ ((u)t)\g
-
-	\item[\eqref{eqn:sharing above application function}]
-There are two cases:
-\begin{itemize}
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $u$ and
-we have $\Gamma,\vv*y:C\vdash_D u:B\vlim A$, $\Delta\vdash_D t:B$ and
-$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u\share*{\vv*y}v)t:A$.
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $u$ and
-we have $\Gamma,\vv*y:\bigcap_{i\leq n}(C_i\vlim D_i)\vdash_D u:B\vlim A$, $\Delta\vdash_D t:B$ and,
-for each $i\leq n$, $\Sigma,z:C^\star_i \vdash_D v:D_i$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u\distr*{\vv*y}zv)t:A$.
-\end{itemize}
-
-%\label{eqn:sharing above application argument}
-%	(u)t\g & ~\ALnotbeta~ ((u)t)\g
-
-	\item[\eqref{eqn:sharing above application argument}]
-There are two cases:
-\begin{itemize}
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
-we have $\Gamma\vdash_D u:B\vlim A$, $\Delta,\vv*y:C\vdash_D t:B$ and
-$\Sigma \vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u)t\share*{\vv*y}v:A$.
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D ((u)t)\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and
-we have $\Gamma \vdash_D u:B\vlim A$, $\Delta,\vv*y:\bigcap_{i\leq n}(C_i\vlim D_i)\vdash_D t:B$ and,
-for each $i\leq n$, $\Sigma,z:C^\star_i \vdash_D v:D_i$, which gives $\Gamma,\Delta,\Sigma\vdash_D (u)t\distr*{\vv*y}zv):A$.
-\end{itemize}
-
-%\label{eqn:sharing above sharing}
-%	u\share x{t\g} & ~\ALnotbeta~ u\share xt\g
-
-	\item[\eqref{eqn:sharing above sharing}]
-There are two cases:
-\begin{itemize}
-
-	\item
-Given $\Gamma,\Delta,\Sigma^+ \vdash_D u\share*{\vv*x}t\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$. We have $\Gamma,\vv*x:B\vdash_D u:A$, $\Delta,\vv*y:C\vdash_D t:B$ and $\Sigma^+ \vdash_D v:C$. In case $u$ is an $n$-term and $\vv*y$ is the empty sequence, we may have $\Sigma^+\neq\Sigma$, in which case we also have $\Sigma\vdash_D v:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{t\share*{\vv*y}v}:A$.
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D u\share*{\vv*x}t\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and we have $\Gamma,\vv*x:B \vdash_D u:A$, $\Delta,\vv*y:\bigcap_{i\leq n}(C_i\vlim D_i)\vdash_D t:B$ and,
-for each $i\leq n$, $\Sigma,z:C^\star_i \vdash_D v:D_i$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{t\distr*{\vv*y}zv}:A$.
-\end{itemize}
-
-%\label{eqn:sharing above distribution}
-%	u\distr xy{t\g} & ~\ALnotbeta~ u\distr xyt\g
-%		& \text{if}~y\in\FV(t) &&&
-
-	\item[\eqref{eqn:sharing above distribution}]
-There are two cases:
-\begin{itemize}
-
-	\item
-Given $\Gamma,\Delta,\Sigma^+ \vdash_D u\distr*{\vv*x}qt\share*{\vv*y}v:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and we have $\Gamma,\vv*x:\bigcap_{i\leq n}(E_i\vlim B_i)\vdash_D u:A$, for each $i\leq n$, $\Delta,\vv*y:C,q:E^\star_i\vdash_D t:B_i$ and
-$\Sigma^+ \vdash_D v:C$. In case $u$ is an $n$-term and $\vv*y$ is the empty sequence, we may have $\Sigma^+\neq\Sigma$,
-in which case we also have $\Sigma\vdash_D v:C$,
-which gives $\Gamma,\Delta,\Sigma\vdash_D u\distr*{\vv*x}q{t\share*{\vv*y}v}:A$.
-
-	\item
-Given $\Gamma,\Delta,\Sigma \vdash_D u\distr*{\vv*x}qt\distr*{\vv*y}zv:A$. As this is a redex of the given rule $\vv*y$ binds only in $t$ and we have $\Gamma,\vv*x:\bigcap_{i\leq n}(E_i\vlim B_i) \vdash_D u:A$, for each $i\leq n$, $\Delta,\vv*y:\bigcap_{j\leq m}(C_j\vlim D_j),q:E^\star_i\vdash_D t:B$ and, for each $j\leq m$, $\Sigma,z:C^\star_j \vdash_D v:D_j$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\distr*{\vv*x}q{t\distr*{\vv*y}zv}:A$.
-\end{itemize}
-
-%\label{eqn:execute unary substitution}
-%	u\share*xt~\ALnotbeta~u\sub xt
-
-	\item[\eqref{eqn:execute unary substitution}]
-Given $\Gamma,\Delta \vdash_D u\sub xt:A$, we have by Proposition~\ref{prop:typing substitution}, some $B$ such that $\Gamma, x:B \vdash_D u:A$ and $\Delta\vdash_D t:B$, which gives $\Gamma,\Delta\vdash_D u\share*xt$.
-
-%\label{eqn:compound sharings}
-%	u\share*{\vv*x}{y_i}\share yt ~\ALnotbeta~
-%	u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}
-
-	\item[\eqref{eqn:compound sharings}]
-Given $\Gamma,\Delta\vdash_D u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}:A$, we have $\Gamma,y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n:B\vdash_D u:A$ and $\Delta\vdash_D t:B$. This gives $\Gamma,\vv*y:B\vdash_D u\share*{\vv*x}{y_i}$, which again gives $\Gamma,\Delta\vdash_D u\share*{\vv*x}{y_i}\share*{\vv*y}t$.
-
-%\label{eqn:share application}
-%	u\share x{(v)t} ~\ALnotbeta~
-%	u\subn{x_i}{(y_i)z_i}\share yv\share zt
-
-	\item[\eqref{eqn:share application}] 
-Where $n\geq1$. Given $\Gamma,\Delta,\Sigma \vdash_D u\subn{x_i}{(y_i)z_i}\share yv\share zt:A$. As this is a redex of the given rule, $\vv*z$ binds only in $u$,
-we have $\Gamma,\vv*y:D,\vv*z:C\vdash_D u\subn{x_i}{(y_i)z_i}:A$;
-and by Proposition~\ref{prop:typing substitution}, there is an $B$, such that $D=C\vlim B$.
-We then have $\Delta\vdash_D v:C\vlim B$ and $\Sigma\vdash_D t:C$, which gives $\Gamma,\Delta,\Sigma\vdash_D u\share*{\vv*x}{(v)t}:A$.
-
-\end{itemize}
-\end{proof}
-
-
-
-
-\begin{ALlemma}
-Subject reduction for the distributor rewrite rules of $D_a$.
-\end{ALlemma}
-
-\begin{proof}
-%
-Rule~\eqref{eqn:share abstraction} (distributor introduction), before:
-\[
-\vlderivation{
-  \vliiin{}{}
-	{\vdash u\share*{\vv*x}{\lambda y.t}:C}
-	{\vlhy{\vv*x:\bigcap_{j\leq m}(A'_j\vlim B'_j)\vdash u:C}}
-	{\vlhy{}}
-	{\vlin{}{}
-	  {\vdash\lambda y.t:\bigcap_{j\leq m}(A_j\vlim B_j)}
-	  {\vlhy{
-	    \left(
-		\vlinf{}{}
-	 	  {\vdash\lambda y.t:A_j\vlim B_j}
-		  {y:A_j\vdash t:B_j}
-		\right)_{j\leq m}
-	}}}
-}
-\]
-
-\noindent
-Rule~\eqref{eqn:share abstraction} (distributor introduction), after:
-\[
-  \vliiinf{}{}
-	{u\distr*{\vv*x}y{\tup z\share zt}:C}
-	{\raisebox{-25pt}{
-		$\vv*x:\bigcap_{j\leq m}(A'_j\vlim B'_j)\vdash u:C$
-	}}	
-	{\vlhy{}}
-	{\left(\vlderivation{
-		\vliiin{}{}
-	 	  {y:A_j\vdash \tup z\share zt : B'_j\vlan\dotso\vlan B'_j}
-		  {\vlin{}{}
-			{(z_i:B'_j)_{i\leq n}\vdash \tup z:B'_j\vlan\dotso\vlan B'_j}
-			{\vlhy{
-				\Big(
-					\raisebox{5pt}{$\vlinf{}{}{z_i:B'_j\vdash z_i:B'_j}{}$}
-				\Big)_{i\leq n}}}
-		  }
-		  {\vlhy{}}
-		  {\vlhy{y:A_j\vdash t:B_j}}
-		}
-		\right)_{j\leq m}
-	}
-\]
-
-\noindent
-Rule~\eqref{eqn:distributor elimination} (distributor elimination), before:
-\[
-\vliiinf{}{}
-  {u\distr xy{\tup t\share*{\vv*z}y}:C}
-  {\raisebox{-18pt}{$(x_i:\bigcap_{j\leq m}(A'_j\vlim B^i_j))_{i\leq n}\vdash u:C$}}
-  {}
-  {\left(
-	\vlderivation{
-	  \vliiin{}{}
-		{y:A_j\vdash \tup t\share*{\vv*z}y:B^1_j\vlan\dotso\vlan B^n_j}
-		{\vlin{}{}
-		  {\vv*z:A_j\vdash\tup t:B^1_j\vlan\dotso\vlan B^n_j}
-		  {\vlhy{(\vv*z_i:A_j\vdash t_i:B^i_j)_{i\leq n}}}
-		}
-		{\vlhy{}}
-		{\vlin{}{}{y:A_j\vdash y:A_j}{}}
-	}
-   \right)_{j\leq m}
-  }
-\]
-
-\noindent
-Rule~\eqref{eqn:distributor elimination} (distributor elimination), after: for each $i\leq n$:
-\[
-\vlinf{}{}
-  {\vdash\lambda y_i.t_i\share*{\vv*z_i}{y_i}:\bigcap_{j\leq m}(A'_j\vlim B^i_j)}
-  {\left(
-	\vlderivation{
-	  \vlin{}{}
-		{\vdash\lambda y_i.t_i\share*{\vv*z_i}{y_i}:A'_j\vlim B^i_j}
-		{\vliiin{}{}
-		  {y_i:A'_j\vdash t_i\share*{\vv*z_i}{y_i}:B^i_j}
-		  {\vlhy{\vv*z_i:A_j\vdash t_i:B^i_j}}
-		  {\vlhy{}}
-		  {\vlin{}{}{y_i:A'_j\vdash y_i:A'_j}{}}
-	}}
-   \right)_{j\leq m}
-  }
-\]
-%
-Note that the type assignments $\vv*z_i:A_j$ and $y_i:A'_j$ may be combined in the above due to the fact that $A_j=A'_j$ or $\vv*z_i$ is empty.
-
-
-
-\noindent
-During reduction,
-% in the typing derivations for $t^n$ in
-%\[
-%\vliiinf{}{}
-%	{u\distr xy{t^n}:C}
-%	{(x_i:\bigcap_{j\leq m}(A_j\vlim B^i_j))_{i\leq n}\vdash u:C}	
-%	{\vlhy{}}
-%	{(y:V_j\vdash t^n:B^1_j\vlan\dotso\vlan B^n_j)_{j\leq m}}
-%\]
-the following holds for the leading variables in the terms concerned:
-\begin{itemize}
-
-	\item
-if a variable is weakened, it remains weakened;
-
-	\item
-if it is not, it may become weakened only through a beta-step in $t^n$;
- 
-	\item
-if it becomes weakened, it may retain its previous type.
-
-\end{itemize}
-
-\end{proof}
-
-
-
-\newpage
-
-\noindent
-\begin{ALlemma}
-Reverse subject reduction for the distributor rewrite rules of $D_a$.
-\end{ALlemma}
-
-\begin{proof}
-\noindent
-Rule~\eqref{eqn:share abstraction} (distributor introduction), after:
-\[
-  \vliiinf{}{}
-	{u\distr*{\vv*x}y{\tup z\share zt}:C}
-	{\raisebox{-25pt}{
-		$(x_i:\bigcap_{j\leq m}(A'_j\vlim B'_j))_{i\leq n}\vdash u:C$
-	}}	
-	{\vlhy{}}
-	{\left(\vlderivation{
-		\vliiin{}{}
-	 	  {y:A_j\vdash \tup z\share zt : B'_j\vlan\dotso\vlan B'_j}
-		  {\vlin{}{}
-			{(z_i:B'_j)_{i\leq n}\vdash \tup z:B'_j\vlan\dotso\vlan B'_j}
-			{\vlhy{
-				\Big(
-					\raisebox{5pt}{$\vlinf{}{}{z_i:B'_j\vdash z_i:B'_j}{}$}
-				\Big)_{i\leq n}}}
-		  }
-		  {\vlhy{}}
-		  {\vlhy{y:A_j\vdash t:B_j}}
-		}
-		\right)_{j\leq m}
-	}
-\]
-
-% NOTE: Here we need the full definition of replacement types,
-%       since the B'_j in the types for the x_i are intersections;
-%       otherwise we must show we can adjust the type of the x_i
-%
-%Where $B_j=\bigcap_{i\leq p}B^i_j$ and $B'_j=\bigcap_{i\leq p}B'^i_j$ with each $B'^i_j$ a replacement type for $t:B^i_j$.
-%%
-%Then the statement $t:B_j$ must have been derived by:
-%%
-%\[
-%  \vlinf{}{}
-%    {y:A_j\vdash t:B_j}
-%    {(y:A_j\vdash t:B^i_j)_{i\leq p}}
-%\]
-
-
-\noindent
-Rule~\eqref{eqn:share abstraction} (distributor introduction), before, is as follows:
-\[
-\vlderivation{
-  \vliiin{}{}
-	{\vdash u\share*{\vv*x}{\lambda y.t}:C}
-	{\vlhy{\vv*x:\bigcap_{j\leq m}(A'_j\vlim B'_j)\vdash u:C}}
-	{\vlhy{}}
-	{\vlin{}{}
-	  {\vdash\lambda y.t:\bigcap_{j\leq m}(A_j\vlim B_j)}
-	  {\vlhy{
-	    \left(
-		\vlinf{}{}
-	 	  {\vdash\lambda y.t:A_j\vlim B_j}
-		  {y:A_j\vdash t:B_j}
-		\right)_{j\leq m}
-	}}}
-}
-\]
-
-%\[
-%\vlderivation{
-%  \vliiin{}{}
-%	{\vdash u\share*{\vv*x}{\lambda y.t}:C}
-%	{\vlhy{\vv*x:\bigcap^{i\leq n}_{j\leq m}(A'_j\vlim B'^i_j)\vdash u:C}}
-%	{\vlhy{}}
-%	{\vlin{}{}
-%	  {\vdash\lambda y.t:\bigcap^{i\leq n}_{j\leq m}(A_j\vlim B_j)}
-%	  {\vlhy{
-%	    \left(
-%		\vlinf{}{}
-%	 	  {\vdash\lambda y.t:A_j\vlim B_j}
-%		  {y:A_j\vdash t:B_j}
-%		\right)_{\overset{\scriptstyle {i\leq n}}{j\leq m}}
-%	}}}
-%}
-%\]
-
-
-\bigskip
-
-\noindent
-Rule~\eqref{eqn:distributor elimination} (distributor elimination), after: consider the following term: $u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}$.
-%
-For $u$, by Proposition~\ref{prop:typing substitution} we get the typing statement below left, from which the one below right is derived using  and Proposition~\ref{prop:intersection weakening}. 
-
-\[
-\textstyle
-	(x_i:B_i\vlim C_i)_{i\leq n}\vdash_D u:A
-\quads3
-	\vv*x:\bigcap_{j\leq n}(B_j\vlim C_j)\vdash_D u:A
-\]
-For $t_i$ we get:
-\[
-\vlderivation{
-  \vlin{}{}
-	{\vdash\lambda y_i.t_i\share*{\vv*z_i}{y_i}:B_i\vlim C_i}
-	{\vliiin{}{}
-	  {y:B_i\vdash t_i\share*{\vv*z_i}{y_i}\:C_i}
-	  {\vlhy{\vv*z_i:B_i\vdash t_i:C_i}}
-	  {\vlhy{}}
-	  {\vlin{}{}{y:B_i\vdash y:B_i}{}}
-}}
-\]
-%
-Since all $t_j$ are variants, to obtain the desired typing for the tuple $\tup t$, we first replicate the typing derivations for a given $t_j$ (below left), after which a renaming of variables gives the desired typing derivation (below right).
-\[
-  \vlderivation{
-	\vlin{}{}
-		  {\vv*z^{\kern2pt i}:B_j\vdash\tup^{t_j}:C_j\vlan\dotso\vlan C_j}
-		  {\vlhy{(\vv*z_j^{\kern2pt i}:B_j\vdash t_j^{\kern2pt i}:C_j)_{i\leq n}}}
-		}
-\qquad
-  \vlderivation{
-	\vlin{}{}
-	  {\vv*z:B_j\vdash\tup t:C_j\vlan\dotso\vlan C_j}
-	  {\vlhy{(\vv*z_i:B_j\vdash t_i:C_j)_{i\leq n}}}
-	}
-\]
-Rule~\eqref{eqn:distributor elimination} (distributor elimination), before:
-\[
-\vliiinf{}{}
-  {u\distr*{\vv*x}y{\tup t\share*{\vv*z}y}:A}
-  {\raisebox{-10pt}{$\vv*x:\bigcap_{j\leq n}(B_j\vlim C_j)\vdash_D u:A$}}
-  {}
-  {\left(
-	\vlderivation{
-	  \vliiin{}{}
-		{y:B_j\vdash \tup t\share*{\vv*z}y:C_j\vlan\dotso\vlan C_j}
-		{\vlhy{\vv*z:B_j\vdash\tup t:C_j\vlan\dotso\vlan C_j}}
-		{\vlhy{}}
-		{\vlin{}{}{y:B_j\vdash y:B_j}{}}
-	}
-   \right)_{j\leq m}
- }
-\]
-
-\end{proof}
-
-
-
-
-
-% %=================================
-%
-% \subsection{Preservation of strong normalisation}
-%
-%
-% Figure~\ref{fig:lambda intersection types} presents a calculus of intersection types for the standard lambda-calculus.
-% %
-% The treatment of contexts $\Gamma$ is chosen to allow a close correspondence with derivations in $D_a$.
-%
-%
-% \begin{ALdefinition}
-% The type system $D$ of intersection types for the standard lambda-calculus $\Lambda$ is given by the rules in Figure~\ref{fig:lambda intersection types}.
-% \end{ALdefinition}
-%
-%
-% The type system characterises precisely the strongly normalisable terms.
-%
-%
-% \begin{ALtheorem}[\cite{??}]\label{thm:lambda intersection SN}
-% A lambda term $N\in\Lambda$ is SN if and only if $N$ is typeable in $D$.
-% \end{ALtheorem}
-%
-% \begin{figure}[!tp]
-% \[
-%   \begin{array}{c@{\quads3}c@{\quads3}c}
-% 	  \vlinf{}{\typevar}{x:A\vdash x:A}{}
-% 	&
-% 	  \vlinf{}{\typeabs}
-% 	   {\Gamma \vdash \lambda x.N : A \vlim B}
-% 	   {\Gamma, x : A,\dotsc, x : A \vdash N : B}
-% 	&
-% 	  \vliiinf{}{\typeapp}
-% 	   {\Gamma,\Delta \vdash (N)M : B}
-% 	   {\Gamma \vdash N : A\vlim B}
-% 	   {}
-% 	   {\Delta \vdash M : A}
-% 	\\ \\ \\
-%       \vlinf{}{\cap_{e1}}
-% 	   {\Gamma \vdash N : A}
-% 	   {\Gamma \vdash N : A\cap B}
-% 	&
-%       \vlinf{}{\cap_{e2}}
-% 	   {\Gamma \vdash N : B}
-% 	   {\Gamma \vdash N : A\cap B}
-% 	&
-% 	  \vliiinf{}{\cap_i}
-% 	   {\Gamma \vdash N : A\cap B}
-% 	   {\Gamma \vdash N : A}
-% 	   {}
-% 	   {\Gamma \vdash N : B}
-%   \end{array}
-% \]
-% \caption{Type system $D$ for the lambda-calculus}
-% \label{fig:lambda intersection types}
-% \end{figure}
-%
-%
-% \begin{ALproposition}\label{prop:intersection types preserved}
-% If $N:A$ in $D$ then $\tercoden N:A$ in $D_a$.
-% \end{ALproposition}
-%
-% \begin{proof}
-% %By induction on the typing derivation for $\Gamma\vdash N:A$.
-% %
-% %The case where consists of a single axiom is immediate, and if the last rule in the derivation is one of $\typeapp$, $\cap_{e1}$, $\cap_{e2}$, or $\cap_i$, the induction hypothesis applies immediately.
-% %
-% A typing derivation for $\Gamma \vdash N : A$ translates directly to one for $\Gamma\vdash \tercoden N : A$, with the following notes:
-% %
-% 1) the derivation for $\tercoden N$ ends in an additional series of $(\typeshare)$-inferences as displayed below left; and
-% %
-% 2) a $(\lambda)$-inference in the derivation for $N$ translates to a consecutive $(\lambda)$-inference and $(\typeshare)$-inference, as illustrated below right.
-% %
-% \[
-% 	{\vliiinf{}{\typeshare}
-% 	   {\Gamma, x_i : B  \vdash u\share*{x^1_i,\dotsc,x^n_i}{x_i} : A}
-% 	   {\Gamma, x^1_i \dots x^n_i : B \vdash u : A }
-% 	   {}
-% 	   {x_i : B \vdash x_i : B }
-% 	}
-% \qquad
-% 	\vlderivation{
-% 	 \vlin{}{\lambda}
-% 	  {\Gamma \vdash \lambda x.u\share*{x^1,\dotsc,x^n}x : A\to B}
-% 	  {\vliiin{}{\typeshare}
-% 	   {\Gamma, x : B  \vdash u\share*{x^1,\dotsc,x^n}x : A}
-% 	   {\vlhy{ \Gamma, x^1 \dots x^n : B \vdash u : A }}
-% 	   {\vlhy{\ }}
-% 	   {\vlhy{ x : B \vdash x : B }}
-% 	  }
-% 	}
-% \quad
-% \]
-% \end{proof}
-%
-%
-% \begin{ALtheorem}[PSN]
-% If $N$ is SN then $\tercoden N$ is SN.
-% \end{ALtheorem}
-%
-% \begin{proof}
-% If $N$ is SN then by Theorem~\ref{thm:lambda intersection SN} it is typeable in $D$; then by Proposition~\ref{prop:intersection types preserved} $\tercoden N$ is typeable in $D_a$, and by Theorem~?? $\tercoden N$ is SN.
-% \end{proof}
 
 
 
 
 
 \end{document}
+
+
+
 
 
 
@@ -2495,5 +1749,7 @@ $u=v\share xy$, by the induction hypothesis we have $\Gamma,(x_i:B_i)_{i\leq n}\
 \end{itemize}
 \end{itemize}
 \end{proof}
+
+
 
 
