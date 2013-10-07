@@ -547,7 +547,9 @@ In this section we prove the strong normalisation theorem for atomic lambda-term
 The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in Section~\ref{sec:ClosPropSN}.
 
 
-For simplifying the presentation, we consider in the remainder of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
+For simplifying the presentation, we consider in the remainder of this paper, that no beta-reduction happens inside $n$-tuples, that $n$-tuples are on sharing normal form and that all their free varibales are caputerd by closures. This property is preserved by reduction and it is natural in the context of sharing calculus. In particular all the useful computation strategies satisfy it, including the one reproducing fully lazy sharing.
+
+%For simplifying the presentation, we consider in the remainder of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
 
 \begin{ALdefinition}
@@ -804,7 +806,7 @@ $(x)\overline{t} \in \SN$.
 
 The following Lemma~\ref{lem:IntCaseLambda0} is a generalisation of the fact that if $(u\sub xv)\overline w \in \SN$, then $(\lambda x.u)v)\overline{w} \in \SN$, which is used in Lemma~\ref{lem:IntCaseLambdaSharing}.
 
-For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\langle t^1,\dots, t^n \rangle\G$ is defined as the length of $t\G$.
+For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\tup t\G$ is defined as the max of the length of each $t_i\G$.
 We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
 By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 
@@ -974,20 +976,19 @@ Therefore $U'\in\SN$ and $S(U') = S(T')$. We also have $m_1(U) \leq m_1(T)$, and
 %
 \smallskip
 \\
-2.5)  $T = (u\distr xy{\tup^t\share*{\vv^{\vv*z\kern2pt}}y}\G'[0])\overline{w\G}$ and
+2.5)  $T = (u\distr xy{\tup t\share*{\vv{\vv*z}}y}\G'[0])\overline{w\G}$ and
 \\
-$U = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}[\sh (\lambda y.t\share*{\vv*z}{y})]\G'[0])\overline{w\G}$.
+$U = (u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}\G'[0])\overline{w\G}$.
 %
-In this case we have $T' = ( u\subn{x_i}{\sn(\lambda y.t\share*{\vv*z}y)^i}[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}$.
+In this case we have $T' = ( u\subn{x_i}{\sn(\lambda y_i.t_i\share*{\vv*z_i}y_i)}\G'[0]^*)\overline{w\G^*}$.
 %
 Consider 
 \[
-	U' = (u\subn{x_i}{\lambda y^i.t^i\share*{\vv*z\kern2pt^i}{y_i}}
-			[\sh (\lambda y.t\share*{\vv*z}y)]\G'[0]^*)\overline{w\G^*}
+	U' = (u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}}\G'[0]^*)\overline{w\G^*}
 \]
 %
-Because $t^i$ is already unfolded, we have  $\sn(\lambda y.t)^i = \sn(\lambda y.t\share*{\vv*z}y)^i$.
-%(\EMPTY{Here we use not only the fact that the $t^i$ are variants with the convention on variables, but also that they are unfolded, i.e. produced by reduction)}
+Because $t_i$ is already in sharing normal form, we have $\sn(\lambda y_i.t_i\share*{\vv*z_i}y_i) = \lambda y_i.t_i\share*{\vv*z_i}{y_i}$.
+%
 It follows that $T' = U'$, $U'\in\SN$ and $S(U') = S(T')$.
 %
 Since $m_1(U) < m_1(T)$ it follows that $Mes(U,U') < Mes(T,T')$. Thus by the induction hypothesis, $U\in\SN$.
