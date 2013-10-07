@@ -138,7 +138,7 @@ In addition we give a characterisation of exactly the strongly normalisable atom
 
 The \emph{atomic lambda-calculus} is a typeable lambda-calculus with explicit sharing, recently introduced in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS}, developed as the Curry--Howard interpretation of a deep-inference proof system for intuitionistic logic.
 %
-The present paper constitutes an important step in the development of its meta-theory, by extending intersection types and Tait's reducibility method to show strong normalisation of the typed atomic lambda-calculus.
+The present paper constitutes an important step in the development of its meta-theory, by extending Tait's reducibility method to show strong normalisation of the simply typed atomic lambda-calculus.
 %
 The primary motivation for establishing this result is to demonstrate that the atomic lambda-calculus is a natural and well-behaved calculus, to which the main standard techniques and results apply.
 
@@ -172,11 +172,10 @@ In the present paper strong, normalisation for the typed atomic lambda-calculus 
 %
 Reducibility is an abstract method compatible with higher-order logic, whose application provides a deeper understanding of reduction and its dynamics.
 %
-\emph{Intersection types} \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993} further allow the characterisation of exactly the strongly normalisable terms.
+%\emph{Intersection types} \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993} further allow the characterisation of exactly the strongly normalisable terms.
 %
-Together, the two form an important part of the meta-theory of a calculus (for example for explicit substitution calculi, in \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011}).
-
-
+%Together, the two form an important part of the meta-theory of a calculus (for example for explicit substitution calculi, in \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011}).
+%
 The fact that a reducibility proof can be carried out for the atomic lambda-calculus shows the generic character of this extension
 of the lambda-calculus.
 %
@@ -186,13 +185,13 @@ the lack of local confluence.
 %I would like to add something like this to avoid that the referee says: it is only a technical
 %generalization; you need only perseverance to get it; etc.
 %
-For compactness the proof will be carried out for a discipline of simple types, and will be shown extensible to intersection types.
+%For compactness the proof will be carried out for a discipline of simple types, and will be shown extensible to intersection types.
 
 
 
-The characterisation of exactly the strongly normalisable atomic lambda-terms by intersection types is more subtle than for the lambda-calculus, due to the fact that garbage collection is an integral part of the computation.
+%The characterisation of exactly the strongly normalisable atomic lambda-terms by intersection types is more subtle than for the lambda-calculus, due to the fact that garbage collection is an integral part of the computation.
 %
-Such a type system is given in Section~\ref{sec:SND}, and the proof of the characterization is outlined.
+%Such a type system is given in Section~\ref{sec:SND}, and the proof of the characterization is outlined.
 
 %The interaction of atomic duplication rules with beta-reduction means that a certain, natural amount of garbage collection is required inbetween beta-reduction steps.
 %
@@ -242,7 +241,7 @@ where
 %
 \item in $\lambda y.t^n$, $y$ must occur in $t^n$ and becomes bound, and
 %
-\item in $u\share xt$ and $u\distr xy{t^n}$, each $x_i$ must occur in $u$ and becomes bound, and likewise with $t^m$ for $u$.
+\item in $t\g$ where $\g$ is $\share xu$ or $\distr xy{t^n}$, each $x_i$ must occur in $t$ and becomes bound, and likewise for $t^n\g$.
 %
 \end{inparaenum}
 %
@@ -412,7 +411,7 @@ A variant is \emph{fresh} if all its variables are fresh, and $t^i$ is the fresh
 variable $x$ by a fresh variable $x^i$.
 
 
-For a tuple $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dots,x_k,\dots,x_m}y{\tup s\G'}$.
+For a tuple $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dotsc,x_k,\dotsc,x_m}y{\tup*{s_1,\dotsc,s_k,\dotsc,s_m}\G'}$.
 
 
 The following basic facts then characterise $\sn$.
@@ -427,7 +426,7 @@ The following basic facts then characterise $\sn$.
 \\[5pt]
    \sn(u\share xt) & =\sn(u)\subn{x_i}{\sn(t)^i}
 \\[5pt]
-	\sn(u\distr xyt) &=\sn(u)\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}
+	\sn(u\distr xy{t^n}) &=\sn(u)\subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}
 \end{aligned}
 \]
 \end{ALproposition}
