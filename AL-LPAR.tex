@@ -80,6 +80,35 @@
 
 
 
+% TO DO
+
+
+% Somewhere between introduction and Definition 1, outline the basic idea of the sharing construct.
+
+% p.2 each variable occurs at most once in every expression (if this is indeed the case!)
+
+% p.3: "Permutations of closures": is the meaning of "permutations" to be wrt term constructors?  why not "congruence"?
+
+% p.3: why not giving the two functions between lambda calculus and the atomic lambda calculus? they can help a reader at a first reading. Also, at the beginning, I was thinking that SN was an immediate consequence of SN of usual simply typed lambda calculus and your theorem 3. However, this is not the case because of weakening. Maybe you can discuss this point, maybe with an example.
+
+%Page 3. You should say more about the translation to and from lambda calculus. Do they commute with reductions, with normal forms in both calculi? Are they inverse each other?
+
+%Page 4 2.2 Basic properties of the atomic lambda-calculus - You should say more about what you know or conjecture. Is your calculus confluent, or may you have different normal form because you may represent the same sharing in syntactically different way? How long does it take to normalize? I assume it is at least super-exponential in time and space, as it is for ordinary lambda calculus.
+
+%Page 4. Sharing in u occurs only  - You should quote the lemma of your LICS 2013 paper proving it.
+
+%Page 5. Typed atomic lambda calculus - Include the grammar for minimal formulas and conjunctive formula.
+
+%Page 6. Definition 11. u is a term => u is a term of type A->B  this is not strictly required, but it helps.
+
+% p.6, proposition 12: you have not yet defined the set V. Also, I guess you must suppose that A is not a conjunctive formula.
+
+% p. 8, second paragraph after Lemma 19: "is defined as the length of $t[\Gamma]$". Which $t$? I did not understand this sentence.
+
+% Lemma 16 is proved from Lemma 20. You should avoid this backward quotation, which may produce loops.
+
+
+
 %-------------------------- FRONTMATTER
 
 \title{A Proof of Strong Normalisation of the Typed Atomic Lambda-Calculus}
@@ -168,7 +197,7 @@ The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} further establishes the t
 
 
 
-In the present paper strong, normalisation for the typed atomic lambda-calculus will be proven using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
+In the present paper strong normalisation for the typed atomic lambda-calculus will be proven using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
 %
 Reducibility is an abstract method compatible with higher-order logic, whose application provides a deeper understanding of reduction and its dynamics.
 %
@@ -365,7 +394,7 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 
 The fact that a term $u$ reduces to $v$ in exactly $n$ steps will be denoted $u \rewrite^n v$, while an arbitrary number of steps is indicated simply by $\rewrite$.
 %
-A term $u$ is called \emph{strongly normalisable} if all the reductions sequences starting with $u$ are finite.
+A term $u$ is called \emph{strongly normalisable} if all the reduction sequences starting with $u$ are finite.
 %
 The set of strongly normalisable terms is denoted $\SN$.
 %
@@ -530,7 +559,7 @@ If $\Gamma\vdash u : A$ and $u \rewrite v$, then $\Gamma\vdash v : A$.
 \end{ALtheorem}
 
 \noindent
-Morever, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms, by inserting sharing-inferences $(\typeshare)$ where required.
+Moreover, types are preserved in the interpretation of standard lambda-terms as atomic lambda-terms, by inserting sharing-inferences $(\typeshare)$ where required.
 
 \begin{ALproposition}\label{prop:types preserved}
 If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
@@ -543,10 +572,10 @@ If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 
 In this section we prove the strong normalisation theorem for atomic lambda-terms, typed in the system $S_a$, using Tait's reducibility method. 
 %
-The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda trems proved in Section~\ref{sec:ClosPropSN}.
+The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on closure properties of the reducibility sets (Lemma~\ref{lem:IntCaseLambdaSharing}), which again relies on closure properties on the set of strongly normalisable atomic lambda terms proved in Section~\ref{sec:ClosPropSN}.
 
 
-For simplifying the presentation, we consider in the remainder of this paper, that no beta-reduction happens inside $n$-tuples, that $n$-tuples are on sharing normal form and that all their free varibales are caputerd by closures. This property is preserved by reduction and it is natural in the context of sharing calculus. In particular all the useful computation strategies satisfy it, including the one reproducing fully lazy sharing.
+For simplifying the presentation, we consider in the remainder of this paper, that no beta-reduction happens inside $n$-tuples, that $n$-tuples are on sharing normal form and that all their free variables are captured by closures. This property is preserved by reduction and it is natural in the context of sharing calculus. In particular all the useful computation strategies satisfy it, including the one reproducing fully lazy sharing.
 
 %For simplifying the presentation, we consider in the remainder of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
