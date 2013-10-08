@@ -87,11 +87,7 @@
 
 % TO DO
 
-% p.6, proposition 12: you have not yet defined the set V. Also, I guess you must suppose that A is not a conjunctive formula.
-
-% p. 8, second paragraph after Lemma 19: "is defined as the length of $t\G$". Which $t$? I did not understand this sentence.
-
-% Lemma 16 is proved from Lemma 20. You should avoid this backward quotation, which may produce loops.
+% Change \overline\G to \overline\D
 
 
 
@@ -621,7 +617,7 @@ Note that if $t\in|A|$ and $t'$ is a variant of $t$, then $t'\in|A|$.
 
 
 \begin{ALproposition}\label{prop:IntBase}
-For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
+For each minimal formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \end{ALproposition}
 
 \begin{ALproposition}
@@ -629,10 +625,10 @@ For each formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
 \end{ALproposition}
 
 
-For convenience, the lemmata in the remainder of the paper will be stated in the way they are used. 
+%For convenience, the lemmata in the remainder of the paper will be stated in the way they are used. 
 %
-Many will however require a stronger induction hypothesis. 
-To this end, let $\cxt\overline w$ denote a term context consisting of repeated applications, so that $\cxt*u\overline w$ is $(\dotso(u)w_1\dotso )w_n$.
+%Many will however require a stronger induction hypothesis.
+%
 
 
 \begin{ALlemma}\label{lem:RedStab}
@@ -643,12 +639,16 @@ For any formula $A$,  if $u\in |A|$ and $u \rightsquigarrow v$, then $v \in |A|$
  Immediate by induction on $A$.
 \end{proof}
 
+
+Let $\cxt\overline w$ denote a term context consisting of repeated applications, so that $\cxt*u\overline w$ is $(\dotso(u)w_1\dotso )w_n$.
+
+
 \begin{ALlemma}\label{lem:Red-AddSharings}
 For any formula $B$,  if $u\in |B|$ then $u\share*{\vv*x}y \in |B|$.
 \end{ALlemma}
 
 \begin{proof}
-By induction on $B$, in the context $\{\cdot\}\overline w$.
+By induction on $B$, if $(u)\overline w\in|B|$ then $(u\share*{\vv*x}y)\overline w\in |B|$.
 \end{proof}
 
 \begin{ALlemma}\label{lem:IntCaseLambdaSharing}
@@ -867,12 +867,14 @@ Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ 
 In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
 which are used in Section~\ref{sec:SNproof}.
 %
-To strengthen the induction hypothesis in several lemmata we define a further context, $\cxt\overline {w\G}$, given by the following grammar.
+To strengthen the induction hypothesis in several lemmata, we define a further context, $\cxt\overline {w\G}$, which is given by the following grammar.
 %
 \setMidspace{10pt}
 \[
-	* \Coloneq  \cxt \Mid (*)u \Mid *\g
+	* \Coloneq  \cxt \Mid (*)u \Mid *\g~.
 \]
+%
+The terms within a context $\cxt\overline{w\G}$ are denoted $\overline w=w_1,\ldots,w_n$, and the sharings are denoted $\overline\G=\g[1],\dotso,\g[m]$.
 
 
 \begin{ALlemma}\label{lem:HeadVar}
@@ -1023,16 +1025,28 @@ If $z$ is free in $t^n$, then $u\distr*{\vv*x}y{t^n}\comp\sub zw \rewrite u\dist
 \end{ALlemma}
 
 \begin{proof}
-Immediate from the definitions.
+Immediate from the definitions, Lemma~\ref{lem:unsharing}, and Lemma~\ref{lem:undist}.
 \end{proof}
 
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
 % If $u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
-  If $u\g\comp \in \SN$ and $\term\g\in\SN$, then $u\g \in \SN$.
+  If $(u\g\comp)\overline w \in \SN$ and $\term\g\in\SN$, then $(u\g)\overline w \in \SN$.
 \end{ALlemma}
 
 \begin{proof}
+
+It will be proved that if $T = (u\G[0])\overline{w\G} \in\SN$ where $\term\g\in\SN$ for each closure $\g$ of $\G[0]\overline{\G}$, then $T' = (u\G[0]^*)\overline{w\G^*}\in\SN$.
+%
+This will be shown by induction on the measure $Mes(T,T')=(\R(T'),m_1(T),m_2(T))$, where
+\begin{compactitem}
+	\item
+ $m_1(T)$ is the sum of the $\R(\term\g)$ for all $\g$ in $\G[0]\overline{\G}$, and
+	\item
+ $m_2(T)$ is the sum of the $\S(\term\g)$ for all $\g$ in $\G[0]\overline{\G}$.
+\end{compactitem}
+
+\newpage
 
   We prove a stronger version of the lemma by considering instead the terms $T = (u\G[0])\overline{w\G}$ and $T' = (u\G[0]^*)\overline{w\G^*}$, where for each
   closure $\g$ of $\G[0]\overline{\G}$, $\term (\gamma)\in\SN$.
@@ -1230,8 +1244,7 @@ $.
 We have $T'\rightsquigarrow U'$ and therefore $U'\in\SN$; because $t$ is not a variable, $S(U')<S(T')$.
 %\TODO{check in the limit cases (eg nullary sharings) that there is always one step of reduction}
 Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
-
-
+%
 \end{proof}
 
 
@@ -1251,7 +1264,11 @@ Future investigations will expand in three directions: strengthening the current
 
 
 
-The present work strongly suggests two angles for future research: it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious.% in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
+The present work strongly suggests two angles for future research.
+%
+A natural extension would be to characterise the strongly normalisable atomic lambda-terms by an intersection typing discipline \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}, to which the current reducibility proof is expected to extend naturally.
+%
+In a second direction, it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious. % in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
 
 
 For the atomic lambda-calculus in general, further work will focus on variations on the calculus that more closely approach the reduction dynamics of sharing graphs, to encompass further degrees of sharing.
