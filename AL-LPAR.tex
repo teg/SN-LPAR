@@ -899,19 +899,17 @@ If $(u\sub xv)\overline w \in \SN$ and $x\in\FV(u)$, then $((\lambda x.u)v)\over
 \begin{proof}
 To obtain a suitable induction hypothesis, the context $\cxt\overline w$ is strengthened to $\cxt\overline{w\G}$, and further closures are inserted.
 %
-It will be shown by induction that if $T'\in\SN$ then $T\in\SN$, where
+It will be shown by induction on $(\R(T'),\S(T))$ that if $T'\in\SN$ then $T\in\SN$, where
 \[
-	T = (((\lambda x.u)\G) v)\overline{w\G} \qquad T' = (u\sub xv\G)\overline{w\G}
+	T = (((\lambda x.u)\G) v)\overline{w\G} \qquad T' = (u\sub xv\G)\overline{w\G}\;.
 \]
 %
-It will be shown that for any term $U$ reached by a reduction step $T\rewrite^1 U$, there is a term $U'$ reached by a reduction $T'\rewrite U'$, such that the induction hypothesis applies to $U$ and $U'$, giving $U\in\SN$.
+It will be shown that for any term $U$ reached by a reduction step $T\rewrite^1 U$, there is a term $U'$ reached by a reduction $T'\rewrite U'$, such that the induction hypothesis applies to $U$ and $U'$ and $(\R(U'), \S(U))<(\R(T'),\S(T))$, giving $U\in\SN$.
 %
-Since this holds for any step $T\rewrite^1 U$, it follows that $T\in\SN$.
-%
-The measure for the induction is the pair $(\R(T'),\S(T))$.
+Since this holds for any term $U$, it follows that $T\in\SN$.
 
 
-The first, special case, is $T'=U$ (with $\G$ empty), for which $U\in\SN$ is immediate.
+The first, special case, is $T'=U$ (with $\G$ empty), for which $U\in\SN$ is immediate. For the remaining cases, we have to verify that $U$ and $U'$ have the right form, that the measure decreases and that $T'\rewrite U'$, which implies that $U'\in\SN$.
 %
 In the following cases, $\R(U')<\R(T')$.
 
