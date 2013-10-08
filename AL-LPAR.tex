@@ -637,7 +637,7 @@ We prove a stronger version of the lemma by considering terms in the context $\{
 \begin{ALlemma}\label{lem:IntCaseLambdaSharing}
 \begin{compactenum}[\upshape(i)]
 %
-\item If $u\{v/x\} \in |B|$ and $v\in\SN$, then $(\lambda x.u) v \in |B|$.
+\item If $u\{v/x\} \in |B|$ and $x\in\FV(u)$, then $(\lambda x.u) v \in |B|$.
 %
 \item If $u\subn{x_i}{\sn(t)^i}[\sh (t)] \in |B|$ and $t\in\SN$, 
 	\\ then $u[x_1,\dots,x_n \leftarrow t] \in |B|$.
@@ -845,7 +845,7 @@ We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_
 By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 
 \begin{ALlemma}\label{lem:IntCaseLambda0}
-If $u\sub xv \in \SN$, then $(\lambda x.u)v \in \SN$.
+If $u\sub xv \in \SN$ and $x\in\FV(u)$, then $(\lambda x.u)v \in \SN$.
 %If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
 \end{ALlemma}
 
