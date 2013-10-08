@@ -83,12 +83,6 @@
 % TO DO
 
 
-% Somewhere between introduction and Definition 1, outline the basic idea of the sharing construct.
-
-% p.2 each variable occurs at most once in every expression (if this is indeed the case!)
-
-% p.3: "Permutations of closures": is the meaning of "permutations" to be wrt term constructors?  why not "congruence"?
-
 % p.3: why not giving the two functions between lambda calculus and the atomic lambda calculus? they can help a reader at a first reading. Also, at the beginning, I was thinking that SN was an immediate consequence of SN of usual simply typed lambda calculus and your theorem 3. However, this is not the case because of weakening. Maybe you can discuss this point, maybe with an example.
 
 %Page 3. You should say more about the translation to and from lambda calculus. Do they commute with reductions, with normal forms in both calculi? Are they inverse each other?
@@ -138,7 +132,7 @@ It has been shown that it allows fully lazy sharing to be reproduced in a typed 
 %
 In this paper we prove strong normalization of the typed atomic lambda-calculus using Tait's reducibility method.
 %
-In addition we give a characterisation of exactly the strongly normalisable atomic lambda-terms by an intersection typing discipline.
+%In addition we give a characterisation of exactly the strongly normalisable atomic lambda-terms by an intersection typing discipline.
 %
 %A characterisation of exactly the strongly normalisable terms by an intersection typing discipline, which proves to be extremely subtle, is outlined.
 \end{abstract}
@@ -240,6 +234,8 @@ The \emph{atomic lambda-calculus} introduced in \cite{Gundersen-Heijltjes-Parigo
 Duplication and deletion proceeds locally through the evaluation of sharings.
 %
 The calculus consists of a standard linear lambda-calculus with a sharing construct, extended by a further construction called the \emph{distributor}.
+%
+The distributor allows to duplicate an abstraction without duplicating its scope: it replaces the abstraction while duplication of its scope is in progress, where the duplicated parts of the scope are stored in a tuple of terms (see also the reduction rules in Section~\ref{ssec:reduction rules}).
 
 
 
@@ -261,16 +257,18 @@ The \emph{atomic lambda-calculus} $\Lambda_A$ is defined by the grammars
 \]
 where
 %
-\begin{inparaenum}[(i)]
+\begin{inparaenum}[\itshape(i)]
 \item $n\geq0$, 
 %
-\item each variable may occur at most once,
+\item each variable may occur at most once in a term,
 %
-\item in $\lambda x.t$, $x$ must occur in $t$ and becomes bound,
+\item in $\lambda x.t$, $x$ must be free in $t$ and becomes bound,
 %
-\item in $\lambda y.t^n$, $y$ must occur in $t^n$ and becomes bound, and
+\item in $\lambda y.t^n$, $y$ must be free in $t^n$ and becomes bound, %and
 %
-\item in $t\g$ where $\g$ is $\share xu$ or $\distr xy{t^n}$, each $x_i$ must occur in $t$ and becomes bound, and likewise for $t^n\g$.
+\item in $t\g$ where $\g$ is $\share xu$ or $\distr xy{t^n}$, each $x_i$ must be free in $t$ and becomes bound, and 
+%
+\item likewise for $t^n\g$.
 %
 \end{inparaenum}
 %
@@ -309,7 +307,7 @@ The functions $\tercoden-\,:\,\Lambda\to\Lambda_A$ and $\terden-\,:\,\Lambda_A\t
 
 % =================================================================================================
 \subsection{Reduction rules}
-
+\label{ssec:reduction rules}
 
 Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two parts:
 \begin{inparaenum}[\upshape(i)]
