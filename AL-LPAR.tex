@@ -1034,12 +1034,21 @@ Immediate from the definitions, Lemma~\ref{lem:unsharing}, and Lemma~\ref{lem:un
   If $(u\g\comp)\overline w \in \SN$ and $\term\g\in\SN$, then $(u\g)\overline w \in \SN$.
 \end{ALlemma}
 
+\newcommand\M{\mathcal M}
+
 \begin{proof}
 
-It will be proved that if $T = (u\G)\overline{w\G*} \in\SN$ where $\term\g\in\SN$ for each closure $\g$ of $\G\overline{\G*}$, then $T' = (u\G^*)\overline{w\G*^*}\in\SN$.
+It will be proved that if $T = (u)\overline{w\G*} \in\SN$ where $\term\g\in\SN$ for each closure $\g$ of $\overline{\G*}$, then $T' = (u)\overline{w\G*^*}\in\SN$.
 %
-This will be shown by induction on the measure $Mes(T,T')=(\R(T'),\mathcal M(T),\S(T))$, where $\mathcal M(T)$ is the sum of the $\R(\term\g)$ for all $\g$ in $\G\overline{\G*}$.
+This will be shown by induction on the measure $(\R(T'),\M(T),\S(T))$, where $\M(T)$ is the sum of the $\R(\term\g)$ for all $\g$ in $\overline{\G*}$.
 
+If,  for each closure $\g$ of $\overline{\G*}$,  $\g^* = \g$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $\g^* = \g$). We suppose in the following that $\g^* \neq \g$ for at least one$\g$ of $\overline{\G*}$ . We can also suppose that $u$ does not end with a closure, because it can be integrated in the sequence $\G$ and that $\overline{w\G*}$ does not start with an application as that could be integrated in the term $u$.
+
+SKETCH:
+
+As in previous Lemma we will show that for any $U$, there exists a $U'$, such that 1) $T'\rewrite U'$, 2) the induction hypothesis applies to $U$ and $U'$, and 3) $(\R(U'),\M(U),\S(U))<(\R(T'),\M(T),\S(T))$. Notice that if $U$ and $U'$ are on the right from, then 2) follows from 1) as $U'\in\SN$ if $T'\in\SN$. Moreover, 3) follows from 1) and 2): First note that $\R(U')\leq\R(T')$ and $\M(U)\leq\M(T)$. If $T\rewrite^1 U$ by a sharing reduction then $\S(U)<\S(T)$, so the measure decreases. If $T\rewrite^1 U$ by a reduction in $\term\g$ from $\overline\G$, then $\M(U)<\M(T)$, so the measure decreases. Lastly, if $T\rewrite^1 U$ by a non-weakened beta-reduction, then there must be at least one beta-reduction in the reduction path $T\rewrite T'\rewrite U'$, and by definition there can be no beta-reduciton in the path $T\rewrite T'$, so the rewrite path $T'\rewrite U'$ can not be empty and $\R(U')<\R(T')$, so the measure decreases.
+
+The only thing that remains to be shown, is that there exists an $U'$ for every $U$ such that $T'\rewrite U'$.
 \newpage
 
   We prove a stronger version of the lemma by considering instead the terms $T = (u\G)\overline{w\G*}$ and $T' = (u\G^*)\overline{w\G*^*}$, where for each
@@ -1051,7 +1060,6 @@ We proceed by induction on $Mes(T,T') = (S(T'), m_1(T), m_2(T))$ where
 
  $m_2(T)$ is the sum of the $lh(t(\gamma))$ for $\g$ in $\G\overline{\G*}$
  \\
-If,  for each closure $\g$ of $\G\overline{\G*}$,  $\g^* = \g$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $\g^* = \g$). We suppose in the following that $\g^* \neq \g$ for at least one$\g$ of $\G\overline{\G*}$ . We can also suppose that $u$ doesn't end with a closure, because it can be integrated in the sequence $\G$.
 
 
 In order to show that $T\in\SN$, we show that each one-step reduction from $T$ gives a term $U\in\SN$. We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in Lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $\g$ of $\G\overline{\G*}$ using rule (2) we conclude also as in Lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $\g$ of $\G\overline{\G*}$ or the interaction of two such closures using rule (9). For simplification we consider the case where the reduction involves $\g[1]$.
