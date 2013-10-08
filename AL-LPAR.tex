@@ -854,6 +854,9 @@ Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ 
 \section{Closure properties of Strongly Normalisable Atomic Lambda Terms}
 \label{sec:ClosPropSN}
 
+\newcommand\R{\mathcal R}
+\renewcommand\S{\mathcal S}
+
 
 In this section we prove closure properties for the set of strongly normalisable atomic lambda terms
 which are used in Section~\ref{sec:SNproof}.
@@ -877,9 +880,9 @@ $(x)\overline{w} \in \SN$.
 %By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
 %
 
-For each term $t\in\SN$, we denote by $B(t)$ the sum of the number of $\beta$-steps in all reduction sequences of $t$ to a normal form.
+For each term $t\in\SN$, we denote by $\R(t)$ the sum of the number of reduction steps in all reduction sequences of $t$ to a normal form.
 %
-For any term $t$, we denote by $S(t)$ the number of sharing-reduction steps in all reduction paths to $\unfold(t)$.
+For any term $t$, we denote by $\S(t)$ the number of sharing-reduction steps in all reduction paths to $\unfold(t)$.
 
 %
 \begin{ALlemma}\label{lem:IntCaseLambda0}
@@ -899,16 +902,65 @@ For any one-step reduction $T\rewrite^1 U$ reductions $T'\rewrite U'$ and $U\rew
 %
 Since this holds for any step $T\rewrite^1 U$, it follows that $T\in\SN$.
 %
-The measure for the induction is the pair $(B(T'),S(T))$.
+The measure for the induction is the pair $(\R(T'),\S(T))$.
 
 The first, special case, is $T'=U$ (with $\G$ empty), for which $U\in\SN$ is immediate.
 %
-For the following cases, $S(U) < S(T)$.
+In the following cases, $\R(U')\leq\R(T')$.
+
 
 \begin{enumerate}
 
+	\item % 2)
+If $T\rewrite^1 U$ is due to $u\rewrite^1 u'$, then $U$ and $U'$ are as follows.
+\[
+	U = (((\lambda x.u')\G) v)\overline{w\G}
+\qquad
+	U'= (u'\sub xv\G)\overline{w\G}
+\]
+
+	\item % 8
+If $T\rewrite^1 U$ is due to $v\rewrite^1 v'$, then $U$ and $U'$ are as follows.
+\[
+	U = (((\lambda x.u)\G) v')\overline{w\G}
+\qquad
+	U'= (u\sub x{v'}\G)\overline{w\G}
+\]
+
+	\item % 4
+If $T\rewrite^1 U$ is due to a rewrite step entirely inside $\G$ or inside $\overline{w\G}$---which covers any rule except \eqref{eqn:share application} and \eqref{eqn:distributor elimination}---then $U$ and $U'$ are as follows.
+\[
+	U = (((\lambda x.u)\G') v)\overline{w'\G'}
+\qquad
+ 	U'= (u\sub xv\G')\overline{w'\G'}
+\]
+
+	\item % 5
+If $T\rewrite^1 U$ is due to an application of rule \eqref{eqn:share application} or \eqref{eqn:distributor elimination} to $\G$ with subsitutions in $u$, then $U$ and $U'$ are as follows.
+ \[
+ 	U = (((\lambda x.u')\G') v)\overline{w\G}
+\qquad
+	U'= (u'\sub xv\G')\overline{w\G}
+\]
+
+	\item % 5b
+If $T\rewrite^1 U$ is due to an application of rule \eqref{eqn:share application} or \eqref{eqn:distributor elimination} to $\overline{w\G}$ with subsitutions anywhere in $((\lambda x.u)\G)v$, then $U$ and $U'$ are as follows.
+ \[
+ 	U = (((\lambda x.u')\G') v')\overline{w'\G'}
+\qquad
+	U'= (u'\sub x{v'}\G')\overline{w'\G'}
+\]
+
+\end{enumerate}
+
+
+\noindent
+For the remaining cases, $\R(U')\leq\R(T')$ and $\S(U) < \S(T)$.
+
+\begin{enumerate}
+\setcounter{enumi}{5}
 	\item % 3)
-If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above abstraction} to $\g$ in $\lambda x.u'\g$, where $u=u'\g$, then $U$ and $U'$ are as follows.	
+If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above abstraction} to $\g$ in $\lambda x.u'\g$, where $u=u'\g$, then $U$ and $U'$ are as follows (note that $T'=U'$).	
 \[
 	U = (((\lambda x.u')\g\G) v)\overline{w\G}
 \qquad
@@ -926,7 +978,7 @@ If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing abov
 	\item % 7)
 If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above application argument} to $\g$ in $((\lambda x.u)\G)v'\g$, where $v=v'\g$, then $U$ and $U'$ are as below.
 %
-Note that $U'\rewrite T'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\sub x{v'}\g$.
+Note that $T'\rewrite U'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\sub x{v'}\g$, and $T'=U'$ if $u=x$.
 %
 \[
 	U = ((((\lambda x.u)\G) v')\g)\overline{w\G}
@@ -935,22 +987,11 @@ Note that $U'\rewrite T'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\
 \]
 \end{enumerate}
 
-\newpage
 
 
-%
-%\[
-%\begin{array}{c@{\qquad\qquad}c}
-%	(((\lambda x.u')\G) v')\overline{w'[\Gamma']}
-% &  (u'\sub x{v'}\G)\overline{w'[\Gamma']}
-%\\[5pt]
-%	(((\lambda x.u')\g\G) v)\overline{w\G}
-% &	(u'\sub xv\g\G)\overline{w\G}
-%\\[5pt]
-%	(((\lambda x.u)[\Gamma']) v)\overline{w\G}
-% &	(u\sub xv[\Gamma'])\overline{w\G}
-%\end{array}
-%\]
+
+
+
 
 
 
