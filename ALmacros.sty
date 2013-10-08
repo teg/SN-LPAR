@@ -6,6 +6,35 @@
 
 
 
+\newcommand\BR[1]{\mathchoice%
+  {\{\kern-2.4pt#1\kern-2.4pt\}}%
+  {\{\kern-2.4pt#1\kern-2.4pt\}}%
+  {\{\kern-2.0pt#1\kern-2.0pt\}}%
+  {\{\kern-1.8pt#1\kern-1.8pt\}}%
+}
+
+\newcommand\den{\@ifstar\@cden\@den}
+\newcommand\@den[2][{}]{\bbrackets{#2}_{#1}}
+\newcommand\@cden[2][{}]{\BR{[#2]}_{#1}}
+
+\def\coden{\futurelet\@let@token\@coden}
+\def\@coden{%
+ \ifx\@let@token'\let\next=\@coden@prime\else%
+  \let\next=\codenplain%
+ \fi%
+ \next
+}
+\def\@coden@prime{\expandafter\codenprime\@gobble}
+
+\newcommand\codenplain[2][{}]{\pparentheses{#2}_{#1}}
+\newcommand\codenprime[2][{}]{\pparentheses{#2}_{#1}{}'}
+
+\newcommand\bbrackets[1]{\llbracket{#1}\rrbracket}
+\newcommand\pparentheses[1]{\llparenthesis{#1}\rrparenthesis}
+\newcommand\floor[1]{\lfloor #1 \rfloor}
+\newcommand\ceil[1]{\lceil #1 \rceil}
+
+
 
 
 

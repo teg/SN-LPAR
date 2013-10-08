@@ -302,7 +302,46 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 	t\g\g* ~\sim~ t\g*\g
 \end{equation}
 %
-The functions $\tercoden-\,:\,\Lambda\to\Lambda_A$ and $\terden-\,:\,\Lambda_A\to\Lambda$ translate between atomic lambda-terms and standard lambda-terms, see \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
+The functions $\tercoden-\,:\,\Lambda\to\Lambda_A$ and $\terden-\,:\,\Lambda_A\to\Lambda$ translate between atomic lambda-terms and standard lambda-terms.
+%
+The former is defined below; for a formal definition of the latter see \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
+%
+Intuitively, the function $\tercoden-$ replaces each abstraction $\lambda x.-$ in a term by $\lambda x.-\share xx$, where $\vv x$ replace the occurrences of $x$; then $\terden{\tercoden N}=N$ for any lambda-term $N$.
+
+
+\begin{ALdefinition}
+The functions $\den-$ and $\den*-$ interpret atomic lambda-terms and closures respectively as lambda-terms and substitutions.
+%
+For a sequence of closures $\G=\g\G'$ with $\G'$ non-empty, let $\BR\G=\BR\g\BR{\G'}$. 
+%%
+%\begin{flalign*}
+%&&
+%	\den x &= x
+%&	\den {\lambda x.t} & = \lambda x.\den t
+%&	\den {(t)u} &= (\den t)\den u
+%&	\den {t\g} &= \den t\BR\g &&
+%\end{flalign*}
+%\begin{align*}
+%			\BR{\share xt}				&= \subn{x_i}t
+%	\\[5pt]	\BR{\distr xy{\tup t\G}}	&= \subn{x_i}{\lambda y.\den{t_i}\BR\G}
+%\end{align*}
+%
+\[
+\begin{array}{r@{{}={}}l}
+	\den x = x
+\qquad	\den {\lambda x.t} = \lambda x.\den t
+\qquad	\den {(t)u} & (\den t)\den u
+\qquad	\den {t\g} = \den t\BR\g
+	\\[6pt]	\BR{\share xt}				& \subn{x_i}{\den t}
+	\\[6pt]	\BR{\distr xy{\tup t\G}}	& \subn{x_i}{\lambda y.\den{t_i}\BR\G}
+\end{array}
+\]
+%
+\end{ALdefinition}
+
+
+
+
 
 
 % =================================================================================================
