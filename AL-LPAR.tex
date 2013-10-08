@@ -5,11 +5,16 @@
 \documentclass[orivec]{llncs}
 
 
+
 % To get cases in equations
 \usepackage{amsmath}
 
+
+\expandafter\let\csname proof\endcsname\relax
+\expandafter\let\csname endproof\endcsname\relax
+
 % To use definitions, lemmas and theorems.
-%\usepackage{amsthm}
+\usepackage{amsthm}
 
 % twoheadleftarrow
 \usepackage{amssymb}
@@ -828,9 +833,10 @@ $
 It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $u'\distr xy{t'}\in|C|$.
 %
 \end{enumerate}
-
-
+%
 \end{proof}
+
+
 
 \begin{ALtheorem}\label{thm:SN}
 %If $x_1:A_1,\dots, x_n:A_n \vdash u:B$ then $u \in \SN$.
@@ -846,7 +852,7 @@ Suppose $(x_i:A_i)_{i\leq n} \vdash u:B$.
 By Proposition~\ref{prop:IntBase}, we have $x_i\in |A_i|$ for $i\leq n$.
 %
 Therefore by Proposition~\ref{prop:IntSubst},  $u\subn{x_i}{x_i}\in |B|$, i.e.\ $u \in |B|$, and by Proposition~\ref{prop:IntBase} we have $u \in \SN$.
-
+%
 \end{proof}
 
 
@@ -987,44 +993,33 @@ Note that $T'\rewrite U'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\
 	U'= (u\sub x{v'}\G\g)\overline{w\G}
 \]
 \end{enumerate}
-
-
-
-
-
-
-
-
-
-%
-%We prove a stronger version of the lemma by considering instead the terms $T = ((((\lambda x.u)\G) v)\G')\overline{w\G}$ and $T' = ((u\sub xv)\G\G')\overline{w\G}$.
-%%
-%To show that $T\in\SN$, it must be shown that each one-step reduction from $T$ gives a term $U\in\SN$.
-%%
-%This can be shown by induction on $Mes(T) = (S(T'), lh(u), lh(v), \lh\G)$ where $\lh\G$ is the length of the sequence $\G$.
 \end{proof}
 
-\newcommand{\term}{{\mathsf{t}}}
 
-For the To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
-\begin{itemize}
+\newcommand{\term}{\mathsf b} %{\mathsf{t}}}
+\newcommand{\comp}{^{\mathsf c}}
 
-	\item
-If $\g = \share xt$, then $t(\gamma) = t$ and $\g^v = \subn{x_i}{\sn(t)^i}[\sh (t)]$
 
-	\item
-If $\g = \distr xy{t^n}$, then  $t(\gamma) = \lambda y.t^n$\\ and $\g^v = \subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}[\sh (\lambda y.t^n)]$.
-\end{itemize}
+For the following proofs, we associate with each closure $\g$ its \emph{body} $\term\g$ and its \emph{computation} $\g\comp$, defined as follows.
+%
+\begin{align*}
+	\term\share*{\vv*x}t 		&= t
+ \\	\term\distr*{\vv*x}y{t^n}	&= \lambda y.t^n
+ \\	\share xt\comp 				&= \subn{x_i}{\sn(t)^i}[\sh (t)]
+ \\	\distr xy{t^n}\comp 		&= \subn{x_i}{\sn(\lambda y.\pi_i(t^n))^i}[\sh (\lambda y.t^n)]
+\end{align*}
+%
+The notation $\g^*$ will indicate either $\g$ or $\g\comp$, and for $\G = \g[1]\dots\g[p]$ we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$.
+
 
 \begin{ALlemma}\label{lem:CompSubst}
- $\g^v\sub xw \rightsquigarrow [\gamma\sub xw]^v$
+ $\g\comp\sub xw \rightsquigarrow [\gamma\sub xw]^v$
 \end{ALlemma}
 
 \begin{proof}
 Immediate by definition.
 \end{proof}
 
-For $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$, where $\g[i]^*$ is either $\g[i]$ or $\g[i]^v$.
 
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
