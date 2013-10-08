@@ -82,15 +82,6 @@
 
 % TO DO
 
-
-% p.3: why not giving the two functions between lambda calculus and the atomic lambda calculus? they can help a reader at a first reading. Also, at the beginning, I was thinking that SN was an immediate consequence of SN of usual simply typed lambda calculus and your theorem 3. However, this is not the case because of weakening. Maybe you can discuss this point, maybe with an example.
-
-%Page 3. You should say more about the translation to and from lambda calculus. Do they commute with reductions, with normal forms in both calculi? Are they inverse each other?
-
-%Page 4 2.2 Basic properties of the atomic lambda-calculus - You should say more about what you know or conjecture. Is your calculus confluent, or may you have different normal form because you may represent the same sharing in syntactically different way? How long does it take to normalize? I assume it is at least super-exponential in time and space, as it is for ordinary lambda calculus.
-
-%Page 4. Sharing in u occurs only  - You should quote the lemma of your LICS 2013 paper proving it.
-
 %Page 5. Typed atomic lambda calculus - Include the grammar for minimal formulas and conjunctive formula.
 
 %Page 6. Definition 11. u is a term => u is a term of type A->B  this is not strictly required, but it helps.
@@ -257,7 +248,7 @@ The \emph{atomic lambda-calculus} $\Lambda_A$ is defined by the grammars
 \]
 where
 %
-\begin{inparaenum}[\itshape(i)]
+\begin{inparaenum}[(i)]
 \item $n\geq0$, 
 %
 \item each variable may occur at most once in a term,
@@ -274,7 +265,8 @@ where
 %
 \end{ALdefinition}
 
-%\noindent
+
+
 Terms $t$ are \emph{atomic lambda-terms}.
 %
 The \emph{closures} $\g$ are called respectively \emph{sharing} and \emph{distributor}, and a nullary sharing $\share*{}t$ is a \emph{weakening}.
@@ -304,27 +296,15 @@ note that due to linearity, both terms are only well-defined if both $\g$ and $\
 %
 The functions $\tercoden-\,:\,\Lambda\to\Lambda_A$ and $\terden-\,:\,\Lambda_A\to\Lambda$ translate between atomic lambda-terms and standard lambda-terms.
 %
-The former is defined below; for a formal definition of the latter see \cite{Gundersen-Heijltjes-Parigot-2013-LICS}.
+The former is defined below.
 %
-Intuitively, the function $\tercoden-$ replaces each abstraction $\lambda x.-$ in a term by $\lambda x.-\share xx$, where $\vv x$ replace the occurrences of $x$; then $\terden{\tercoden N}=N$ for any lambda-term $N$.
+For a formal definition of the function $\tercoden-$ see \cite{Gundersen-Heijltjes-Parigot-2013-LICS}; intuitively, it replaces each abstraction $\lambda x.-$ in a term by $\lambda x.-\share xx$, where $\vv x$ replace the occurrences of $x$, so that $\terden{\tercoden N}=N$ for any lambda-term $N$.
 
 
 \begin{ALdefinition}
 The functions $\den-$ and $\den*-$ interpret atomic lambda-terms and closures respectively as lambda-terms and substitutions.
 %
 For a sequence of closures $\G=\g\G'$ with $\G'$ non-empty, let $\BR\G=\BR\g\BR{\G'}$. 
-%%
-%\begin{flalign*}
-%&&
-%	\den x &= x
-%&	\den {\lambda x.t} & = \lambda x.\den t
-%&	\den {(t)u} &= (\den t)\den u
-%&	\den {t\g} &= \den t\BR\g &&
-%\end{flalign*}
-%\begin{align*}
-%			\BR{\share xt}				&= \subn{x_i}t
-%	\\[5pt]	\BR{\distr xy{\tup t\G}}	&= \subn{x_i}{\lambda y.\den{t_i}\BR\G}
-%\end{align*}
 %
 \[
 \begin{array}{r@{{}={}}l}
@@ -353,7 +333,7 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
  \item linear $\beta$-reduction, denoted $\ALbeta$: the usual rule (rule~\ref{eqn:beta-reduction} below) applied linearly;
  \item sharing reductions, denoted $\ALnotbeta$, comprising two kinds of rule: (a) \emph{permutations} taking closures outward (rules~\ref{eqn:sharing above abstraction}--\ref{eqn:sharing above distribution}), and (b) local \emph{transformations} that evaluate closures (rules~\ref{eqn:compound sharings}--\ref{eqn:distributor elimination}).
 \end{inparaenum}
-
+%
 \bigskip
 
 \noindent
@@ -375,8 +355,6 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 	(u\g)t & ~\ALnotbeta~ ((u)t)\g
 \\\label{eqn:sharing above application argument}
 	(u)t\g & ~\ALnotbeta~ ((u)t)\g
-% \\\label{eqn:sharing above tuple}
-% 	\tup*{t_1,\ldots,t_i\g,\ldots,t_n} & ~\ALnotbeta~ \tup t\g
 \\\label{eqn:sharing above sharing}
 	u\share x{t\g} & ~\ALnotbeta~ u\share xt\g
 \\\label{eqn:sharing above distribution}
@@ -390,14 +368,9 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 {\bf Transformations on closures:}
 %
 \begin{gather}
-%\label{eqn:execute unary substitution}
-%	u\share*xt~\ALnotbeta~u\sub xt
-%\\[5pt]
 \label{eqn:compound sharings}
 	u\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t ~\ALnotbeta~
 	u\share*{\vv*x,\vv*y,\vv*z}t
-%	u\share*{\vv*x}{y_i}\share yt ~\ALnotbeta~
-%	u\share*{y_1,\dots,y_{i-1},\vv*x,y_{i+1},\dots,y_n}{t}
 \\[5pt]
 \label{eqn:share application}
 	u\share x{(v)t} ~\ALnotbeta~
@@ -412,21 +385,6 @@ Reduction in the atomic lambda-calculus, denoted $\rewrite$, consists of two par
 	\rule{4cm}{0pt}\mbox{where } \{\vv*z_i\} = \{\vv*z\}\cap\FV(t_i) \mbox{ for every }i\leq n
 \label{eqn:distributor elimination}
 \end{gather}
-
-%
-% \begin{multline}
-% \label{eqn:distributor elimination 2}
-% 	u\distr xy{\tup t}~\ALnotbeta~u\sub{x_1}{t'_1} \dotso \sub{x_j}{\lambda y.t_j} \dotso \sub{x_n}{t'_n} \\[5pt]
-% 			\mbox{where } y\in\FV(t_j) \mbox{ and } t'_i = \lambda y_i.t_i\share*{}{y_i}
-% \end{multline}
-%
-%\begin{remark}
-%Rule~\eqref{eqn:execute unary substitution}, which evaluates unary sharings by actual substitutions, is redundant and may be considered an optimisation: its functionality is subsumed by the rules for $n$-ary sharings.
-%\end{remark}
-%
-%\begin{remark}
-%Compared to the presentation in \cite{Gundersen-Heijltjes-Parigot-2013-JFLA,Gundersen-Heijltjes-Parigot-2013-LICS} the rewrite rule to lift closures out of a tuple has been dropped (rule 5 in op.cit.), for the combined reason that it was redundant and it complicated the strong normalisation proof---see also the start of Section~\ref{sec:SNproof}.
-%\end{remark}
 
 
 The fact that a term $u$ reduces to $v$ in exactly $n$ steps will be denoted $u \rewrite^n v$, while an arbitrary number of steps is indicated simply by $\rewrite$.
@@ -457,13 +415,17 @@ The reduction $\ALnotbeta$ is strongly normalising and confluent.
 \end{ALtheorem}
 
 \noindent
-The \emph{unfolding} $\unfold(t)$ of an atomic lambda-term $t$ is its normal form under $\ALnotbeta$.
 %
-It is of the form $u\G$ where $\G$ are sharings $\share*{\vv*x}y$ of the free variables $y$ in $t$ that occur in shared subterms.
+Sharing reductions preserve the denotation $\den t$ of a term \cite[Prop.~10]{Gundersen-Heijltjes-Parigot-2013-LICS}.
 %
-Sharing in $u$ occurs only as $\lambda y.v\share*{\vv*x}y$, of bound variables immediately within the scope of their binder, and no distributors occur.
+The normal form under $\ALnotbeta$ of an atomic lambda-term $t$ is called its \emph{unfolding} $\unfold(t)$.
 %
+It is a basic term (i.e., no distributors occur) of the form $u\G$, where sharing in $u$ occurs only as $\lambda y.v\share*{\vv*x}y$, of bound variables immediately within the scope of their binder, and where $\G$ are sharings $\share*{\vv*x}y$ of the free variables $y$ in $t$ that occur in shared subterms \cite[Prop.~9]{Gundersen-Heijltjes-Parigot-2013-LICS}.
 %
+For closed terms, $\unfold(t)=_\alpha\tercoden{\terden t}$.
+
+
+
 \begin{ALdefinition}
 The \emph{unfolded body} $\sn(t)$ of $t$ is the largest subterm of $\unfold(t)$ not of the form $u\g$.
 \end{ALdefinition}
@@ -601,6 +563,10 @@ Moreover, types are preserved in the interpretation of standard lambda-terms as 
 \begin{ALproposition}\label{prop:types preserved}
 If $\Gamma\vdash_S N:A$, then $\Gamma\vdash_{S_a} \tercoden N:A$
 \end{ALproposition}
+
+
+Despite the fact that sharing reductions are strongly normalising, commute with denotation, and preserve typing, preservation of strong normalisation (PSN) is not immediate since infinite reduction may take place within weakenings: consider the denotation $\terden{ x\share*{}t}=x$ where $t$ is not SN.
+
 
 
 % =================================================================================================
