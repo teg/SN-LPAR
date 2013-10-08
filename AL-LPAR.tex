@@ -439,7 +439,7 @@ A variant is \emph{fresh} if all its variables are fresh, and $t^i$ is the fresh
 variable $x$ by a fresh variable $x^i$.
 
 
-For a tuple $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G_i$ where $\G_i$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dotsc,x_k,\dotsc,x_m}y{\tup*{s_1,\dotsc,s_k,\dotsc,s_m}\G'}$.
+For an $n$-term $t^n=\tup t\G$ let the \emph{$i^{\mbox{\scriptsize th}}$ projection} $\pi_i(t^n)$ be the atomic lambda term $t_i\G[i]$ where $\G[i]$ is obtained by removing the binders from $\G$ binding in any $t_j$ ($i\neq j$), and iteratively removing binders in $s_k$ when $x_k$ is removed from a distributor $\distr*{x_1,\dotsc,x_k,\dotsc,x_m}y{\tup*{s_1,\dotsc,s_k,\dotsc,s_m}\G'}$.
 
 
 The following basic facts then characterise $\sn$.
