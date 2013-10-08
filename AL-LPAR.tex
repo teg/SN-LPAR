@@ -84,7 +84,7 @@
 
 % p.6, proposition 12: you have not yet defined the set V. Also, I guess you must suppose that A is not a conjunctive formula.
 
-% p. 8, second paragraph after Lemma 19: "is defined as the length of $t[\Gamma]$". Which $t$? I did not understand this sentence.
+% p. 8, second paragraph after Lemma 19: "is defined as the length of $t\G$". Which $t$? I did not understand this sentence.
 
 % Lemma 16 is proved from Lemma 20. You should avoid this backward quotation, which may produce loops.
 
@@ -870,12 +870,18 @@ To strengthen the induction hypothesis in several lemmata we define a further co
 If $x\in \VAR$ and in $\cxt\overline w$ each $w_i\in\SN$, then
 $(x)\overline{w} \in \SN$.
 \end{ALlemma}
-
-For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\tup t\G$ is defined as the max of the length of each $t_i\G$.
 %
-We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
-By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
+%For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\tup t\G$ is defined as the max of the length of each $t_i\G$.
+%%
+%We denote by $\overline{w\G}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\G}$ has at least one term $w_1$).
+%By $(u)\overline{w\G}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
+%
 
+For each term $t\in\SN$, we denote by $B(t)$ the sum of the number of $\beta$-steps in all reduction sequences of $t$ to a normal form.
+%
+For any term $t$, we denote by $S(t)$ the number of sharing-reduction steps in all reduction paths to $\unfold(t)$.
+
+%
 \begin{ALlemma}\label{lem:IntCaseLambda0}
 If $(u\sub xv)\overline w \in \SN$ and $x\in\FV(u)$, then $((\lambda x.u)v)\overline w \in \SN$.
 %If $((u\sub xv)\G\G')\overline{w\G} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\G} \in \SN$.
@@ -893,43 +899,58 @@ For any one-step reduction $T\rewrite^1 U$ reductions $T'\rewrite U'$ and $U\rew
 %
 Since this holds for any step $T\rewrite^1 U$, it follows that $T\in\SN$.
 %
-The measure for the induction is the pair $(S(T'),P(T))$; note that since $T\rewrite U$ and $T'\rewrite U'$, neither component may increase.
+The measure for the induction is the pair $(B(T'),S(T))$.
 
-The first, special case, is $T'=U$, for which $U\in\SN$ is immediate.
+The first, special case, is $T'=U$ (with $\G$ empty), for which $U\in\SN$ is immediate.
 %
-For the following cases, $P(U) < P(T)$.
+For the following cases, $S(U) < S(T)$.
 
 \begin{enumerate}
-	\item
-If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above application function},
 
-6)  $U = ((((\lambda x.u)[\Sigma]) v)[\gamma][\Gamma'])\overline{w[\Gamma]}$ with $[\Gamma] = [\Sigma][\gamma]$ (application of rule \eqref{eqn:sharing above application function})
-\\
-Consider $U' = ((u[v/x])[\Sigma][\gamma][\Gamma'])\overline{w[\Gamma]}$. 
-We have $T' = U'$ and therefore $U'\in\SN$ and $S(U') = S(T')$. Because $lh([\Sigma]) < lh([\Gamma])$, we have $Mes(U) < Mes(T)$ and by induction hypothesis, $U\in\SN$.
-\smallskip
-\\
-7)  $U = ((((\lambda x.u)[\Gamma]) v_1)[\gamma][\Gamma'])\overline{w[\Gamma]}$ with $v = v_1[\gamma]$.
-\\
-Consider $U' = ((u[v_1/x])[\Gamma][\gamma][\Gamma'])\overline{w[\Gamma]}$. 
-We have $T' = (((u)[v_1[\gamma]/x])[\Gamma][\Gamma'])\overline{w[\Gamma]}$. $T'$ reduce to $U'$ in $n\ge 0$ steps (it can be $0$ in the case where $u = x$). Therefore $U'\in\SN$ and $S(U') \leq S(T')$. Because $lh(v_1) < lh(v)$, we have $Mes(U) < Mes(T)$ and by induction hypothesis, $U\in\SN$.
-\smallskip
+	\item % 3)
+If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above abstraction} to $\g$ in $\lambda x.u'\g$, where $u=u'\g$, then $U$ and $U'$ are as follows.	
+\[
+	U = (((\lambda x.u')\g\G) v)\overline{w\G}
+\qquad
+	U'= (u'\sub xv\g\G)\overline{w\G}
+\]
 
+	\item % 6)
+If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above application function} to $\g$ in $((\lambda x.u)\G'\g)v$, where $\G=\G'\g$, then $U$ and $U'$ are as follows (note that $T'=U'$).
+\[
+	U = ((((\lambda x.u)\G') v)\g)\overline{w\G}
+\qquad	
+	U'= (u\sub xv\G'\g)\overline{w\G}
+\]
+
+	\item % 7)
+If $T\rewrite^1 U$ is an application of permutation rule \eqref{eqn:sharing above application argument} to $\g$ in $((\lambda x.u)\G)v'\g$, where $v=v'\g$, then $U$ and $U'$ are as below.
+%
+Note that $U'\rewrite T'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\sub x{v'}\g$.
+%
+\[
+	U = ((((\lambda x.u)\G) v')\g)\overline{w\G}
+\qquad
+	U'= (u\sub x{v'}\G\g)\overline{w\G}
+\]
 \end{enumerate}
 
+\newpage
 
-\[
-\begin{array}{c@{\qquad\qquad}c}
-	(((\lambda x.u')[\Gamma]) v')\overline{w'[\Gamma']}
- &  (u'\sub x{v'}[\Gamma])\overline{w'[\Gamma']}
-\\[5pt]
-	(((\lambda x.u')[\gamma][\Gamma]) v)\overline{w[\Gamma]}
- &	(u'\sub xv[\gamma][\Gamma])\overline{w[\Gamma]}
-\\[5pt]
-	(((\lambda x.u)[\Gamma']) v)\overline{w[\Gamma]}
- &	(u\sub xv[\Gamma'])\overline{w[\Gamma]}
-\end{array}
-\]
+
+%
+%\[
+%\begin{array}{c@{\qquad\qquad}c}
+%	(((\lambda x.u')\G) v')\overline{w'[\Gamma']}
+% &  (u'\sub x{v'}\G)\overline{w'[\Gamma']}
+%\\[5pt]
+%	(((\lambda x.u')\g\G) v)\overline{w\G}
+% &	(u'\sub xv\g\G)\overline{w\G}
+%\\[5pt]
+%	(((\lambda x.u)[\Gamma']) v)\overline{w\G}
+% &	(u\sub xv[\Gamma'])\overline{w\G}
+%\end{array}
+%\]
 
 
 
