@@ -1008,21 +1008,28 @@ For the following proofs, we associate with each closure $\g$ its \emph{body} $\
 \end{align*}
 %
 The notation $\g^*$ will indicate either $\g$ or $\g\comp$, and for $\G = \g[1]\dots\g[p]$ we denote by $\G^*$ the sequence $\g[1]^* \dots\g[p]^*$.
+%
+%The following lemmata are immediate from these definitions.
 
 
 \begin{ALlemma}\label{lem:CompSubst}
- $\g\comp\sub xw \rightsquigarrow [\gamma\sub xw]^v$
+~
+\begin{compactenum}
+	\item
+If $z$ is free in $t$, then $u\share*{\vv*x}t\comp\sub zw \rewrite u\share*{\vv*x}{t\sub zw}\comp$.
+	\item
+If $z$ is free in $t^n$, then $u\distr*{\vv*x}y{t^n}\comp\sub zw \rewrite u\distr*{\vv*x}y{t\sub zw}\comp$.
+\end{compactenum}
 \end{ALlemma}
 
 \begin{proof}
-Immediate by definition.
+Immediate from the definitions.
 \end{proof}
-
 
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
 % If $u\G[0]^*)\overline{w\G^*} \in \SN$ and for each closure $\g$ of $\G[0]\overline{\G}$,  $\term (\gamma)\in\SN$, then $(u\G[0])\overline{w\G} \in \SN$.
-  If $u\g^v \in \SN$ and $\term (\gamma)\in\SN$, then $u\g \in \SN$.
+  If $u\g\comp \in \SN$ and $\term\g\in\SN$, then $u\g \in \SN$.
 \end{ALlemma}
 
 \begin{proof}
@@ -1238,13 +1245,13 @@ Because $Mes(U,U') < Mes(T,T')$, we have by the induction hypothesis, $U\in\SN$.
 
 
 
-The present result, of strong normalisation for the atomic lambda-calculus with intersection types, emphasises how the calculus is a natural and well-behaved formalisation of sharing in the lambda-calculus.
+The present result, of strong normalisation for the simply typed atomic lambda-calculus, emphasises how the calculus is a natural and well-behaved formalisation of sharing in the lambda-calculus.
 %
 Future investigations will expand in three directions: strengthening the current strong normalisation result; adapting the atomic lambda-calculus to address further notions of sharing; and investigating the practical use of the calculus in computation, for instance in compiling or implementing functional programming languages.
 
 
 
-The present work strongly suggests an angle for future research: it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious.% in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
+The present work strongly suggests two angles for future research: it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious.% in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
 
 
 For the atomic lambda-calculus in general, further work will focus on variations on the calculus that more closely approach the reduction dynamics of sharing graphs, to encompass further degrees of sharing.
