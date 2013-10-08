@@ -891,18 +891,19 @@ If $(u\sub xv)\overline w \in \SN$ and $x\in\FV(u)$, then $((\lambda x.u)v)\over
 \end{ALlemma}
 
 \begin{proof}
-The context $\cxt\overline w$ is strengthened to $\cxt\overline{w\G}$, and further closures are inserted.
+To obtain a suitable induction hypothesis, the context $\cxt\overline w$ is strengthened to $\cxt\overline{w\G}$, and further closures are inserted.
 %
-It will be shown that if $T'\in\SN$ then $T\in\SN$, where
+It will be shown by induction that if $T'\in\SN$ then $T\in\SN$, where
 \[
 	T = (((\lambda x.u)\G) v)\overline{w\G} \qquad T' = (u\sub xv\G)\overline{w\G}
 \]
 %
-For any one-step reduction $T\rewrite^1 U$ reductions $T'\rewrite U'$ and $U\rewrite U'$ will be given, such that the induction hypothesis applies to $U$ and $U'$, giving $U\in\SN$.
+It will be shown that for any term $U$ reached by a reduction step $T\rewrite^1 U$, there is a term $U'$ reached by a reduction $T'\rewrite U'$, such that the induction hypothesis applies to $U$ and $U'$, giving $U\in\SN$.
 %
 Since this holds for any step $T\rewrite^1 U$, it follows that $T\in\SN$.
 %
 The measure for the induction is the pair $(\R(T'),\S(T))$.
+
 
 The first, special case, is $T'=U$ (with $\G$ empty), for which $U\in\SN$ is immediate.
 %
@@ -1005,7 +1006,7 @@ Note that $T'\rewrite U'$ by permuting $\g$ outward, from $u\sub x{v'\g}$ to $u\
 
 \newcommand{\term}{{\mathsf{t}}}
 
-To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
+For the To each closure $\g$, we associate its \emph{term} $t(\gamma)$ and its \emph{computation} $\g^v$, defined as follows:
 \begin{itemize}
 
 	\item
