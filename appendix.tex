@@ -110,40 +110,6 @@ The result directly follows from the induction hypothesis using the fact that $|
 
 
 
-\medskip
-\noindent
-\textbf{Lemma~\ref{lem:IntCaseLambdaSharing}.}
-\quad
-\begin{compactenum}[\upshape(i)]
-%
-\item If $(u\{v/x\})\overline{w} \in |B|$ and $v\in\SN$, then $((\lambda x.u) v)\overline{w} \in |B|$.
-%
-\item If $(u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w} \in |B|$ and $t\in\SN$, 
-	\\ then $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |B|$.
-%
-\item If $(u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh (\lambda y.t)])\overline{w} \in |B|$ and $t\in\SN$,
-	\\ then $(u[x_1,\dots,x_n \twoheadleftarrow \lambda y.t])\overline{w} \in |B|$.
-%
-\end{compactenum}
-
-
-\begin{proof}
- We proceed by induction on $B$.
-\\
-1) $B$ is a variable. Then $|B| = \SN$ and the result is given by Lemma~\ref{lem:IntCaseLambda0}.
-\\
-2) $B= C\vlim D$.
-Suppose $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $v\in\SN$. Let $t\in|C|$. We prove that  $(((\lambda x.u) v)\overline{w})t \in |D|$. Because $(u\{v/x\})\overline{w} \in |C\vlim D|$ and $t\in|C|$, we have $((u\{v/x\})\overline{w})t \in |D|$ and by the induction hypothesis, $(((\lambda x.u) v)\overline{w})t \in |D|$. It follows that $((\lambda x.u) v)\overline{w} \in |C\vlim D|$.
-%\\
-%3) $B= C\cap B$.
-%The result directly follows from the induction hypothesis using the fact that $|C\cap D| = |C|\cap|D|$.
-\end{proof}
-%
-% \Comment{For proving Proposition~\ref{prop:IntSubst} (case 3), we need the statement of Lemma~\ref{lem:IntCaseLambda} only in the case $\overline{w}$ is empty. But for the inductive proof of this statement, the general statement of Lemma~\ref{lem:IntCaseLambda} is needed (case 2 of the proof). \\
-%   Then for proving case 1 ($|B| = \SN$), we need the more complicated statement of Lemma~\ref{lem:IntCaseLambda0}: the proof by induction of Lemma~\ref{lem:IntCaseLambda0} introduces the case of sharing (case xx of the proof of Lemma~\ref{lem:IntCaseLambda0})  }
-
-
-
 
 \medskip
 \noindent
