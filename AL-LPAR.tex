@@ -1135,7 +1135,7 @@ The induction hypothesis applies since $\R(U')<\R(T')$.
 
 
 	\item
-Let the reduction step $T\rewrite^1U$ be an application of rule \eqref{eqn:compound sharings}, combining two sharings $\g=\share*{\vv*y}y$ and $\g*=\share*{\vv*x,y,\vv*z}t$ into one $[\delta']=\share*{\vv*x,\vv*y,\vv*z}t$, where $u=u'\g$ and $\g'$ is the first element of the context $\overline{w\D}$.
+Let the reduction step $T\rewrite^1U$ be an application of rule \eqref{eqn:compound sharings}, combining two sharings $\g=\share*{\vv*y}y$ and $\g*=\share*{\vv*x,y,\vv*z}t$ into one $[\delta']=\share*{\vv*x,\vv*y,\vv*z}t$, where $u=u'\g$ and $\g*$ is the first element of the context $\overline{w\D}$.
 %
 Then $U$ and $U'$ are as follows.
 \[
@@ -1144,20 +1144,15 @@ Then $U$ and $U'$ are as follows.
 	U'= u'[\delta']^*\overline{w\D^*}
 \]
 Then $T'=u'\g\g*^*\overline{w\D^*}\rewrite U'$, and hence $\R(U')<\R(T')$.
-
-
 %
-%\[
-%	T = u'\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t
-%\qquad
-%	U = u'\share*{\vv*x,\vv*y,\vv*z}t
-%\]
-%\[
-%	T'= u'\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t^*
-%\qquad
-%	U'= u'\share*{\vv*x,\vv*y,\vv*z}t^*
-%\]
-%
+The difference between $T^n$ and $U^n$ is that between the following $n$-terms.
+\[
+	\tup*{\vv*x,y,\vv*z}\share*{\vv*x,y,\vv*z}t
+\qquad
+	\tup*{\vv*x,\vv*y,\vv*z}\share*{\vv*x,\vv*y,\vv*z}t
+\]
+While $t$ may be duplicated more times in $U^n$ than in $T^n$, since no interaction is possible between the elements of a tuple it follows that $U^n\in\SN$, so that the induction hypothesis applies.
+
 
 
 	\item
@@ -1174,12 +1169,15 @@ Then consider the following rewrite step.
 	(u'\g\G)v\sim(u'\G\g)v\rewrite^1((u'\G)v)\g
 \]
 %
-Then $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)v)\overline{w'\D'}$.
-\[
-	U = ((u'\G)v)\g\overline{w'\D'}
-\qquad
-	U'= ((u'\G^*)v)\g\overline{w'\D'^*}
-\]
+Then $T$, $T'$, $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)v)\overline{w'\D'}$.
+%
+\begin{align*}
+	T &= ((u'\g\G)v)\overline{w'\D'}
+&	T'&= ((u'\g\G^*)v)\overline{w'\D'^*}
+\\[5pt]
+	U &= ((u'\G)v)\g\overline{w'\D'}
+&	U'&= ((u'\G^*)v)\g\overline{w'\D'^*}
+\end{align*}
 %
 Since $T'\rewrite^1U'$ we have that $\R(T')<\R(U')$.
 %
@@ -1189,7 +1187,11 @@ To apply the induction hypothesis to $U$ and $U'$, we are forced to include $\g$
 \]
 is in $\SN$, where $\FV(u')=\{\vv x,\vv[k]z\}$ with $\g$ binding the $z_i$. %$\vv[k]z$.
 %
-For this we will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
+If $\overline{w'\D'}$ does not bind in $\g$, then $U^n\in\SN$, since $\term\g\in\SN$ because it is a subterm of $T'\in\SN$, and $T^n\in\SN$.
+%
+Otherwise, let $\overline{w'\D'}$ bind in $\g$.
+%
+We will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
 %
 \begin{gather}
 \tag{i}
@@ -1199,13 +1201,16 @@ For this we will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
 	T'  = ((u'\g\G^*)v)\overline{w'\D'^*}\in\SN
 \end{gather}
 %
-Since $\term\g$ is a subterm of $u$, by (ii) above we have the following. %(note a slight abuse of notation, as the variables $\vv x$ 
+The $n$-term $B'$ below is obtained from $T'$ by replacing $u=u'\g$ by the tuple $\tup*{\vv x,\term\g}$.
+%
+Recall that the $x_i$ are the free variables of $u'$; then each element of the tuple is a subterm of $u$.
+%
+Then since $T'\in\SN$, also $B'\in\SN$, and since $\overline{w'\D'}$ binds in $\g$, the context $\overline{w'\D'^*}$ creates reductions in $u\g$ that have no counterpart in $\tup*{\vv x,\term\g}$, so that also $\R(B')<\R(T')$.
+%
 \[
 	B' = ((\tup*{\vv x,\term\g}\G^*)v)\overline{w'\D'^*}\in\SN
-\qquad
-	\R(B')<\R(T')
 \]
-Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n$, giving $B\in\SN$.
+Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n\in\SN$ (fact (i) above), giving $B\in\SN$.
 \[
 	B = ((\tup*{\vv x,\term\g}\G)v)\overline{w'\D'}
 \]
