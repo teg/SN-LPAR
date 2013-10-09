@@ -1169,7 +1169,7 @@ Then consider the following rewrite step.
 	(u'\g\G)v\sim(u'\G\g)v\rewrite^1((u'\G)v)\g
 \]
 %
-Then $T$, $T'$, $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)v)\overline{w'\D'}$.
+Then $T$, $T'$, $U$ and $U'$ are as follows.
 %
 \begin{align*}
 	T &= ((u'\g\G)v)\overline{w'\D'}
@@ -1179,38 +1179,41 @@ Then $T$, $T'$, $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)
 &	U'&= ((u'\G^*)v)\g\overline{w'\D'^*}
 \end{align*}
 %
+Here, the context $\cxt\overline{w\D}=((\cxt\G)v)\overline{w'\D'}$.
+%
 Since $T'\rewrite^1U'$ we have that $\R(T')<\R(U')$.
 %
-To apply the induction hypothesis to $U$ and $U'$, we are forced to include $\g$ into the context $\overline{w\D}$: it must be shown that the $n$-term
-\[
-	U^n = ((\tup*{\vv x,\vv[k]z}\G)v)\g\overline{w'\D'}
-\]
-is in $\SN$, where $\FV(u')=\{\vv x,\vv[k]z\}$ with $\g$ binding the $z_i$. %$\vv[k]z$.
+To apply the induction hypothesis to $U$ and $U'$, due to the presence of $\G^*$ we are forced to include $\g$ into the context $\overline{w\D}$.
 %
-If $\overline{w'\D'}$ does not bind in $\g$, then $U^n\in\SN$, since $\term\g\in\SN$ because it is a subterm of $T'\in\SN$, and $T^n\in\SN$.
+It must then be shown that the $n$-term $U^n$ is in $\SN$, given that $T^n\in\SN$; however, $U^n$ includes $\g$ where $T^n$ does not:
 %
+\begin{align*}
+	T^n &= ((\tup*{\vv x,\vv[m]y}\G)v)\overline{w'\D'}
+\\[5pt]
+	U^n &= ((\tup*{\vv x,\vv[k]z}\G)v)\g\overline{w'\D'}~.
+\end{align*}
+%
+Here, $\FV(\term\g)=\{\vv[m]y\}$ and $\FV(u')=\{\vv x,\vv[k]z\}$, with the $z_i$ bound by $\g$.
+
+\medskip
+
+In case $\overline{w'\D'}$ does not bind in $\g$, it follows that $U^n\in\SN$ because $\term\g\in\SN$ (as it is a subterm of $T'\in\SN$) and $T^n\in\SN$.
+
+\medskip
+
 Otherwise, let $\overline{w'\D'}$ bind in $\g$.
 %
-We will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
-%
-\begin{gather}
-\tag{i}
-	T^n = ((\tup*{\vv x,\vv[m]y}\G)v)\overline{w'\D'}\in\SN
-\\[5pt]
-\tag{ii}
-	T'  = ((u'\g\G^*)v)\overline{w'\D'^*}\in\SN
-\end{gather}
-%
 The $n$-term $B'$ below is obtained from $T'$ by replacing $u=u'\g$ by the tuple $\tup*{\vv x,\term\g}$.
-%
-Recall that the $x_i$ are the free variables of $u'$; then each element of the tuple is a subterm of $u$.
-%
-Then since $T'\in\SN$, also $B'\in\SN$, and since $\overline{w'\D'}$ binds in $\g$, the context $\overline{w'\D'^*}$ creates reductions in $u\g$ that have no counterpart in $\tup*{\vv x,\term\g}$, so that also $\R(B')<\R(T')$.
 %
 \[
 	B' = ((\tup*{\vv x,\term\g}\G^*)v)\overline{w'\D'^*}\in\SN
 \]
-Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n\in\SN$ (fact (i) above), giving $B\in\SN$.
+%
+Recall that the $x_i$ are the free variables of $u'$ not bound by $\g$; then each element of the tuple is a subterm of $u$.
+%
+Then since $T'\in\SN$, also $B'\in\SN$, and since $\overline{w'\D'}$ binds in $\g$, the context $\overline{w'\D'^*}$ creates reductions in $u\g$ that have no counterpart in $\tup*{\vv x,\term\g}$, so that $\R(B')<\R(T')$.
+%
+Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n\in\SN$, giving $B\in\SN$.
 \[
 	B = ((\tup*{\vv x,\term\g}\G)v)\overline{w'\D'}
 \]
