@@ -1046,9 +1046,22 @@ If,  for each closure $\g$ of $\overline{\G*}$,  $\g^* = \g$, then the result is
 
 SKETCH:
 
-As in previous Lemma we will show that for any $U$, there exists a $U'$, such that 1) $T'\rewrite U'$, 2) the induction hypothesis applies to $U$ and $U'$, and 3) $(\R(U'),\M(U),\S(U))<(\R(T'),\M(T),\S(T))$. Notice that if $U$ and $U'$ are on the right from, then 2) follows from 1) as $U'\in\SN$ if $T'\in\SN$. Moreover, 3) follows from 1) and 2): First note that $\R(U')\leq\R(T')$ and $\M(U)\leq\M(T)$. If $T\rewrite^1 U$ by a sharing reduction then $\S(U)<\S(T)$, so the measure decreases. If $T\rewrite^1 U$ by a reduction in $\term\g$ from $\overline\G$, then $\M(U)<\M(T)$, so the measure decreases. Lastly, if $T\rewrite^1 U$ by a non-weakened beta-reduction, then there must be at least one beta-reduction in the reduction path $T\rewrite T'\rewrite U'$, and by definition there can be no beta-reduciton in the path $T\rewrite T'$, so the rewrite path $T'\rewrite U'$ can not be empty and $\R(U')<\R(T')$, so the measure decreases.
+As in previous Lemma we will show that for any $U$, there exists a $U'$, such that 1) the induction hypothesis applies to $U$ and $U'$, and 2) $(\R(U'),\M(U),\S(U))<(\R(T'),\M(T),\S(T))$.
+%
+Notice that if $U$ and $U'$ are on the right from and $T'\rewrite U'$, then 1) follows as $U'\in\SN$ if $T'\in\SN$.
+%
+Moreover, 2) follows from 1):
+%
+First note that $\R(U')\leq\R(T')$ and $\M(U)\leq\M(T)$ as $T\rewrite U$ and $T'\rewrite U'$.
+%
+We then have three cases to consider:
+If $T\rewrite^1 U$ by a sharing reduction, then $\S(U)<\S(T)$, so the measure decreases.
+%
+If $T\rewrite^1 U$ by a reduction in $\term\g$ from $\overline\G$, then $\M(U)<\M(T)$, so the measure decreases.
+%
+Lastly, if $T\rewrite^1 U$ by a non-weakened beta-reduction, then there must be at least one beta-reduction in the reduction path $T\rewrite T'\rewrite U'$, and by definition there can be no beta-reduciton in the path $T\rewrite T'$, so the path $T'\rewrite U'$ can not be empty and $\R(U')<\R(T')$, so the measure decreases.
 
-The only thing that remains to be shown, is that there exists an $U'$ for every $U$ such that $T'\rewrite U'$.
+The only thing that remains to be shown, is that for every $T\rewrite^1 U$ there exists an $U'$ such that $T'\rewrite U'$ and $U$ and $U'$ have the form of the induction hypothesis.
 \newpage
 
   We prove a stronger version of the lemma by considering instead the terms $T = (u\G)\overline{w\G*}$ and $T' = (u\G^*)\overline{w\G*^*}$, where for each
