@@ -4,5 +4,6 @@
 *.blg
 *.pdf
 *.synctex.gz
+*.zip
 
 .DS_store
