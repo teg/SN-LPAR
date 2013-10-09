@@ -121,6 +121,17 @@
 \def\@Gprime{\expandafter\Gprime\@gobble}
 
 
+\def\D{\futurelet\@let@token\@D}
+\def\@D{%
+ \ifx\@let@token'\let\next=\@Dprime\else%
+   \let\next=\Dnostar%
+ \fi%
+ \next
+}
+\def\@Dstar{\expandafter\Dstar\@gobble}
+\def\@Dprime{\expandafter\Dprime\@gobble}
+
+
 \def\vv{\futurelet\@let@token\@vv}
 \def\@vv{%
  \ifx\@let@token*\let\next=\@vvstar\else%
@@ -171,6 +182,8 @@
 \newcommand\Gstar[1][{}]{[\oldDelta_{#1}]}
 \newcommand\Gprime[1][{}]{[\oldGamma'_{#1}]}
 \newcommand\Gnostar[1][{}]{[\oldGamma_{#1}]}
+\newcommand\Dprime[1][{}]{[\oldDelta'_{#1}]}
+\newcommand\Dnostar[1][{}]{[\oldDelta_{#1}]}
 \newcommand\cxtstar[1]{\{#1\}}
 \newcommand\cxtnostar[1][{}]{\{\cdot\}_{#1}}
 
