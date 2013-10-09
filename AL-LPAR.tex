@@ -1131,7 +1131,7 @@ If the reduction step $T\rewrite^1U$ is a beta-step where $u=\lambda x.u'$ is th
 \]
 Here, $\overline{w'\D}$ is $\overline{w\D}$ with the first application $v$ removed; it follows that $U^n=\tup*{\vv*x,\vv*y}\overline{w'\D}\in\SN$ because $T^n=(\tup*{\vv*x}v)\overline{w'\D}\in\SN$, where $\vv*x$ and $\vv*y$ are the free variables of $\lambda x.u'$ and $v$ respectively.
 %
-The induction hypothesis applies since $\R(U')<\R(T)$.
+The induction hypothesis applies since $\R(U')<\R(T')$.
 
 
 	\item
@@ -1185,9 +1185,9 @@ Since $T'\rewrite^1U'$ we have that $\R(T')<\R(U')$.
 %
 To apply the induction hypothesis to $U$ and $U'$, we are forced to include $\g$ into the context $\overline{w\D}$: it must be shown that the $n$-term
 \[
-	U^n = ((\tup x \G)v)\g\overline{w'\D'}
+	U^n = ((\tup*{\vv x,\vv[k]z}\G)v)\g\overline{w'\D'}
 \]
-is in $\SN$, where $\FV(u')=\{\vv x\}$.
+is in $\SN$, where $\FV(u')=\{\vv x,\vv[k]z\}$ with $\g$ binding the $z_i$. %$\vv[k]z$.
 %
 For this we will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
 %
@@ -1199,33 +1199,27 @@ For this we will use the following two facts, where $\FV(\term\g)=\{\vv[m]y\}$:
 	T'  = ((u'\g\G^*)v)\overline{w'\D'^*}\in\SN
 \end{gather}
 %
-Since $\term\g$ is a subterm of $u$, by (ii) above we have the following.
+Since $\term\g$ is a subterm of $u$, by (ii) above we have the following. %(note a slight abuse of notation, as the variables $\vv x$ 
 \[
-	B' = (((\term\g)\G^*)v)\overline{w'\D'^*}\in\SN
+	B' = ((\tup*{\vv x,\term\g}\G^*)v)\overline{w'\D'^*}\in\SN
 \qquad
 	\R(B')<\R(T')
 \]
-By (i) above we have the following.
+Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n$, giving $B\in\SN$.
 \[
-	B^n = ((\tup*{\vv[m]y}\G)v)\overline{w'\D'}\in\SN
-\]
-Then by the induction hypothesis for $B$, given below, and $B'$, we have the following.
-\[
-	B =  (((\term\g)\G)v)\overline{w'\D'}\in\SN
+	B = ((\tup*{\vv x,\term\g}\G)v)\overline{w'\D'}
 \]
 %
-From this and $T^n\in\SN$ it follows that $U^n\in\SN$, since 
-$\g$ only binds variables in $\vv x$.
+From this it follows that $U^n\in\SN$, by the following argument.
 %
-% , for the following reasons.
-%%
-%Let $B^1,\dots,B^m$ be variants of $B$; for each 
-%%
+Let $B^1,\dots,B^m$ be variants of $B$. 
 %
-%%
-%Then any reduction step in 
-%, 
-%
+Then a reduction step in $U^n$ must do one of three things:
+\begin{compactenum}[(a)]
+	\item if it duplicates a part of $\term\g$ from $\g$ into a $y_i$, it is a sharing step, of which there are only finitely many until a step of kind (b) or (c) is performed,
+	\item if it applies to an $x_i$ or outside the tuple, there is a corresponding step in each $B^j$,
+	\item if it applies to a (part of) $\term\g^i$ that has been duplicated into the tuple, there is a corresponding step in $B^i$.
+\end{compactenum}
 %
 \end{enumerate}
 \end{proof}
@@ -1510,9 +1504,9 @@ Another direction would be the inclusion of general recursion in the calculus, a
 \bibliographystyle{plain}
 \bibliography{AL-LPAR}
 
-\newpage
+%\newpage
 
-\include{appendix}
+%\include{appendix}
 
 
 
