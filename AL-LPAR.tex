@@ -1115,15 +1115,20 @@ If the reduction step $T\rewrite^1U$ is a beta-step where $u=\lambda x.u'$ is th
 Here, $\overline{w'\D}$ is $\overline{w\D}$ with the first application $v$ removed; then $ $
 
 	\item
-If the reduction step $T\rewrite^1U$ moves a sharing $\g$ from $u$ into the context $\overline{w\D}$, let $u=u'\g$.
+Finally, there is one case where $u=u'\g$, but where a reduction step forces the closure $\g$ into the context $\overline{w\D}$.
 %
-The context $\overline{w\D}$ consists of closures $\g*$ and applications $(\cdot)v$; to move $\g$ into it, means it must be permuted past a closure $\g*$ or an application $(\cdot)v$.
+Since the context $\overline{w\D}$ consists of closures and applications; moving $\g$ into it means it must be permuted past a closure $\g*$ or an application $(\cdot)v$.
 %
 In the former case, $u'\g\g*\sim u'\g*\g$ is an equivalence, not a rewrite step; thus the reduction step must be an application of rewrite rule \eqref{eqn:sharing above application function}.
 %
-Accounting for closures $\G$ in $\overline{w\D}$ that may be computed, the rewrite step is of the form $(u'\g\G)v\sim(u'\G\g)v\rewrite^1((u'\G)v)\g$.
+But because of the congruence $\sim$ on terms, the application $(\cdot)v$ need not be the first element of $\overline{w\D}$: there may be closures $\G$ such that $u\g\G\sim u\G\g$.
 %
-Then $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=(((\cxt)\G)v)\overline{w'\D'}$.
+Then consider the following rewrite step.
+\[
+	(u'\g\G)v\sim(u'\G\g)v\rewrite^1((u'\G)v)\g
+\]
+%
+Then $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)v)\overline{w'\D'}$.
 \[
 	U = ((u'\G)v)\g\overline{w'\D'}
 \qquad
@@ -1132,7 +1137,7 @@ Then $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=(((\cxt)\G)v)\overli
 %
 Since $T'\rewrite^1U'$ we have that $\R(T')<\R(U')$.
 %
-To apply the induction hypothesis to $U$ and $U'$, it remains to show that the $n$-term
+To apply the induction hypthesis to $U$ and $U'$, we are forced to include $\g$ into the context $\overline{w\D}$: it must be shown that the $n$-term
 \[
 	U^n = ((\tup x \G)v)\g\overline{w'\D'}
 \]
