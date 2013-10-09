@@ -1093,6 +1093,8 @@ If the reduction step $T\rewrite^1U$ takes place inside $u$, then $U$ and $U'$ a
 \]
 Then $\R(U')<\R(T')$, and $U^n=T^n\in\SN$ since $\FV(u)=\FV(u')$.
 
+
+
 	\item
 If the reduction step $T\rewrite^1U$ takes place inside the context $\overline{w\D}$, then $\R(U^n)<\R(T^n)$---note that $\R(U')\leq\R(T')$ since $T'\rewrite U'$.
 %
@@ -1105,6 +1107,8 @@ Then $U$ and $U'$ are as follows, where every closure in $\overline{w'\D'^*}$ is
 	U'= (u')\overline{w'\D'^*}
 \]	
 
+
+
 	\item
 If the reduction step $T\rewrite^1U$ is a beta-step where $u=\lambda x.u'$ is the function, and the argument $v$ is the first element of the context $\cxt\overline{w\D}$, then $U$ and $U'$ are as follows.
 \[
@@ -1112,10 +1116,39 @@ If the reduction step $T\rewrite^1U$ is a beta-step where $u=\lambda x.u'$ is th
 \qquad
 	U'= (u'\sub xv)\overline{w'\D^*}
 \]
-Here, $\overline{w'\D}$ is $\overline{w\D}$ with the first application $v$ removed; then $ $
+Here, $\overline{w'\D}$ is $\overline{w\D}$ with the first application $v$ removed; it follows that $U^n=\tup*{\vv*x,\vv*y}\overline{w'\D}\in\SN$ because $T^n=(\tup*{\vv*x}v)\overline{w'\D}\in\SN$, where $\vv*x$ and $\vv*y$ are the free variables of $\lambda x.u'$ and $v$ respectively.
+%
+The induction hypothesis applies since $\R(U')<\R(T)$.
+
 
 	\item
-Finally, there is one case where $u=u'\g$, but where a reduction step forces the closure $\g$ into the context $\overline{w\D}$.
+Let the reduction step $T\rewrite^1U$ be an application of rule \eqref{eqn:compound sharings}, combining two sharings $\g=\share*{\vv*y}y$ and $\g*=\share*{\vv*x,y,\vv*z}t$ into one $[\delta']=\share*{\vv*x,\vv*y,\vv*z}t$, where $u=u'\g$ and $\g'$ is the first element of the context $\overline{w\D}$.
+%
+Then $U$ and $U'$ are as follows.
+\[
+	U = u'[\delta']\overline{w\D}
+\qquad
+	U'= u'[\delta']^*\overline{w\D^*}
+\]
+Then $T'=u'\g\g*^*\overline{w\D^*}\rewrite U'$, and hence $\R(U')<\R(T')$.
+
+
+%
+%\[
+%	T = u'\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t
+%\qquad
+%	U = u'\share*{\vv*x,\vv*y,\vv*z}t
+%\]
+%\[
+%	T'= u'\share*{\vv*y}y\share*{\vv*x,y,\vv*z}t^*
+%\qquad
+%	U'= u'\share*{\vv*x,\vv*y,\vv*z}t^*
+%\]
+%
+
+
+	\item
+Finally, there is one case where $u=u'\g$ and a reduction step forces the closure $\g$ into the context $\overline{w\D}$.
 %
 Since the context $\overline{w\D}$ consists of closures and applications; moving $\g$ into it means it must be permuted past a closure $\g*$ or an application $(\cdot)v$.
 %
@@ -1137,7 +1170,7 @@ Then $U$ and $U'$ are as follows, where $\cxt\overline{w\D}=((\cxt\G)v)\overline
 %
 Since $T'\rewrite^1U'$ we have that $\R(T')<\R(U')$.
 %
-To apply the induction hypthesis to $U$ and $U'$, we are forced to include $\g$ into the context $\overline{w\D}$: it must be shown that the $n$-term
+To apply the induction hypothesis to $U$ and $U'$, we are forced to include $\g$ into the context $\overline{w\D}$: it must be shown that the $n$-term
 \[
 	U^n = ((\tup x \G)v)\g\overline{w'\D'}
 \]
