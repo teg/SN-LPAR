@@ -1094,7 +1094,7 @@ If the reduction step $T\rewrite^1U$ takes place inside $u$, then $U$ and $U'$ a
 Then $\R(U')<\R(T')$, and $U^n=T^n\in\SN$ since $\FV(u)=\FV(u')$.
 
 	\item
-If the reduction step $T\rewrite^1U$ takes place inside the context $\overline{w\D}$, then $\R(U^n)<\R(T^n)$---note that $\R(U')<\R(T')$ by construction.
+If the reduction step $T\rewrite^1U$ takes place inside the context $\overline{w\D}$, then $\R(U^n)<\R(T^n)$---note that $\R(U')\leq\R(T')$ since $T'\rewrite U'$.
 %
 The term $U'$ is obtained by a reduction $U\rewrite U'$ that exhaustively performs sharing reduction on the context $\overline{w\D}$, fully computing it, following Lemma~\ref{lem:compute context}.
 %
@@ -1104,11 +1104,20 @@ Then $U$ and $U'$ are as follows, where every closure in $\overline{w'\D'^*}$ is
 \qquad
 	U'= (u')\overline{w'\D'^*}
 \]	
-	
+
+	\item
+If the reduction step $T\rewrite^1U$ is a beta-step where $u=\lambda x.u'$ is the function, and the argument $v$ is the first element of the context $\cxt\overline{w\D}$, then $U$ and $U'$ are as follows.
+\[
+	U = (u'\sub xv)\overline{w'\D}
+\qquad
+	U'= (u'\sub xv)\overline{w'\D^*}
+\]
+Here, $\overline{w'\D}$ is $\overline{w\D}$ with the first application $v$ removed; then $ $
+
 	\item
 If the reduction step $T\rewrite^1U$ moves a sharing $\g$ from $u$ into the context $\overline{w\D}$, let $u=u'\g$.
 %
-The innermost element of the context $\overline{w\D}$ is either a closure $\g*$ or an application $(\cdot)v$.
+The context $\overline{w\D}$ consists of closures $\g*$ and applications $(\cdot)v$; to move $\g$ into it, means it must be permuted past a closure $\g*$ or an application $(\cdot)v$.
 %
 In the former case, $u'\g\g*\sim u'\g*\g$ is an equivalence, not a rewrite step; thus the reduction step must be an application of rewrite rule \eqref{eqn:sharing above application function}.
 %
@@ -1157,6 +1166,7 @@ From this, it follows that $U^n\in\SN$, since $\g$ only binds variables in $\vv 
 
 
 \end{enumerate}
+\end{proof}
 
 %The step permutes an individual closure $\g$ past an application (rule \ref{eqn:sharing above application function}) in $\overline{w\D}$. Then $U$ and $U'$ are as follows.
 %\[
@@ -1404,7 +1414,6 @@ From this, it follows that $U^n\in\SN$, since $\g$ only binds variables in $\vv 
 %$.
 %We have $T'\rightsquigarrow U'$.
 %%
-\end{proof}
 %
 %
 
