@@ -1129,10 +1129,12 @@ where every closure in $\overline{w'\D'^*}$ is computed.
 %
 The reduction $T\rewrite^1 U\ALnotbeta U'$ corresponds 1-1 to a reduction from $T^n=\tup x\overline{w\D}$ of the form
 \[
-	T^n\rewrite^1 V\ALnotbeta\unfold(V)\;.
+	T^n\rewrite^1 V\ALnotbeta\unfold(V)\;,
 \]
 %
-Similarlly, for the reduction $T\ALnotbeta T'$ there is a corresponding $T^n\ALnotbeta W$.
+given that only unfolded terms are instantiated into the $n$-tuple in the reduction $V\ALnotbeta\unfold(V)$, which holds due to the restriction on tuples instated in the beginning of Section~\ref{sec:SNproof}.
+%
+Similarly, for the reduction $T\ALnotbeta T'$ there is a corresponding $T^n\ALnotbeta W$.
 % 
 For these reduction paths, Lemma~\ref{lem:compute context} gives a reduction $W\ALnotbeta \unfold(V)$.
 %
