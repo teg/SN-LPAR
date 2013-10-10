@@ -85,11 +85,6 @@
 
 
 
-% TO DO
-
-% Change \overline\G to \overline\D
-
-
 
 %-------------------------- FRONTMATTER
 
@@ -121,22 +116,7 @@ It has been shown that it allows fully lazy sharing to be reproduced in a typed 
 %
 In this paper we prove strong normalization of the typed atomic lambda-calculus using Tait's reducibility method.
 %
-%In addition we give a characterisation of exactly the strongly normalisable atomic lambda-terms by an intersection typing discipline.
-%
-%A characterisation of exactly the strongly normalisable terms by an intersection typing discipline, which proves to be extremely subtle, is outlined.
 \end{abstract}
-
-
-% citations to preserve:
-%	\cite{Mellies-1995}
-
-%
-%One should say (in a better way that what follows) that:
-% we prove two fundamental results:
-%- we prove that typed atomic terms are strongly normalizing, using Tait's reducibility method;
-%- strongly normalizing pure atomic terms can be characterized  using a type system with intersection;
-%These results together shows that atomic lambda-calculus is  a rich mathematical object allowing to study lambda-calculus with sharing in the same way as lambda-calculus.
-%(I guess, you see what I want to say ...)
 
 
 
@@ -183,10 +163,6 @@ The paper \cite{Gundersen-Heijltjes-Parigot-2013-LICS} further establishes the t
 In the present paper strong normalisation for the typed atomic lambda-calculus will be proven using the Tait-reducibility method \cite{Tait-1967,ProofsAndTypes}.
 %
 Reducibility is an abstract method compatible with higher-order logic, whose application provides a deeper understanding of reduction and its dynamics.
-%
-%\emph{Intersection types} \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993} further allow the characterisation of exactly the strongly normalisable terms.
-%
-%Together, the two form an important part of the meta-theory of a calculus (for example for explicit substitution calculi, in \cite{Dougherty-Lescanne-2001,Ghilezan-Ivetic-Lescanne-Likavec-2011}).
 %
 The fact that a reducibility proof can be carried out for the atomic lambda-calculus shows the generic character of this extension
 of the lambda-calculus.
@@ -470,8 +446,6 @@ To characterise the effects of duplication on the free variables of a term $t$ o
 %
 Define the \emph{renamings} of $t$ and $\lambda y.t^n$ to be the sharings $\share*{\vv*y_i^{\;1},\dots,\vv*y_i^{\;n}}{y_i}_{i\leq k}$, denoted $[\sh (t):1,\dots,n]$ and $[\sh(\lambda y.t^n):1,\dots,n]$ and abbreviated $[\sh(t)]$ and $[\sh(\lambda y.t^n)]$ where possible.
 %
-%For an $n$-term $t^n=\tup t\G$ in a distributor , the renamings $[\sh(\lambda y.t^n):1,\dots,n]$, abbreviated $[\sh(\lambda y.t^n)]$, are the sharings $\share*{\vv*y_i^{\;1},\dotsc,\vv*y_i^{\;n}}{y_i}$ where $\FV(\sn(\pi_j(t^n)))=\{\vv*y_1^{\;j},\dotsc,\vv*y_k^{\;j}\}$. 
-%
 The unfolded body and the renamings give the following key decomposition properties of the computational content of closures.
 
 
@@ -570,8 +544,6 @@ If $\Gamma\vdash N:A$, then $\Gamma\vdash \tercoden N:A$
 
 Despite the fact that sharing reductions are strongly normalising, commute with denotation, and preserve typing, preservation of strong normalisation (PSN) is not immediate since infinite reduction may take place within weakenings: consider the denotation $\terden{ x\share*{}t}=x$ where $t$ is not SN.
 %
-%Also, SN for the simply typed atomic lambda-calculus does not follow from PSN, since not all atomic lambda-terms are reachable by reduction from the translation of a lambda-term.
-
 
 
 % =================================================================================================
@@ -584,8 +556,6 @@ The proof of the main proposition (Proposition~\ref{prop:IntSubst}) relies on cl
 
 
 For simplifying the presentation, we consider in the remainder of this paper, that no beta-reduction happens inside $n$-tuples, that $n$-tuples are unfolded, and that all their free variables are captured by closures. This property is preserved by reduction and it is natural in the context of sharing calculus. In particular all the useful computation strategies satisfy it, including the one reproducing fully lazy sharing.
-
-%For simplifying the presentation, we consider in the remainder of this paper, that terms of multiplicity $n$ are of the form $\langle t^1,\dots, t^n \rangle\G$ with $t$ unfolded. This means in particular that we do not compute inside $\tup*\cdot$. This restriction is natural in the context of sharing calculus and all the useful computation strategies satisfy it, in particular the one reproducing fully lazy sharing.
 
 
 \begin{ALdefinition}
@@ -626,11 +596,6 @@ For each minimal formula $A$, $\VAR \subseteq |A| \subseteq  \SN$
  For any formulae $A_1,\dots,A_n$, $|A_1\vlan\dots\vlan A_n| \subseteq \SN$.
 \end{ALproposition}
 
-
-%For convenience, the lemmata in the remainder of the paper will be stated in the way they are used. 
-%
-%Many will however require a stronger induction hypothesis.
-%
 
 
 \begin{ALlemma}\label{lem:RedStab}
@@ -708,7 +673,6 @@ It follows that $(u[x_1,\dots,x_n \leftarrow t])\overline{w} \in |C\vlim D|$.
 \end{proof}
 
 \begin{ALproposition}\label{prop:IntSubst}
-%If $x_1:A_1,\ldots, x_n:A_n \vdash u:B$ and $v_1 \in |A_1|, \dots, v_n \in |A_n|$, then $u\{v_1/x_1, \dots, v_n/x_n\} \in |B|$.
 If $(x_i:A_i)_{i\leq n}\vdash u:B$ and $v_i \in |A_i|$, then $u\subn{x_i}{v_i} \in |B|$.
 
 \end{ALproposition}
@@ -811,10 +775,6 @@ We have to prove that the following term is in $|C|$:
 	(u\distr xy{t^n})\subn[k]{y_i}{v_i}\subn[m][j]{z_j}{w_j}=u'\distr xy{t'}\;.
 \]
 %
-% The $n$-term $u^n$ is of the form $\tup*{t^1,\dotsc, t^n}\G$ with each $t^i$ a fresh variant of an unfolded term $t$.
-%
-% Let $t'=t\G\subn[m][j]{z_j}{w_j}$.
-%
 By the induction hypothesis,
 $
 	t'\sub ys \in|B\vlan\cdots\vlan B|
@@ -841,7 +801,6 @@ It follows by Lemma~\ref{lem:IntCaseLambdaSharing} that $u'\distr xy{t'}\in|C|$.
 
 
 \begin{ALtheorem}\label{thm:SN}
-%If $x_1:A_1,\dots, x_n:A_n \vdash u:B$ then $u \in \SN$.
 If $(x_i:A_i)_{i\leq n} \vdash u:B$ then $u \in \SN$.
 \end{ALtheorem}
 
@@ -884,11 +843,6 @@ If $x\in \VAR$ and in $\cxt\overline w$ each $w_i\in\SN$, then
 $(x)\overline{w} \in \SN$.
 \end{ALlemma}
 %
-%For each term $u \in \SN$, we denote $S(u)$ the sum of the lengths of the reduction sequences of $u$ leading to a normal form. The length $lh(t)$ of a term $t$ is defined in the usual way, except that in a distributor, the length of its body $\lambda y.\tup t\G$ is defined as the max of the length of each $t_i\G$.
-%%
-%We denote by $\overline{w\D}$ a (possibly empty) sequence $w_1[\Gamma_1]\dots w_n[\Gamma_n]$, where $w_1,\dots ,w_n$ are terms (we suppose that a non-empty sequence  $\overline{w\D}$ has at least one term $w_1$).
-%By $(u)\overline{w\D}$, we mean $((...(((u)w_1)[\Gamma_1])\dots )w_n)[\Gamma_n]$; thus, each $\G[i]$ may bind not only in $w_i$, but also in $u$, and in all $\G[j]$ and $w_j$ for $j<i$.
-%
 
 For each term $t\in\SN$, we denote by $\R(t)$ the sum of the number of reduction steps in all reduction sequences of $t$ to its normal form.
 %
@@ -897,7 +851,6 @@ For any term $t$, we denote by $\S(t)$ the number of sharing-reduction steps in 
 %
 \begin{ALlemma}\label{lem:IntCaseLambda0}
 If $(u\sub xv)\overline w \in \SN$ and $x\in\FV(u)$, then $((\lambda x.u)v)\overline w \in \SN$.
-%If $((u\sub xv)\G\G')\overline{w\D} \in \SN$, then $((((\lambda x.u)\G) v)\G')\overline{w\D} \in \SN$.
 \end{ALlemma}
 
 \begin{proof}
@@ -1025,14 +978,6 @@ If $z$ is free in $t^n$, then $u\distr*{\vv*x}y{t^n}\comp\sub zw \rewrite u\dist
 Immediate from the definitions, Lemma~\ref{lem:unsharing}, and Lemma~\ref{lem:undist}.
 \end{proof}
 %
-%For a context $\cxt\overline{w\D}$, the computation $\cxt\overline{w\D}\comp$ is defined inductively below. Note that computation proceeds from inside to outside, since otherwise substitutions would be applied to renamings of previously computed closures.
-%%
-%\[
-%	\cxt(v\overline{w\D})\comp = ((\cxt) v)\overline{w\D}\comp
-%\qquad
-%	\cxt(\g*\overline{w\D})\comp = (\cxt\g*\comp)\overline{w\D}\comp
-%\]
-
 
 The notation $\g^*$ will indicate a either $\g$ or $\g\comp$.
 %
@@ -1040,13 +985,6 @@ For a sequence of closures $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ a \emph{p
 %
 Analogously, $\cxt\overline{w\D^*}$ denotes a partial computation for a context $\cxt\overline{w\D}$.
 
-
-%For a sequence of closures $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ a \emph{parallel computation} of the closures in $\G$: a sequence $\g[1]^*\dots\g[p]^*$ such that for any $\g[i]\comp$ and $\g[j]\comp$ in $\G^*$, $\g[i]$ does not bind in $\g[j]$ (and vice versa).
-%%
-%Then in a term $u\G*$, no $\g[i]\comp$ substitutes inside a $\g[j]\comp$, but only in $u$ and in closures $\g$ in $\G$ that are not computed.
-%%
-%For a context $\cxt\overline{w\D}$, the parallel computation $\cxt\overline{w\D^*}$ is defined analogously.
-%
 
 In order to measure the number of reduction steps in a context $\overline{w\D}$, we use the notion of \emph{applicative $n$-term}, defined by the following grammar.
 \[
@@ -1072,7 +1010,6 @@ If $t\ALbeta^1v$, by \cite[Lemma 17 and Theorem 18]{Gundersen-Heijltjes-Parigot-
 \end{proof}
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
-% If $u\G^*)\overline{w\D^*} \in \SN$ and for each closure $\g$ of $\G\overline{\D}$,  $\term (\gamma)\in\SN$, then $(u\G)\overline{w\D} \in \SN$.
   If $(u\g\comp)\overline w \in \SN$ and $\term\g\in\SN$, then $(u\g)\overline w \in \SN$.
 \end{ALlemma}
 
@@ -1252,256 +1189,6 @@ Then a reduction step in $U^n$ must do one of three things:
 \end{enumerate}
 \end{proof}
 
-%The step permutes an individual closure $\g$ past an application (rule \ref{eqn:sharing above application function}) in $\overline{w\D}$. Then $U$ and $U'$ are as follows.
-%\[
-%	U = (u')\overline{w'\D'}
-%\qquad
-%	U'= (u')\overline{w'\D'*}
-%\]
-%	\item
-%The step rewrites an individual closure $\g$ to $\g'$, while $\g$ is not computed in $T'$, i.e.\ $\g\in\overline{w\D}$.
-%%
-%Then $U$ and $U'$ are as follows.
-%\[
-%	U = (u')\overline{w'\D'}
-%\qquad
-%	U'= (u')\overline{w'\D'*}
-%\]
-%
-%	\item
-%The step applies to an individual closure $\g$ reducing it to $\g'$ with possible substitutions into its context, or permuting it past an application in $\overline{w\D}$.
-%%
-%In this case, $U$ and $U'$ are as follows, where $\g'$ is computed, i.e.\ $\g'\comp$ is in $\overline{w'\D'*}$.
-%\[
-%	U = (u')\overline{w'\D'}
-%\qquad
-%	U'= (u')\overline{w'\D'*}
-%\]
-%%
-%It is easily verified that Computing $\g'$  
-%it follows that $T'\rewrite U'$.
-%%
-%
-%
-%
-%	\item
-%The step applies to closure $\g$ that is not computed, i.e.\ $\g$ is in $\overline{w\D^*}$.
-%	\item
-%The step is an application of 
-%
-%%
-%%\begin{inparaenum}
-%%	\item
-%%reduction a closure that is computed 
-%
-%\end{inparaenum}
-%
-%
-%
-%\end{enumerate}
-
-
-
-%
-%\newpage
-%
-%
-%
-%
-%
-%The following stronger statement will be proved: given 
-%\[
-%	T = (u\g)\overline{w\D}
-%\qquad\hbox{and}\qquad
-%	T'= (u\g^*)\overline{w\D^*}
-%\]
-%let $\G\comp=\g[1]\comp\dots\g[n]\comp$ be the closures in $\g^*\overline{\D^*}$ that are computed, and $\g*[1],\dots,\g*[m]$ those that are not.
-%%
-%If $T'\in\SN$ and $(\term\g*[i])\G\comp\in\SN$ for each $i\leq m$, then $T\in\SN$.
-%
-%
-%This will be shown by induction on the measure $(\R(T'),\M(T),\S(T))$, where $\M(T)$ is the sum of the $\R(\term\g)$ for all $\g$ in $\overline{\D}$.
-%
-%If,  for each closure $\g$ of $\overline{\D}$,  $\g^* = \g$, then the result is trivial (note that if $t(\gamma)$ is a variable, then  $\g^* = \g$). We suppose in the following that $\g^* \neq \g$ for at least one$\g$ of $\overline{\D}$ . We can also suppose that $u$ does not end with a closure, because it can be integrated in the sequence $\G$ and that $\overline{w\D}$ does not start with an application as that could be integrated in the term $u$.
-%
-%SKETCH:
-%
-%As in previous Lemma we will show that for any $U$, there exists a $U'$, such that 1) the induction hypothesis applies to $U$ and $U'$, and 2) $(\R(U'),\M(U),\S(U))<(\R(T'),\M(T),\S(T))$.
-%%
-%Notice that if $U$ and $U'$ are on the right from and $T'\rewrite U'$, then 1) follows as $U'\in\SN$ if $T'\in\SN$.
-%%
-%Moreover, 2) follows from 1):
-%%
-%First note that $\R(U')\leq\R(T')$ and $\M(U)\leq\M(T)$ as $T\rewrite U$ and $T'\rewrite U'$.
-%%
-%We then have three cases to consider:
-%If $T\rewrite^1 U$ by a sharing reduction, then $\S(U)<\S(T)$, so the measure decreases.
-%%
-%If $T\rewrite^1 U$ by a reduction in $\term\g$ from $\overline\G$, then $\M(U)<\M(T)$, so the measure decreases.
-%%
-%Lastly, if $T\rewrite^1 U$ by a non-weakened beta-reduction, then there must be at least one beta-reduction in the reduction path $T\rewrite T'\rewrite U'$, and by definition there can be no beta-reduciton in the path $T\rewrite T'$, so the path $T'\rewrite U'$ can not be empty and $\R(U')<\R(T')$, so the measure decreases.
-%
-%The only thing that remains to be shown, is that for every $T\rewrite^1 U$ there exists an $U'$ such that $T'\rewrite U'$ and $U$ and $U'$ have the form of the induction hypothesis.
-%
-%We consider the different possible reductions leading to $U$. If the reductions are inside $u$ or $\overline{w}$ we conclude as in Lemma~\ref{lem:IntCaseLambda0}. If it is the lifting of a closure $\g$ of (or into) $\overline{\D}$ using rule (2) we conclude also as in Lemma~\ref{lem:IntCaseLambda0}. It remains to consider the different possible reductions in a closure $\g$ of $\overline{\D}$ or the interaction of two such closures using rule (9). For simplification we consider the case where the reduction involves $\g[1]$.
-%%
-%%
-%\medskip
-%\\
-%1) Suppose that $U$ is obtained by the reduction a closure $\g$ such that  $\g^* = \g$. Suppose for instance that is closure $\g[i]$ of $\G = \g[1] \dots\g[p]$, for $\G$ the first closure of $\overline{\D}$. This reduction  may apply substitutions to $u$ and $\gamma_j$, for $j<i$, transforming them into $u^S$ and $\gamma_j^S$. We have in this case $U = (u^S\g[1]^S \dots [\gamma'_i]\dots \g[p])\overline{w\D}$.
-%\\
-%Consider $U' = (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\D^*}$ (note that that by $\g[1]^{S*}$ we mean that we apply first the substitution and then computation, and by $\g[1]^{*S}$, the converse).  We have:\quad
-%$
-%\begin{array}[t]{llll}
-% T' & = & (u\g[1]^* \dots\g[p]^*)\overline{w\D^*} & \\
-%    & \rightsquigarrow^1 & (u^S\g[1]^{*S} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\D^*} & \\
-%    & \rightsquigarrow & (u^S\g[1]^{S*} \dots [\gamma'_i]\dots \g[p]^*)\overline{w\D^*} & \hspace{0.5cm} \mbox{by Lemma~\ref{lem:CompSubst}  }\\
-%    & = & U' &
-%\end{array}
-%$
-%\\
-%%
-%%
-%\medskip
-%\\
-%2) Suppose that $U$ is obtained by the reduction of a closure $\g$ such that $\g^* = \g^v$.
-%%
-%For simplicity let $\g$ be the first closure of $\overline{w\D}$ and name the remainder $\overline{w\D}'$.
-%\smallskip
-%\\
-%2.1)  $T = (u\share xt)\overline{w\D}'$ and $U = (u\share x{t'})\overline{w\D}'$ with $t\rightsquigarrow^1 t'$.
-%%
-%In this case $T' = (u\subn{x_i}{\sn(t)^i}[\sh (t)])\overline{w\D^*}'$.
-%%
-%Consider $U' = (u\subn{x_i}{\sn(t')^i}[\sh (t')])\overline{w\D^*}'$. We have $\sh (t') = \sh (t)$ and by Lemma~\ref{lem:lift-sn}, $\sn (t) \rightsquigarrow \sn (t')$. Therefore $T'\rightsquigarrow U'$.
-%%
-%\smallskip
-%\\
-%2.2)
-%$T =  (u\distr xyt)\overline{w\D}'$ and
-%$U =  (u\distr xy{t'})\overline{w\D}'$, with $t ~\rewrite^1~ t'$.
-%In this case
-%$T' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t))^i}[\sh(\lambda y.t)])\overline{w\D^*}'$.
-%Consider
-%$U' = (u\subn{x_i}{\sn(\lambda y.\pi_i(t'))^i}[\sh(\lambda y.t')])\overline{w\D^*}'$.
-%Since $[\sh(\lambda y.t)]=[\sh(\lambda y.t')]$, by Lemma \ref{lem:lift-sn}
-%$\sn(\lambda y.\pi_1(t)) \rewrite^\star \sn(\lambda y.\pi_1(t'))$.
-%Therefore $T'\rewrite U'$.
-%\smallskip
-%\\
-%2.3)  $T = (u\share x{(t)v})\overline{w\D}'$ and
-%\\
-%$U = (u\subn{x_i}{(\alpha_i)\beta_i}\share\alpha t\share\beta v)\overline{w\D}'$.
-%%
-%In this case $T' = (u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)])\overline{w\D^*}'$.
-%%
-%Consider 
-%\[
-%	U' = (u	\subn{x_i}{(\alpha_i)\beta_i}
-%			\subn{\alpha_i}{\sn(t)^i}[\sh(t)]
-%			\subn{\beta_i}{\sn(v)^i}[\sh(v)]
-%		  )\overline{w\D^*}'
-%\]
-%We have:\quad
-%\begin{tabular}[t]{rclcl}
-% $U'$ & $=$ & $(u\subn{x_i}{(\sn (t)^i)\sn (v)^i}[\sh(t)][\sh(v)])\overline{w\D^*}'$
-%\\    & $=$ & $(u\subn{x_i}{\sn((t)v)^i}[\sh ((t)v)])\overline{w\D^*}'$
-%      & $=$ & $T'$\;.
-%\end{tabular}\\
-%%
-%\smallskip
-%\\
-%2.4)  $T = (u\share x{\lambda y.t})\overline{w\D}'$ and
-%\\
-%$U = (u\distr xy{\tup\alpha\share\alpha t})\overline{w\D}'$.
-%%
-%In this case $T' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh(\lambda y.t)])\overline{w\D^*}'$.
-%%
-%Consider 
-%\[
-%	U' = (u\subn{x_i}{\sn(\lambda y.\alpha\share*\alpha t)^i}[\sh(\lambda y.\alpha[\alpha \leftarrow t])])\overline{w\D^*}'
-%\]
-%%
-%% NOTE: I made the $\lambda y.\alpha\share*\alpha t$ into variants 
-%%
-%We have  $U' = (u\subn{x_i}{\sn(\lambda y.t)^i}[\sh (\lambda y.t)])\overline{w\D^*}' = T'$.
-%%\EMPTY{(check this equality)}
-%%
-%\smallskip
-%\\
-%2.5)  $T = (u\distr xy{\tup t\share*{\vv{\vv*z}}y})\overline{w\D}'$ and
-%\\
-%$U = (u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}})\overline{w\D}'$.
-%%
-%In this case we have $T' = ( u\subn{x_i}{\sn(\lambda y_i.t_i\share*{\vv*z_i}y_i)})\overline{w\D^*}'$.
-%%
-%Consider 
-%\[
-%	U' = (u\subn{x_i}{\lambda y_i.t_i\share*{\vv*z_i}{y_i}})\overline{w\D^*}'
-%\]
-%%
-%Because $t_i$ is already in sharing normal form, we have $\sn(\lambda y_i.t_i\share*{\vv*z_i}y_i) = \lambda y_i.t_i\share*{\vv*z_i}{y_i}$.
-%%
-%It follows that $T' = U'$
-%%
-%%
-%%
-%%
-%\medskip
-%\\
-%3)  Suppose that U is obtained by the interaction of the two first closures of $\overline{\D}$ using rule (9). It is enough to consider only the non-trivial case where the term of the second closure is not a variable. We have
-%%
-%\begin{align*}
-%	T &= (u[y_1,\dots,y_m  \leftarrow x_1][x_1,x_2\dots,x_n \leftarrow t])\overline{w\D}' \\
-%	U &= (u[y_1,\dots,y_m,x_2\dots,x_n \leftarrow t])\overline{w\D}'\;.
-%\end{align*}
-%%
-%Let $\vv[p]z$ be the free variables of $t$. By our renaming convention, the free variables of $\sn(t)^i$ are $\vv[p]{z^i}$. In the following we will have to consider $\sn (\sn (t)^1)^j$. Because $\sn(t)$ is unfolded, $\sn(\sn(t)) = \sn(t)$ and $\sn (\sn (t)^1)^j$ is obtained from $\sn(t)$ by replacing any variable $x$ by $(x^1)^j$: we will  adopt the notation $x^{1,j}$ for $(x^1)^j$ and $\sn(t)^{1,j}$ for $\sn (\sn (t)^1)^j$.
-%%
-%We have
-%%
-%\begin{eqnarray*}
-% T' & = & (u\share[m]y{x_1}\subn{x_i}{\sn(t)^i}[\sh(t):1,\dotsc,n])\overline{w\D^*}' \\
-%    & = & (u\share[m]y{\sn(t)^1}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh(t):1,\dotsc,n])\overline{w\D^*}' \\
-%    & \rightsquigarrow 
-%    	& (u\subn[m][j]{y_j}{\sn(t)^{1,j}}[\sh (t^1):(1,1),\dotsc,(1,m)] \\
-%    &   & \quads4 \sub{x_i}{\sn(t)^i}_{2\leq i\leq n}[\sh (t):1,\dots,n])\overline{w\D^*}' \\
-%    & = & (u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n} \\
-%    &   & \quads4 [\sh (t^1):(1,1),\dots,(1,m)][\sh (t):1,\dots,n])\overline{w\D^*}'
-%\end{eqnarray*}
-%%
-%Let $u' = u\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}$.
-%%
-%We have
-%%
-%\[
-%\begin{array}{rc@{}l@{}}
-%	\multicolumn{3}{@{}l@{}}{
-%		u'[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]
-%		%\makebox[\textwidth][l]{$u_1[\sh (t^1:(1,1),\dots,(1,m))][\sh (t:1,\dots,n)]$}}
-%	}
-%\\[4pt]
-%	&=&	u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}}{z_i^1}_{i\leq p}
-%			\share*{\vv^{z_i}}{z_i}_{i\leq p}
-%\\[4pt]
-%	&{}\rightsquigarrow{}&
-%		u'	\share*{z_i^{1,1},\dotsc, z_i^{1,m}, z_i^2,\dots,z_i^n}{z_i}_{i\leq p}
-%\\[4pt]
-%	&=&	u'[\sh (t):(1,1),\dotsc,(1,m),2,\dotsc,n]\;.
-%\end{array}
-%\]
-%%
-%Consider 
-%$
-%	U' = (u'%\subn[m][j]{y_j}{\sn(t)^{1,j}}\sub{x_i}{\sn(t)^i}_{2\leq i\leq n}
-%		 [\sh (t):(1,1),\dots,(1,m),2,\dots,n])\overline{w\D^*}'
-%$.
-%We have $T'\rightsquigarrow U'$.
-%%
-%
-%
-
-
 
 
 % 
@@ -1520,7 +1207,7 @@ The present work strongly suggests two angles for future research.
 %
 A natural extension would be to characterise the strongly normalisable atomic lambda-terms by an intersection typing discipline \cite{Coppo-DezaniCiancaglini-1980,Pottinger-1980,Krivine-1993}, to which the current reducibility proof is expected to extend naturally.
 %
-In a second direction, it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious. % in this case.%, where type inference (in e.g.\ a  Hindley--Milner type system) becomes useful
+In a second direction, it is expected that the type system and strong normalisation proof can be extended to the second-order case---although subject reduction is not immediately obvious.
 
 
 For the atomic lambda-calculus in general, further work will focus on variations on the calculus that more closely approach the reduction dynamics of sharing graphs, to encompass further degrees of sharing.
@@ -1535,10 +1222,4 @@ Another direction would be the inclusion of general recursion in the calculus, a
 
 
 \end{document}
-
-
-
-
-
-
 
