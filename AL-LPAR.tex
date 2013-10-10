@@ -409,6 +409,7 @@ if $v\rewrite^1 v'$, then $u\sub xv \rewrite^1 u\sub x{v'}$.
 We collect in this section the main basic properties we are using in the strong normalisation proof. The two main properties are (i) the strong normalisation property of the sharing reduction, and (ii) the  decomposition of the computational content of sharings and distributors.
 
 \begin{ALtheorem}[{\cite[Theorem 11]{Gundersen-Heijltjes-Parigot-2013-LICS}}]
+\label{thm:sharing SN}
 The reduction $\ALnotbeta$ is strongly normalising and confluent.
 \end{ALtheorem}
 
@@ -872,7 +873,7 @@ To strengthen the induction hypothesis in several lemmata, we define a further c
 %
 \setMidspace{10pt}
 \[
-	* \Coloneq  \cxt \Mid (*)u \Mid *\g*~.
+	* \Coloneq  \cxt \Mid (*)u \Mid *\g*
 \]
 %
 The terms within a context $\cxt\overline{w\D}$ are denoted $\overline w=w_1,\ldots,w_n$, and the sharings are denoted $\overline{\D}=\g*[1],\dotso,\g*[m]$.
@@ -1033,7 +1034,7 @@ Immediate from the definitions, Lemma~\ref{lem:unsharing}, and Lemma~\ref{lem:un
 %\]
 
 
-The notation $\g^*$ will indicate either $\g$ or $\g\comp$.
+The notation $\g^*$ will indicate a either $\g$ or $\g\comp$.
 %
 For a sequence of closures $\G = \g[1]\dots\g[p]$, we denote by $\G^*$ a \emph{partial computation} $\g[1]^*\dots\g[p]^*$. 
 %
@@ -1047,24 +1048,27 @@ Analogously, $\cxt\overline{w\D^*}$ denotes a partial computation for a context 
 %For a context $\cxt\overline{w\D}$, the parallel computation $\cxt\overline{w\D^*}$ is defined analogously.
 %
 
-For any term $T=(u)\overline{w\D}$, we will let $T^n$ denote the $n$-term
+In order to measure the number of reduction steps in a context $\overline{w\D}$, we use the notion of \emph{applicative $n$-term}, defined by the following grammar.
+\[
+	T^n \Coloneq \tup t \Mid T^n\g \Mid (T^n)t
+\]
+Rewrite rules apply to applicative $n$-terms as normal, but reduction within the tuple is permitted.
 %
-$\tup x\overline{w\D}$, where $\FV(u)=\{\vv x\}$.
+Then for a term $(u)\overline{w\D}$, reduction in the context $\overline{w\D}$ is separated from that in $u$ by considering reduction in the applicative $n$-term $\tup x\overline{w\D}$, where $\{\vv x\}=\FV(u)$.
 
-(Note that in defining $T^n$ we have taken the liberty to use application on $n$-terms, which is strictly not well-defined. This is not a problem since the applications are never part of a redex.)%---if desired, each application $(a)b$ may be replaced by a further tuple $\tup*{a,b}$
 
 \begin{ALlemma}\label{lem:compute context}
-For any $n$-terms $T^n$, ${T^n}'$, and $U^n$, such that $T^n$ reduces to $U^n$ in one step and $T^n$ reduces to ${T^n}'$ using only sharing reductions, we have that ${T^n}'$ reduces to the unfolding of $U^n$.
+For any terms $t$, $v$, and $w$, if $t\rewrite^1v$ and $t\ALnotbeta w$ then $w\rewrite \unfold(v)$.
 \end{ALlemma}
 
 \begin{proof}
-~
-\begin{itemize}
+There are two cases.
+\begin{compactenum}
 \item
-If $T^n$ reduces to $U^n$ by a sharing reduction, the unfolding of  ${T^n}'$ equals the unfolding of $U^n$ as the sharing reductions are confluent and strongly normalising \cite[Theorem 11]{Gundersen-Heijltjes-Parigot-2013-LICS}.
+If $t\ALnotbeta^1v$, then $\unfold(v)=\unfold(w)$, as sharing reduction is confluent and strongly normalising by Theorem~\ref{thm:sharing SN}.
 \item
-Similarly, if $T^n$ reduces to $U^n$ by a beta reduction, by \cite[Lemma 17 and Theorem 18]{Gundersen-Heijltjes-Parigot-2013-LICS} the unfolding of ${T^n}'$ beta-reduces to a term ${U^n}'$ whose unfolding equals the unfolding of $U^n$.
-\end{itemize}
+If $t\ALbeta^1v$, by \cite[Lemma 17 and Theorem 18]{Gundersen-Heijltjes-Parigot-2013-LICS} the unfolding of $w$ beta-reduces (in zero or more beta-steps) to a term $w'$ such that $\unfold(w')=\unfold(v)$.
+\end{compactenum}
 \end{proof}
 
 \begin{ALlemma}\label{lem:IntCaseSharing0}
@@ -1082,6 +1086,8 @@ The following stronger statement will be proved: given
 \qquad\hbox{and}\qquad
 	T'= (u)\overline{w\D^*}\;,
 \]
+%
+let $T^n$ be the applicative $n$-term $\tup x\overline{w\D}$ where $\FV(u)=\{\vv*x\}$.
 %
 If $T'\in\SN$ and $T^n\in\SN$, then $T\in\SN$.
 
@@ -1109,16 +1115,28 @@ Then $\R(U')<\R(T')$, and $U^n=T^n\in\SN$ since $\FV(u)=\FV(u')$.
 
 
 	\item
-If the reduction step $T\rewrite^1U$ takes place inside the context $\overline{w\D}$, then $\R(U^n)<\R(T^n)$---note that $\R(U')\leq\R(T')$ since $T'\rewrite U'$.
+If the reduction step $T\rewrite^1U$ takes place inside the context $\overline{w\D}$, then $\R(U^n)<\R(T^n)$.
 %
-The term $U'$ is obtained by a reduction $U\rewrite U'$ that exhaustively performs sharing reduction on the context $\overline{w\D}$, fully computing it, following Lemma~\ref{lem:compute context}.
+Let $U$ and $U'$ be
 %
-Then $U$ and $U'$ are as follows, where every closure in $\overline{w'\D'^*}$ is computed.
 \[
 	U = (u')\overline{w'\D'}
 \qquad
 	U'= (u')\overline{w'\D'^*}
 \]	
+%
+where every closure in $\overline{w'\D'^*}$ is computed.
+%
+The reduction $T\rewrite^1 U\ALnotbeta U'$ corresponds 1-1 to a reduction from $T^n=\tup x\overline{w\D}$ of the form
+\[
+	T^n\rewrite^1 V\ALnotbeta\unfold(V)\;.
+\]
+%
+Similarlly, for the reduction $T\ALnotbeta T'$ there is a corresponding $T^n\ALnotbeta W$.
+% 
+For these reduction paths, Lemma~\ref{lem:compute context} gives a reduction $W\ALnotbeta \unfold(V)$.
+%
+The corresponding reduction path $T'\rewrite U'$ gives $\R(U')\leq\R(T')$, so that the induction hypothesis applies.
 
 
 
@@ -1211,7 +1229,7 @@ The $n$-term $B'$ below is obtained from $T'$ by replacing $u=u'\g$ by the tuple
 %
 Recall that the $x_i$ are the free variables of $u'$ not bound by $\g$; then each element of the tuple is a subterm of $u$.
 %
-Then since $T'\in\SN$, also $B'\in\SN$, and since $\overline{w'\D'}$ binds in $\g$, the context $\overline{w'\D'^*}$ creates reductions in $u\g$ that have no counterpart in $\tup*{\vv x,\term\g}$, so that $\R(B')<\R(T')$.
+Then since $T'\in\SN$, also $B'\in\SN$, and since $\overline{w'\D'}$ binds in $\g$, the computations or closures in $\overline{w'\D'^*}$ binding in $\term\g$ create reductions in $u\g$ that have no counterpart in $\tup*{\vv x,\term\g}$, so that $\R(B')<\R(T')$.
 %
 Then the induction hypothesis can be applied for $B'$ and the term $B$ below, with $B^n=T^n\in\SN$, giving $B\in\SN$.
 \[
