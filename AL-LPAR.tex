@@ -1013,7 +1013,7 @@ We proceed by induction on the measure $(\R(T'),\R(T^n))$.
 %
 For each term $U$ reached by a reduction step $T\rewrite^1U$ it will be shown that $U\in\SN$, proving that $T\in\SN$.
 %
-This will be done by giving a term $U'$ reachable by a reduction $T'\rewrite U'$, to which the induction hypothesis applies; note that since $T'\in\SN$ also $U'\in\SN$, but it must also be shown that the corresponding $n$-term $U^n$ is in $\SN$.
+This will be done by giving a term $U'$ reachable by a reduction $T'\rewrite U'$, to which the induction hypothesis applies; note that since $T'\in\SN$ also $U'\in\SN$, but it must also be shown that the corresponding applicative $n$-term $U^n$ is in $\SN$.
 %
 The induction hypothesis for $U$ and $U'$ then gives $U\in\SN$.
 
@@ -1027,7 +1027,7 @@ If the reduction step $T\rewrite^1U$ takes place inside $u$, then $U$ and $U'$ a
 \qquad
 	U'= (u')\overline{w\D^*}
 \]
-Then $\R(U')<\R(T')$, and $U^n=T^n\in\SN$ since $\FV(u)=\FV(u')$.
+Then $\R(U')<\R(T')$, and since $\FV(u)=\FV(u')$ we have $U^n=T^n\in\SN$.
 
 
 
@@ -1046,10 +1046,10 @@ where every closure in $\overline{w'\D'^*}$ is computed.
 %
 The reduction $T\rewrite^1 U\ALnotbeta U'$ corresponds 1-1 to a reduction from $T^n=\tup x\overline{w\D}$ of the form
 \[
-	T^n\rewrite^1 V\ALnotbeta\unfold(V)\;,
+	T^n\rewrite^1 V\ALnotbeta\unfold(V)\;.
 \]
 %
-given that only unfolded terms are instantiated into the $n$-tuple in the reduction $V\ALnotbeta\unfold(V)$, which holds due to the restriction on tuples instated in the beginning of Section~\ref{sec:SNproof}.
+(Given that only unfolded terms are instantiated into the $n$-tuple in the reduction $V\ALnotbeta\unfold(V)$, which holds due to the restriction on tuples instated in the beginning of Section~\ref{sec:SNproof}.)
 %
 Similarly, for the reduction $T\ALnotbeta T'$ there is a corresponding $T^n\ALnotbeta W$.
 % 
